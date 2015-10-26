@@ -20,6 +20,9 @@ rbenv install 2.2.2
 rbenv global 2.2.2
 ruby -v
 
+# FreeGlut - for OpenGL (comes with alot of backage :( )
+sudo apt-get install freeglut3-dev
+
 # Install Sublime-Text 3
 sudo add-apt-repository ppa:webupd8team/sublime-text-3
 sudo apt-get update
@@ -50,7 +53,14 @@ sudo apt-get install mono-devel
 # Install MonoDevelop
 sudo apt-get install monodevelop
 
+# Arc-theme and vertex icons:
+# arc-theme
+cd ~/Downloads
+wget http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_15.04/all/arc-theme_1443869242.15936ec_all.deb
+sudo dpkg -i arc-theme_1443869242.15936ec_all.deb
 
+# vertex icons:
+git clone https://github.com/horst3180/Vertex-Icons .icons/
 
 # download theme (http://www.noobslab.com/2014/04/macbuntu-1404-pack-is-released.html)
 sudo apt-get install unity-tweak-tools
