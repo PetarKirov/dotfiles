@@ -13,6 +13,9 @@ Plugin 'VundleVim/Vundle.vim'
 " For cool status bar:
 Plugin 'bling/vim-airline'
 
+" EditorConfig
+Plugin 'editorconfig/editorconfig-vim'
+
 " Ultisnips is needed for DSnips (D snippets)
 " Plugin 'SirVer/ultisnips'
 
