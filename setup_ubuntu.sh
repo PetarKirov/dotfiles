@@ -20,8 +20,14 @@ rbenv install 2.2.2
 rbenv global 2.2.2
 ruby -v
 
-# FreeGlut - for OpenGL (comes with alot of backage :( )
+# SDL2 (comes with alot of backage :( )
+sudo apt-get install libsdl2-dev
+
+# FreeGlut - for OpenGL (comes with alot of backage, when libsdl2-dev is not installed :( )
 sudo apt-get install freeglut3-dev
+
+# Install VIM
+sudo apt-get install vim ctags vim-doc vim-scripts
 
 # Install Sublime-Text 3
 sudo add-apt-repository ppa:webupd8team/sublime-text-3
