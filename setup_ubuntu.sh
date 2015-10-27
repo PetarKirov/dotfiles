@@ -1,25 +1,3 @@
-# Install Ruby 2.1.3
-
-# 1) Install dependencies
-sudo apt-get update
-sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties
-
-# 2) set-up rbenv
-cd
-git clone git://github.com/sstephenson/rbenv.git .rbenv
-echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-exec $SHELL
-
-# 3) Setup ruby-build
-git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
-exec $SHELL
-
-rbenv install 2.2.2
-rbenv global 2.2.2
-ruby -v
-
 # Install Google Chrome:
 # 1) Add Key
 wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
@@ -29,19 +7,36 @@ sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /et
 sudo apt-get update
 sudo apt-get install google-chrome-stable
 
-# SDL2 (comes with alot of backage :( )
-sudo apt-get install libsdl2-dev
-
-# FreeGlut - for OpenGL (comes with alot of backage, when libsdl2-dev is not installed :( )
-sudo apt-get install freeglut3-dev
-
-# Install VIM
-sudo apt-get install vim ctags vim-doc vim-scripts
+# 1) Install dependencies
+sudo apt-get update
+sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties
 
 # Install Sublime-Text 3
 sudo add-apt-repository ppa:webupd8team/sublime-text-3
 sudo apt-get update
 sudo apt-get install sublime-text-installer
+
+# Install VIM
+sudo apt-get install vim ctags vim-doc vim-scripts
+
+# Install Vundle
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+# EditorConfig
+sudo apt-get install editorconfig
+# Add EditorConfig to Vim:
+# Plugin 'editorconfig/editorconfig-vim'
+
+# Copy .vimrc
+cp scripts/.vimrc ~/.vimrc
+
+# ==== Do a :PluginInstall in vim ====
+
+# SDL2 (comes with alot of backage :( )
+sudo apt-get install libsdl2-dev
+
+# FreeGlut - for OpenGL (comes with alot of backagsudo apt-get install freeglut3-deve, when libsdl2-dev is not installed :( )
+sudo apt-get install freeglut3-dev
 
 # Download and install dmd
 cd ~/Downloads
@@ -53,11 +48,23 @@ wget http://code.dlang.org/files/dub-0.9.24-linux-x86_64.tar.gz
 tar -zxvf dub-0.9.24-linux-x86_64.tar.gz
 sudo mv dub /usr/bin/dub
 
-# EditorConfig
-sudo apt-get install editorconfig
 
-# Add EditorConfig to Vim:
-# Plugin 'editorconfig/editorconfig-vim'
+# Install Ruby:
+# 1) set-up rbenv
+cd
+git clone git://github.com/sstephenson/rbenv.git .rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+exec $SHELL
+
+# 2) Setup ruby-build
+git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
+exec $SHELL
+
+rbenv install 2.2.2
+rbenv global 2.2.2
+ruby -v
 
 # Install Mono
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
