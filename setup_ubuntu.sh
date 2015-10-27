@@ -20,6 +20,15 @@ rbenv install 2.2.2
 rbenv global 2.2.2
 ruby -v
 
+# Install Google Chrome:
+# 1) Add Key
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+# 2) Add Repo
+sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+# 3) update & install
+sudo apt-get update
+sudo apt-get install google-chrome-stable
+
 # SDL2 (comes with alot of backage :( )
 sudo apt-get install libsdl2-dev
 
@@ -66,10 +75,21 @@ wget http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_15.04/all
 sudo dpkg -i arc-theme_1443869242.15936ec_all.deb
 
 # vertex icons:
-git clone https://github.com/horst3180/Vertex-Icons .icons/
+# First install Moka icons
+sudo add-apt-repository ppa:moka/stable
+sudo apt-get update && sudo apt-get install moka-icon-theme
+
+# Or if this doesn't work:
+cd ~/Downloads
+git clone https://github.com/moka-project/moka-icon-theme
+cd moka-icon-theme
+cp -Rv Moka ~/.icons/
+
+cd ~ && mkdir .icons/ && cd .icons/
+git clone https://github.com/horst3180/Vertex-Icons
 
 # download theme (http://www.noobslab.com/2014/04/macbuntu-1404-pack-is-released.html)
-sudo apt-get install unity-tweak-tools
+sudo apt-get install unity-tweak-tool
 sudo add-apt-repository ppa:noobslab/themes
 sudo apt-get update
 sudo apt-get install mac-ithemes-v3
