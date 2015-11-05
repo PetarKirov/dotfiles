@@ -37,6 +37,12 @@ cp scripts/.vimrc ~/.vimrc
 
 # ==== Do a :PluginInstall in vim ====
 
+# Install vim-jade plugin and add support for vibe.d diet templates
+cd ~/.vim/bundle
+[ -e vim-jade ] || git clone https://github.com/digitaltoad/vim-jade
+cd vim-jade/ftdetect
+grep -q '\*.dt' jade.vim || echo 'autocmd BufNewFile,BufReadPost *.dt set filetype=jade' >> jade.vim
+
 # SDL2 (comes with alot of backage :( )
 sudo apt-get install libsdl2-dev
 
