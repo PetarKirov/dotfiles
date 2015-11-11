@@ -51,8 +51,8 @@ sudo apt-get install freeglut3-dev
 
 # Download and install dmd
 cd ~/Downloads
-wget http://downloads.dlang.org/pre-releases/2.x/2.069.0/dmd_2.069.0~b2-0_amd64.deb
-sudo dpkg -i dmd_2.069.0~b2-0_amd64.deb
+wget http://downloads.dlang.org/releases/2.x/2.069.0/dmd_2.069.0-0_amd64.deb
+sudo dpkg -i dmd_2.069.0-0_amd64.deb
 
 # Download and install dub
 wget http://code.dlang.org/files/dub-0.9.24-linux-x86_64.tar.gz
