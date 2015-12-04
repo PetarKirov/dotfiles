@@ -1,3 +1,9 @@
+# Enable i386:
+sudo dpkg --add-architecture i386
+sudo apt-get update
+sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386
+# Maybe: sudo apt-get -f install
+
 # Install Google Chrome:
 # 1) Add Key
 wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
