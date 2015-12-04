@@ -55,15 +55,19 @@ sudo apt-get install libsdl2-dev
 # FreeGlut - for OpenGL (comes with alot of backagsudo apt-get install freeglut3-deve, when libsdl2-dev is not installed :( )
 sudo apt-get install freeglut3-dev
 
+# Super fast way of getting DMD
+curl -fsSLO https://github.com/MartinNowak/installer/raw/install_script/script/install.sh && bash install.sh dmd && rm install.sh
+
+# Old way of getting DMD and DUB
 # Download and install dmd
-cd ~/Downloads
-wget http://downloads.dlang.org/releases/2.x/2.069.0/dmd_2.069.0-0_amd64.deb
-sudo dpkg -i dmd_2.069.0-0_amd64.deb
+# cd ~/Downloads
+# wget http://downloads.dlang.org/releases/2.x/2.069.0/dmd_2.069.0-0_amd64.deb
+# sudo dpkg -i dmd_2.069.0-0_amd64.deb
 
 # Download and install dub
-wget http://code.dlang.org/files/dub-0.9.24-linux-x86_64.tar.gz
-tar -zxvf dub-0.9.24-linux-x86_64.tar.gz
-sudo mv dub /usr/bin/dub
+# wget http://code.dlang.org/files/dub-0.9.24-linux-x86_64.tar.gz
+# tar -zxvf dub-0.9.24-linux-x86_64.tar.gz
+# sudo mv dub /usr/bin/dub
 
 
 # Install Ruby:
