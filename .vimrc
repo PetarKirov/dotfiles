@@ -1,6 +1,30 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+" Show numbers on the left of the screen
+set number
+
+" Begins searching as you type
+set incsearch
+
+" Does not include the cursor in the selection
+" set selection=exclusive
+
+" Enable the mouse
+set mouse=a
+
+" Change cursor shape in different modes
+" http://vim.wikia.com/wiki/Change_cursor_shape_in_different_modes
+let &t_SI = "\<Esc>[5 q"
+let &t_SR = "\<Esc>[4 q"
+let &t_EI = "\<Esc>[5 q"
+
+" Underline matching braces
+" http://design.liberta.co.za/articles/customizing-disabling-vim-matching-parenthesis-highlighting/
+:hi MatchParen cterm=underline ctermbg=none ctermfg=none
+
+let g:airline_powerline_fonts = 1
+
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -13,11 +37,38 @@ Plugin 'VundleVim/Vundle.vim'
 " For cool status bar:
 Plugin 'bling/vim-airline'
 
+" For git diff stats
+Plugin 'airblade/vim-gitgutter'
+
+" Git wrapper for vim
+Plugin 'tpope/vim-fugitive'
+
+" http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
+Plugin 'godlygeek/tabular'
+
+" Markdown for VIM. Should also provide folding
+" http://vimcasts.org/episodes/how-to-fold/
+Plugin 'plasticboy/vim-markdown'
+
 " EditorConfig
 Plugin 'editorconfig/editorconfig-vim'
 
-" Ultisnips is needed for DSnips (D snippets)
-" Plugin 'SirVer/ultisnips'
+" Color schemes:
+Plugin 'chriskempson/base16-vim'
+
+Plugin 'terryma/vim-multiple-cursors'
+
+" Track the engine.
+Plugin 'SirVer/ultisnips'
+"
+" " Snippets are separated from the engine. Add this if you want them:
+Plugin 'honza/vim-snippets'
+"
+" " Trigger configuration. Do not use <tab> if you use
+" https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " For file explorer tree:
 Plugin 'scrooloose/nerdtree'
@@ -58,4 +109,5 @@ filetype plugin indent on    " required
 " " Put your non-Plugin stuff after this line
 
 set laststatus=2
-
+set background=dark
+" colorscheme base16-eighties
