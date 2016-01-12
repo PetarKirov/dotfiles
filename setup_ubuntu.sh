@@ -61,6 +61,9 @@ cd ~/.vim/bundle
 cd vim-jade/ftdetect
 grep -q '\*.dt' jade.vim || echo 'autocmd BufNewFile,BufReadPost *.dt set filetype=jade' >> jade.vim
 
+# Tree is a ASCII art file system visualizer
+sudo apt-get install tree
+
 # SDL2 (comes with alot of backage :( )
 sudo apt-get install libsdl2-dev
 
