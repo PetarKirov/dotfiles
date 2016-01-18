@@ -7,6 +7,9 @@ set number
 " Begins searching as you type
 set incsearch
 
+" Enable syntax mode for code folding
+set foldmethod=syntax
+
 " Does not include the cursor in the selection
 " set selection=exclusive
 
@@ -74,6 +77,9 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 Plugin 'scrooloose/nerdtree'
 
 Plugin 'ntpeters/vim-better-whitespace'
+
+" For GDB integration
+Plugin 'vim-scripts/Conque-GDB'
 
 " " The following are examples of different formats supported.
 " " Keep Plugin commands between vundle#begin/end.
