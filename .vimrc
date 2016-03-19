@@ -26,6 +26,10 @@ let &t_EI = "\<Esc>[5 q"
 " http://design.liberta.co.za/articles/customizing-disabling-vim-matching-parenthesis-highlighting/
 :hi MatchParen cterm=underline ctermbg=none ctermfg=none
 
+:hi Folded ctermbg=none
+
+highlight ColorColumn ctermbg=none cterm=undercurl ctermfg=darkgrey
+
 let g:airline_powerline_fonts = 1
 
 " set the runtime path to include Vundle and initialize
