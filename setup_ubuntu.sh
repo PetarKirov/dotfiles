@@ -113,9 +113,10 @@ sudo apt-get install monodevelop
 
 # Arc-theme and vertex icons:
 # arc-theme
-cd ~/Downloads
-wget http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_15.04/all/arc-theme_1443869242.15936ec_all.deb
-sudo dpkg -i arc-theme_1443869242.15936ec_all.deb
+# http://software.opensuse.org/download.html?project=home%3AHorst3180&package=arc-theme
+sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_16.04/ /' >> /etc/apt/sources.list.d/arc-theme.list"
+sudo apt-get update
+sudo apt-get install arc-theme
 
 # vertex icons:
 # First install Moka icons
