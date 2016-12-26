@@ -2,7 +2,7 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " Show numbers on the left of the screen
-set number
+set relativenumber
 
 " Begins searching as you type
 set incsearch
