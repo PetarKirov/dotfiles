@@ -63,6 +63,9 @@ Plugin 'editorconfig/editorconfig-vim'
 " Color schemes:
 Plugin 'chriskempson/base16-vim'
 
+" Easily delete, change and add surroundings in pairs
+Plugin 'tpope/vim-surround'
+
 Plugin 'terryma/vim-multiple-cursors'
 
 " Track the engine.
