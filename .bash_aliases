@@ -13,6 +13,9 @@ alias gdcr='git diff --cached --word-diff-regex=.'
 alias ga='git add'
 alias gap='git add -p'
 
+alias gco='git checkout'
+alias gcb='git checkout -b'
+
 alias gstaki='git stash --keep-index'
 
 alias gspu='git stash && git status'

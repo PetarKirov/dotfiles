@@ -13,6 +13,9 @@ abbr -a gdcr git diff --cached --word-diff-regex=.
 abbr -a ga git add
 abbr -a gap git add -p
 
+abbr -a gco git checkout
+abbr -a gcb git checkout -b
+
 abbr -a gstaki git stash --keep-index
 
 abbr -a gspo  git stash pop 
