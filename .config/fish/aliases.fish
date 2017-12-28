@@ -21,5 +21,16 @@ abbr -a gstaki git stash --keep-index
 abbr -a gspo  git stash pop 
 alias gspu='git stash; and git status'
 
+# Safe remove git branch
+function grmbr
+    git checkout master
+    and git pull upstream master --ff-only
+    and git diff --quiet $argv[1]
+    and git checkout $argv[1]
+    and git rebase master
+    and git checkout master
+    and git branch -d $argv[1]
+end
+
 # Google Chrome aliases:
 alias igchr='google-chrome --incognito & disown'
