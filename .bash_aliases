@@ -1,3 +1,11 @@
+case `uname -s` in
+    Linux*)     machine=Linux;;
+    Darwin*)    machine=Mac;;
+    CYGWIN*)    machine=Cygwin;;
+    MINGW*)     machine=MinGw;;
+    *)          machine="UNKNOWN: `uname -s`"
+esac
+
 # Git specific aliases:
 alias gs='git status'
 
@@ -21,6 +29,9 @@ alias gstaki='git stash --keep-index'
 alias gspu='git stash && git status'
 alias gspo='git stash pop'
 
+# List
+alias l='ls -la'
+
 # Safe remove git branch
 function grmbr {
     set -euo pipefail
@@ -35,3 +46,14 @@ function grmbr {
 
 # Google Chrome aliases:
 alias igchr='google-chrome --incognito & disown'
+
+# Platform-specific aliases:
+if [ "${machine}" == "MinGw" ]; then
+
+    # Sublime Text 3
+    alias subl='/c/Program\ Files/Sublime\ Text\ 3/subl.exe'
+    expl() { explorer `cygpath -w $1`; }
+
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    alias igchr='google-chrome --incognito & disown'
+fi
