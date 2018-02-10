@@ -29,6 +29,8 @@ alias gstaki='git stash --keep-index'
 alias gspu='git stash && git status'
 alias gspo='git stash pop'
 
+alias gmvb='git branch --move'
+
 # List
 alias l='ls -la'
 
