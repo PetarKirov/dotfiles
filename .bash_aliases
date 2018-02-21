@@ -41,7 +41,7 @@ alias l='ls -la'
 function grmbr {
     set -euo pipefail
     git checkout master \
-    && git pull upstream master --ff-only \
+    && git pull upstream master --ff-only --prune \
     && git diff --quiet $1 \
     && git checkout $1 \
     && git rebase master \
