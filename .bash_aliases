@@ -57,7 +57,12 @@ if [ "${machine}" == "MinGw" ]; then
 
     # Sublime Text 3
     alias subl='/c/Program\ Files/Sublime\ Text\ 3/subl.exe'
+
     expl() { explorer `cygpath -w $1`; }
+
+    function git-foreach-subl {
+	git status -s | awk '{print $2}' | xargs /c/Program\ Files/Sublime\ Text\ 3/subl.exe -nw
+    }
 
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     alias igchr='google-chrome --incognito & disown'
