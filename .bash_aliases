@@ -21,6 +21,9 @@ alias gdcr='git diff --cached --word-diff-regex=.'
 alias ga='git add'
 alias gap='git add -p'
 
+alias gai='git add --intent-to-add'
+alias gaia='git add --intent-to-add --all'
+
 alias gco='git checkout'
 alias gcb='git checkout -b'
 
