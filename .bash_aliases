@@ -40,8 +40,9 @@ alias l='ls -la'
 # Safe remove git branch
 function grmbr {
     set -euo pipefail
-    git checkout master \
-    && git pull upstream master --ff-only --prune \
+    git fetch --prune upstream master \
+    && git checkout master \
+    && git merge --ff-only upstream/master \
     && git diff --quiet $1 \
     && git checkout $1 \
     && git rebase master \
