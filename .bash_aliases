@@ -39,15 +39,15 @@ alias l='ls -la'
 
 # Safe remove git branch
 function grmbr {
-    set -euo pipefail
-    git fetch --prune upstream master \
+    set -ex
+    git fetch upstream --prune \
     && git checkout master \
     && git merge --ff-only upstream/master \
-    && git diff --quiet $1 \
     && git checkout $1 \
     && git rebase master \
     && git checkout master \
     && git branch -d $1
+    set +x
 }
 
 # Google Chrome aliases:
