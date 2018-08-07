@@ -22,14 +22,18 @@ abbr -a gspo  git stash pop
 alias gspu='git stash; and git status'
 
 # Safe remove git branch
-function grmbr
-    git checkout master
-    and git pull upstream master --ff-only
-    and git diff --quiet $argv[1]
-    and git checkout $argv[1]
-    and git rebase master
-    and git checkout master
-    and git branch -d $argv[1]
+function grmbr --argument-names feature_branch master_branch remote
+    test -n "$feature_branch"; or exit 1
+    test -n "$master_branch"; or set master_branch master
+    test -n "$remote"; or set remote upstream
+    echo "Updating '$master_branch' from '$remote' and deleting '$feature_branch'"
+    git fetch $remote --prune
+    and git checkout $master_branch
+    and git merge --ff-only $remote/$master_branch
+    and git checkout $feature_branch
+    and git rebase $master_branch
+    and git checkout $master_branch
+    and git branch -d $feature_branch
 end
 
 # Google Chrome aliases:
