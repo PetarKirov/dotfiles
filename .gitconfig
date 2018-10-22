@@ -1,3 +1,8 @@
 [user]
-	name = ZombineDev
 	email = petar.p.kirov@gmail.com
+	name = ZombineDev
+[core]
+	editor = nvim
+	pager = diff-so-fancy | less --tabs=4 -RFX
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit

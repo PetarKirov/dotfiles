@@ -24,6 +24,7 @@ alias gspu='git stash; and git status'
 abbr -a gbr git branch -a
 
 abbr -a glg git log
+abbr -a gl git lg
 
 abbr -a grb git rebase
 abbr -a grbi git rebase -i
