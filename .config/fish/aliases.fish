@@ -18,11 +18,11 @@ abbr -a gcb git checkout -b
 
 abbr -a gstaki git stash --keep-index
 
-abbr -a gspo  git stash pop 
+abbr -a gspo  git stash pop
 alias gspu='git stash; and git status'
 
 # Safe remove git branch
-function grmbr --argument-names feature_branch master_branch remote
+function grmbr --argument-names remote master_branch feature_branch
     test -n "$feature_branch"; or exit 1
     test -n "$master_branch"; or set master_branch master
     test -n "$remote"; or set remote upstream
