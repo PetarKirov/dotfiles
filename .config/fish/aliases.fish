@@ -18,8 +18,15 @@ abbr -a gcb git checkout -b
 
 abbr -a gstaki git stash --keep-index
 
-abbr -a gspo  git stash pop
+abbr -a gspo git stash pop
 alias gspu='git stash; and git status'
+
+abbr -a gbr git branch -a
+
+abbr -a glg git log
+
+abbr -a grb git rebase
+abbr -a grbi git rebase -i
 
 # Safe remove git branch
 function grmbr --argument-names remote master_branch feature_branch
