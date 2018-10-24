@@ -2,13 +2,13 @@
 abbr -a gs git status
 
 abbr -a gsh git show
-abbr -a gshr git show --word-diff-regex=.
+abbr -a gshr git show '--color-words=\'[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+\''
 
 abbr -a gd git diff
-abbr -a gdr git diff --word-diff-regex=.
+abbr -a gdr git diff '--color-words=\'[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+\''
 
 abbr -a gdc git diff --cached
-abbr -a gdcr git diff --cached --word-diff-regex=.
+abbr -a gdcr git diff --cached '--color-words=\'[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+\''
 
 abbr -a ga git add
 abbr -a gap git add -p
