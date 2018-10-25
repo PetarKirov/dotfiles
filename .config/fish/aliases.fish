@@ -12,6 +12,11 @@ abbr -a gdcr git diff --cached '--color-words=\'[^[:space:]]|([[:alnum:]]|UTF_8_
 
 abbr -a ga git add
 abbr -a gap git add -p
+abbr -a gau git add -u
+
+function gaw --description 'Stages files specified in `$argv`, excluding their whitepace changes'
+    git diff -U0 -w --no-color $argv | git apply --cached --ignore-whitespace --unidiff-zero -
+end
 
 abbr -a gco git checkout
 abbr -a gcb git checkout -b
@@ -28,6 +33,11 @@ abbr -a gl git lg
 
 abbr -a grb git rebase
 abbr -a grbi git rebase -i
+
+function git-diff-nvim \
+    --description 'Opens the output of `git diff` in nvim, excluding any whitespace changes'
+    nvim (git diff -w --word-diff-regex=[^[:space:]] $argv | psub)
+end
 
 # Safe remove git branch
 function grmbr --argument-names remote master_branch feature_branch
