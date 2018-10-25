@@ -39,6 +39,11 @@ function git-diff-nvim \
     nvim (git diff -w --word-diff-regex=[^[:space:]] $argv | psub)
 end
 
+function git-ls-unmodified
+    echo "Args: $argv"
+    git ls-files --full-name | grep -v (git diff --name-only $argv[1])
+end
+
 # Safe remove git branch
 function grmbr --argument-names remote master_branch feature_branch
     test -n "$feature_branch"; or exit 1
