@@ -1,4 +1,4 @@
-# Git abbreviations and aliases:
+# ----- Git: -----
 abbr -a gs git status
 
 abbr -a gsh git show
@@ -13,6 +13,12 @@ abbr -a gdcr git diff --cached '--color-words=\'[^[:space:]]|([[:alnum:]]|UTF_8_
 abbr -a ga git add
 abbr -a gap git add -p
 abbr -a gau git add -u
+
+abbr -a gcm git commit
+abbr -a gcma git commit --amend --no-edit
+
+abbr -a gps git push
+abbr -a gpf git push --force
 
 function gaw --description 'Stages files specified in `$argv`, excluding their whitepace changes'
     git diff -U0 -w --no-color $argv | git apply --cached --ignore-whitespace --unidiff-zero -
