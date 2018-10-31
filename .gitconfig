@@ -19,4 +19,6 @@
 	commit = yellow bold
 	old = red bold
 	new = green bold
-	whitespace = red reverse
+    whitespace = red reverse
+[difftool "diffpdf"]
+  cmd = diffpdf \"$LOCAL\" \"$REMOTE\"
