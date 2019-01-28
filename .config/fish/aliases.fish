@@ -95,5 +95,9 @@ function catn --argument-names start count file
     end
 end
 
+function gcat --argument-names start_line end_line
+    git diff -U0 HEAD~ HEAD | sed -r "s/^([^-+ ]*)[-+ ]/\\1/" | catn $start_line +$end_line
+end
+
 # Google Chrome aliases:
 alias igchr='google-chrome --incognito & disown'
