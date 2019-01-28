@@ -2,7 +2,11 @@
 abbr -a l 'ls -la'
 
 # ----- File Diff: -----
-abbr -a wd git diff --no-index "--word-diff-regex='[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+'" --
+function wd --argument-names file1 file2
+    git diff --no-index \
+        --word-diff-regex='[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+' \
+        -- $file1 $file2
+end
 
 # ----- Git: -----
 abbr -a gs git status
