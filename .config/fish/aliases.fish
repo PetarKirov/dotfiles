@@ -1,3 +1,6 @@
+# Basic abbreviations
+abbr -a l 'ls -la'
+
 # ----- File Diff: -----
 abbr -a wd git diff --no-index "--word-diff-regex='[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+'" --
 
