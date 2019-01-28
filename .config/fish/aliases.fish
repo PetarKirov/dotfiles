@@ -83,5 +83,17 @@ function docker-pull-run --argument-names container_name image_name
     and docker run -p 3000:80 --rm -d --name $container_name $image_name
 end
 
+function catn --argument-names start count file
+    if not set -q file
+        set file /dev/stdin
+    end
+    if test (string sub -s 1 -l 1 "$count") = '+'
+        set end $count
+        tail -n "+$start" $file | head -n (math "$end - $start + 1")
+    else
+        tail -n "+$start" $file | head -n $count
+    end
+end
+
 # Google Chrome aliases:
 alias igchr='google-chrome --incognito & disown'
