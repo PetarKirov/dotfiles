@@ -1,7 +1,3 @@
-#!/usr/bin/env fish
-
-source (dirname (status -f))/enforce.fish
-
 function git-init --argument-names language
     git init
     if not test -f .gitignore; and test -n "$language"
@@ -22,5 +18,3 @@ indent_size = 4
 max_line_length = 100"
     end
 end
-
-git-init $argv
