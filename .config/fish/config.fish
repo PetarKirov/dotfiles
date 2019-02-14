@@ -7,3 +7,7 @@ for ED in nvim vim vi subl3 code nano
         break
     end
 end
+
+# Set-up the PATH:
+set -p PATH (yarn global bin)
+set -p PATH "$HOME/bin"
