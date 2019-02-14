@@ -8,6 +8,14 @@ for ED in nvim vim vi subl3 code nano
     end
 end
 
+# Set-up variables for WSL:
+if cat /proc/sys/kernel/osrelease | grep -iq 'Microsoft'
+    if apt list --installed 2>/dev/null | grep -q x11-apps
+        set -U DISPLAY :0
+    end
+    set -U REPOS /mnt/c/Users/Petar/Desktop/code/repos
+end
+
 # Set-up the PATH:
 set -p PATH (yarn global bin)
 set -p PATH "$HOME/bin"
