@@ -27,6 +27,7 @@ end
 # Set-up variables for MSYS:
 if uname -a | grep -iq msys
     set -U REPOS "/c/Users/$USER/Desktop/code/repos"
+    set -p PATH "/c/Users/$USER/bin"
 
     # nodejs, npm global:
     set -p PATH '/c/Program Files/nodejs'
