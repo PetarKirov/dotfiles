@@ -21,12 +21,12 @@ if test -f /proc/sys/kernel/osrelease && cat /proc/sys/kernel/osrelease | grep -
     if apt list --installed 2>/dev/null | grep -q x11-apps
         set -U DISPLAY :0
     end
-    set -U REPOS '/mnt/c/Users/Petar/Desktop/code/repos'
+    set -U REPOS "/mnt/c/Users/$USER/Desktop/code/repos"
 end
 
 # Set-up variables for MSYS:
 if uname -a | grep -iq msys
-    set -U REPOS '/c/Users/Petar/Desktop/code/repos'
+    set -U REPOS "/c/Users/$USER/Desktop/code/repos"
 
     # nodejs, npm global:
     set -p PATH '/c/Program Files/nodejs'
