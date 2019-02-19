@@ -1,43 +1,61 @@
-" NeoBundle Scripts-----------------------------
-if has('vim_starting')
-  set runtimepath+=~/.config/nvim/bundle/neobundle.vim/
-  set runtimepath+=~/.config/nvim/
+"dein Scripts-----------------------------
+if &compatible
+  set nocompatible               " Be iMproved
 endif
 
-let neobundle_readme=expand('~/.config/nvim/bundle/neobundle.vim/README.md')
+" Required:
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
-if !filereadable(neobundle_readme)
-  echo "Installing NeoBundle..."
-  echo ""
-  silent !mkdir -p ~/.config/nvim/bundle
-  silent !git clone https://github.com/Shougo/neobundle.vim ~/.config/nvim/bundle/neobundle.vim/
-  let g:not_finsh_neobundle = "yes"
+" Required:
+if dein#load_state("/home/".$USER."/.cache/dein")
+  call dein#begin("/home/".$USER."/.cache/dein")
+
+  " Let dein manage dein
+  " Required:
+  call dein#add('/home/'.$USER.'/.cache/dein/repos/github.com/Shougo/dein.vim')
+
+  " Plugins begin:
+
+  " EditorConfig support: https://editorconfig.org/
+  call dein#add('editorconfig/editorconfig-vim')
+
+  " File explorer
+  call dein#add('scrooloose/nerdtree')
+
+  " File type glyphs/icons
+  call dein#add('ryanoasis/vim-devicons')
+
+  " Multiple cursors
+  call dein#add('mg979/vim-visual-multi')
+
+  " Cool status bar
+  call dein#add('vim-airline/vim-airline')
+
+  " Language support
+  call dein#add('JesseKPhillips/d.vim')
+
+  " Themes
+  call dein#add('joshdick/onedark.vim')
+  call dein#add('mhartington/oceanic-next')
+
+  "call dein#add('Shougo/neosnippet.vim')
+  "call dein#add('Shougo/neosnippet-snippets')
+
+  " Required:
+  call dein#end()
+  call dein#save_state()
 endif
 
-call neobundle#begin(expand('$HOME/.config/nvim/bundle'))
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'editorconfig/editorconfig-vim'
-NeoBundle 'vim-airline/vim-airline'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'Xuyuanp/nerdtree-git-plugin'
-
-" Language support
-NeoBundle 'JesseKPhillips/d.vim'
-
-" Themes
-NeoBundle 'joshdick/onedark.vim'
-NeoBundle 'mhartington/oceanic-next'
-
-call neobundle#end()
+" Required:
 filetype plugin indent on
+syntax enable
 
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
-"End NeoBundle Scripts-------------------------
+" Install plugins on startup.
+if dein#check_install()
+  call dein#install()
+endif
+
+"End dein Scripts-------------------------
 
 " ----- Color handling start -----
 
@@ -63,6 +81,8 @@ endif
 set relativenumber
 set number
 
+set encoding=UTF-8
+
 " Allow to go back to Normal mode from Insert mode
 " without quiting from the multiple cursor mode.
 let g:multi_cursor_exit_from_insert_mode=0
@@ -70,3 +90,6 @@ let g:multi_cursor_exit_from_insert_mode=0
 syntax on
 colorscheme OceanicNext
 set mouse=a
+set background=dark
+set incsearch
+set foldmethod=syntax
