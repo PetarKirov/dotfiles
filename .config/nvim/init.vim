@@ -21,9 +21,12 @@ if dein#load_state("/home/".$USER."/.cache/dein")
 
   " File explorer
   call dein#add('scrooloose/nerdtree')
+  call dein#add('Xuyuanp/nerdtree-git-plugin')
 
   " File type glyphs/icons
   call dein#add('ryanoasis/vim-devicons')
+  let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+  let g:DevIconsEnableFoldersOpenClose = 1
 
   " Multiple cursors
   call dein#add('mg979/vim-visual-multi')
