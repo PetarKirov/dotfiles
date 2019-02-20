@@ -22,6 +22,7 @@ if test -f /proc/sys/kernel/osrelease && cat /proc/sys/kernel/osrelease | grep -
         set -U DISPLAY :0
     end
     set -U REPOS "/mnt/c/Users/$USER/Desktop/code/repos"
+    alias start='/mnt/c/Windows/system32/cmd.exe /c start ""'
 end
 
 # Set-up variables for MSYS:
