@@ -33,6 +33,9 @@ if uname -a | grep -iq msys
     set -p PATH '/c/Program Files/nodejs'
     set -p PATH (get-path (npm bin --global 2>/dev/null))
 
+    # Docker, kubectl:
+    set -p PATH '/c/Program Files/Docker/Docker/Resources/bin'
+
     # dotnet:
     set -p PATH '/c/Program Files/dotnet'
 end
