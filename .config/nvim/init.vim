@@ -92,6 +92,7 @@ set encoding=UTF-8
 let g:multi_cursor_exit_from_insert_mode=0
 
 syntax on
+filetype plugin indent on
 colorscheme OceanicNext
 set mouse=a
 set background=dark
