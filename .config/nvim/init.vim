@@ -36,6 +36,7 @@ if dein#load_state("/home/".$USER."/.cache/dein")
 
   " Language support
   call dein#add('JesseKPhillips/d.vim')
+  call dein#add('dag/vim-fish')
 
   " Themes
   call dein#add('joshdick/onedark.vim')
