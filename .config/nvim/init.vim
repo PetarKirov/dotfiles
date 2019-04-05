@@ -7,12 +7,12 @@ endif
 set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
-if dein#load_state("/home/".$USER."/.cache/dein")
-  call dein#begin("/home/".$USER."/.cache/dein")
+if dein#load_state($HOME."/.cache/dein")
+  call dein#begin($HOME."/.cache/dein")
 
   " Let dein manage dein
   " Required:
-  call dein#add('/home/'.$USER.'/.cache/dein/repos/github.com/Shougo/dein.vim')
+  call dein#add($HOME.'/.cache/dein/repos/github.com/Shougo/dein.vim')
 
   " Plugins begin:
 
