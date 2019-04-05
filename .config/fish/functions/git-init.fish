@@ -1,7 +1,7 @@
 function git-init --argument-names language
     git init
     if not test -f .gitignore; and test -n "$language"
-      wget --quiet -O .gitignore https://raw.githubusercontent.com/github/gitignore/master/{$language}.gitignore
+      wget -q -O .gitignore https://raw.githubusercontent.com/github/gitignore/master/{$language}.gitignore
     end
     if not test -f .editorconfig
       echo > .editorconfig "\
