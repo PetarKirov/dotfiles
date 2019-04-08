@@ -15,6 +15,6 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 indent_style = space
 indent_size = 4
-max_line_length = 100"
+max_line_length = 80"
     end
 end
