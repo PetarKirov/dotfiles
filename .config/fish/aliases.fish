@@ -1,6 +1,11 @@
 # Basic abbreviations
 abbr -a l 'ls -la'
 
+function mkd --argument-names dir_name
+    mkdir -p $dir_name
+    pushd $dir_name
+end
+
 # ----- File Diff: -----
 function wd --argument-names file1 file2
     git diff --no-index \
