@@ -42,6 +42,9 @@ if uname -a | grep -iq msys
 
     # dotnet:
     set -p PATH '/c/Program Files/dotnet'
+else
+    # Set-up variables for Linux:
+    set -U REPOS "$HOME/code/repos"
 end
 
 # Set-up the PATH:
