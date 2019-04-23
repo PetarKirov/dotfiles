@@ -38,6 +38,8 @@ if dein#load_state($HOME."/.cache/dein")
   call dein#add('JesseKPhillips/d.vim')
   call dein#add('dag/vim-fish')
   call dein#add('tomlion/vim-solidity')
+  call dein#add('pangloss/vim-javascript')
+  call dein#add('leafgarland/typescript-vim')
 
   " Themes
   call dein#add('joshdick/onedark.vim')
