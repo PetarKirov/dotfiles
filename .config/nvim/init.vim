@@ -28,6 +28,9 @@ if dein#load_state($HOME."/.cache/dein")
   let g:WebDevIconsUnicodeDecorateFolderNodes = 1
   let g:DevIconsEnableFoldersOpenClose = 1
 
+  " Center buffer
+  call dein#add('junegunn/goyo.vim')
+
   " Multiple cursors
   call dein#add('mg979/vim-visual-multi')
 
