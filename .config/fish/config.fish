@@ -49,7 +49,7 @@ end
 
 # Set-up the PATH:
 set -p PATH (get-path (yarn global bin))
-set -p PATH "$HOME/bin"
+set -p PATH "$HOME/bin" "$HOME/.local/bin"
 
 # bobthefish theme settings:
 set -g theme_newline_cursor yes
