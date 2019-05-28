@@ -4,6 +4,8 @@ if &compatible
 endif
 
 " Required:
+syntax on
+filetype plugin indent on
 set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
@@ -58,10 +60,6 @@ if dein#load_state($HOME."/.cache/dein")
   call dein#save_state()
 endif
 
-" Required:
-filetype plugin indent on
-syntax enable
-
 " Install plugins on startup.
 if dein#check_install()
   call dein#install()
@@ -69,8 +67,22 @@ endif
 
 "End dein Scripts-------------------------
 
-" ----- Color handling start -----
+" ----- General settings start -----
 
+" Hybrid number mode
+set number
+set relativenumber
+
+colorscheme OceanicNext
+set mouse=a
+set background=dark
+set incsearch
+set foldmethod=syntax
+set nofoldenable
+
+" ----- General settings end -----
+
+" ----- Color handling start -----
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
 "If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
 "(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
@@ -86,23 +98,4 @@ if (empty($TMUX))
     set termguicolors
   endif
 endif
-
 " ----- Color handling end -----
-
-" Hybrid number mode
-set relativenumber
-set number
-
-set encoding=UTF-8
-
-" Allow to go back to Normal mode from Insert mode
-" without quiting from the multiple cursor mode.
-let g:multi_cursor_exit_from_insert_mode=0
-
-syntax on
-filetype plugin indent on
-colorscheme OceanicNext
-set mouse=a
-set background=dark
-set incsearch
-set foldmethod=syntax
