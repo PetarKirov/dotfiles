@@ -43,6 +43,8 @@ if dein#load_state($HOME."/.cache/dein")
   call dein#add('tomlion/vim-solidity')
   call dein#add('pangloss/vim-javascript')
   call dein#add('leafgarland/typescript-vim')
+  call dein#add('dart-lang/dart-vim-plugin')
+  call dein#add('thosakwe/vim-flutter')
 
   " Themes
   call dein#add('joshdick/onedark.vim')
