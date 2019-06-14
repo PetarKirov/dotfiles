@@ -49,7 +49,7 @@ else
 end
 
 # Set-up the PATH:
-which 'yarn' > /dev/null && set -p PATH (get-path (yarn global bin))
+which 'yarn' >/dev/null 2>&1 && set -p PATH (get-path (yarn global bin))
 set -p PATH "$HOME/bin" "$HOME/.local/bin"
 
 # bobthefish theme settings:
