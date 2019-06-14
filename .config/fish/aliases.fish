@@ -1,9 +1,30 @@
 # Basic abbreviations
 abbr -a l 'ls -la'
 
-function mkd --argument-names dir_name
-    mkdir -p $dir_name
-    pushd $dir_name
+# Check if a given name looks like a text file name.
+#
+# For example: 'smth.txt' or '.gitconfig'.
+# 'abc.' and 'abc' are not considered file names.
+# Of course, all of the above are valid names of
+# both files and dirs, but this function uses a
+# different heuristic of what a "text file name" is.
+function looks-like-file --argument-names name
+    string match -r '^[[:alnum:]]*\.[[:alnum:]]+$' "$name"
+end
+
+# Creates a text file or dir (see `looks-like-file`
+# for the distinction between the two) and opens
+# the file or goes inside the dir.
+function mk --argument-names path
+    if looks-like-file (basename "$path")
+        set dir (dirname "$path")
+        mkdir -p "$dir"
+        pushd "$dir"
+        $EDITOR "$path"
+    else
+        mkdir -p "$path"
+        pushd "$path"
+    end
 end
 
 # ----- File Diff: -----
