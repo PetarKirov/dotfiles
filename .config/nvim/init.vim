@@ -4,8 +4,6 @@ if &compatible
 endif
 
 " Required:
-syntax on
-filetype plugin indent on
 set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
@@ -69,11 +67,11 @@ endif
 
 " ----- General settings start -----
 
-" Hybrid number mode
+filetype plugin indent on
+syntax on
+colorscheme OceanicNext
 set number
 set relativenumber
-
-colorscheme OceanicNext
 set mouse=a
 set background=dark
 set incsearch
