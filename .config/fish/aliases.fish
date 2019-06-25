@@ -17,6 +17,7 @@ end
 # the file or goes inside the dir.
 function mk --argument-names path
     if looks-like-file (basename "$path")
+        set path (readlink -m "$path")
         set dir (dirname "$path")
         mkdir -p "$dir"
         pushd "$dir"
