@@ -11,7 +11,7 @@ end
 # Configure default editor:
 for ED in nvim vim vi subl3 code nano
     if type $ED -q
-        set -U EDITOR $ED
+        begin ; set -q EDITOR && set EDITOR $ED ; end || set -U EDITOR $ED
         break
     end
 end
