@@ -21,7 +21,10 @@ if dein#load_state($HOME."/.cache/dein")
 
   " File explorer
   call dein#add('scrooloose/nerdtree')
+
+  " Git related
   call dein#add('Xuyuanp/nerdtree-git-plugin')
+  call dein#add('tpope/vim-fugitive')
 
   " File type glyphs/icons
   call dein#add('ryanoasis/vim-devicons')
