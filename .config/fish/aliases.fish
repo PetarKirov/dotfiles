@@ -3,13 +3,14 @@ abbr -a l 'ls -la'
 
 # Check if a given name looks like a text file name.
 #
-# For example: 'smth.txt' or '.gitconfig'.
+# For example: 'smth.txt', '.gitconfig', 'Dockerfile'.
 # 'abc.' and 'abc' are not considered file names.
 # Of course, all of the above are valid names of
 # both files and dirs, but this function uses a
 # different heuristic of what a "text file name" is.
 function looks-like-file --argument-names name
-    string match -r '^[[:alnum:]]*\.[[:alnum:]]+$' "$name"
+    string match -qr '^[[:alnum:]]*\.[[:alnum:]]+$' "$name" \
+        || string match -qr '^[[:alnum:]]*file$' "$name"
 end
 
 # Creates a text file or dir (see `looks-like-file`
