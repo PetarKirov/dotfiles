@@ -9,8 +9,8 @@ abbr -a l 'ls -la'
 # both files and dirs, but this function uses a
 # different heuristic of what a "text file name" is.
 function looks-like-file --argument-names name
-    string match -qr '^[[:alnum:]]*\.[[:alnum:]]+$' "$name" \
-        || string match -qr '^[[:alnum:]]*file$' "$name"
+    string match -qr '^.*\..+$' "$name" \
+        || string match -qr '^.*file$' "$name"
 end
 
 # Creates a text file or dir (see `looks-like-file`
