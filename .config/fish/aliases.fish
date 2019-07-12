@@ -111,6 +111,12 @@ function docker-pull-run --argument-names container_name image_name
     and docker run -p 3000:80 --rm -d --name $container_name $image_name
 end
 
+function docker-kill-one
+    test (docker ps | tail -n +2 | wc -l) -eq 1 \
+        && docker kill (docker ps | tail -n +2 | awk '{print $1}') \
+        || true
+end
+
 function catn --argument-names start count file
     if not set -q file
         set file /dev/stdin
