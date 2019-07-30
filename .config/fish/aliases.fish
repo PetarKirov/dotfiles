@@ -1,5 +1,5 @@
 # Basic abbreviations
-abbr -a l 'ls -la'
+abbr -a l 'ls -lah'
 
 # Check if a given name looks like a text file name.
 #
