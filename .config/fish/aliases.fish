@@ -69,7 +69,7 @@ abbr -a gcb git checkout -b
 abbr -a gstaki git stash --keep-index --include-untracked
 
 abbr -a gspo git stash pop
-alias gspu='git stash; and git status'
+abbr -a gspu 'git stash --include-untracked; and git status'
 
 abbr -a gbr git branch -a
 
