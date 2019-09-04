@@ -51,6 +51,7 @@ abbr -a gdcr git diff --cached '--color-words=\'[^[:space:]]|([[:alnum:]]|UTF_8_
 abbr -a ga git add
 abbr -a gap git add -p
 abbr -a gau git add -u
+abbr -a gai git add --intent-to-add
 
 abbr -a gcm git commit
 abbr -a gcma git commit --amend --no-edit
