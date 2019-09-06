@@ -23,3 +23,5 @@
     whitespace = red reverse
 [difftool "diffpdf"]
   cmd = diffpdf \"$LOCAL\" \"$REMOTE\"
+[diff]
+	colorMoved = dimmed-zebra
