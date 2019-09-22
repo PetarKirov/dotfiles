@@ -45,7 +45,8 @@ if uname -a | grep -iq msys
 else
     # Set-up variables for Linux:
     set -U REPOS "$HOME/code/repos"
-    set -p PATH "$HOME/flutter/bin"
+    set -U TMPCODE "$HOME/code/tmp"
+    set -p PATH "$REPOS/flutter/bin"
 end
 
 # Set-up the PATH:
