@@ -40,6 +40,9 @@ if dein#load_state($HOME."/.cache/dein")
   " Surround
   call dein#add('tpope/vim-surround')
 
+  " Tabular
+  call dein#add('godlygeek/tabular')
+
   " Cool status bar
   call dein#add('vim-airline/vim-airline')
 
