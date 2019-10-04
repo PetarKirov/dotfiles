@@ -37,6 +37,9 @@ if dein#load_state($HOME."/.cache/dein")
   " Multiple cursors
   call dein#add('mg979/vim-visual-multi')
 
+  " Graphical undo
+  call dein#add('sjl/gundo.vim')
+
   " Surround
   call dein#add('tpope/vim-surround')
 
