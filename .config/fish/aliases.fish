@@ -94,8 +94,15 @@ function grmbr --argument-names remote master_branch feature_branch
     test -n "$feature_branch"; or exit 1
     test -n "$master_branch"; or set master_branch master
     test -n "$remote"; or set remote upstream
-    echo "Updating '$master_branch' from '$remote' and deleting '$feature_branch'"
-    git fetch $remote --prune
+    if git remote -v | grep -q me;
+        set origin 'me'
+    else if git remote -v | grep -q origin;
+        set origin 'origin'
+    else
+        set origin $remote
+    end
+    echo "Updating '$master_branch' from '$remote' and deleting '$feature_branch' if '$origin/$feature_branch' was deleted"
+    git fetch $remote $origin --prune
     and git checkout $master_branch
     and git merge --ff-only $remote/$master_branch
     and git checkout $feature_branch
