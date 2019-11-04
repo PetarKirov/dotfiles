@@ -16,6 +16,8 @@ if [ "$DIST" == 'ubuntu' ] || [ "$DIST" == 'debian' ]; then
     $SUDO apt-get install curl git neovim -y
 elif [ "$DIST" == 'arch' ]; then
     $SUDO pacman -Syu curl git neovim --noconfirm
+elif [ "$DIST" == 'alpine' ]; then
+    $SUDO apk add curl git neovim
 elif [ "$OS" == 'osx' ]; then
     brew install curl git neovim
 fi

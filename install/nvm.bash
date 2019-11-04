@@ -11,6 +11,8 @@ if [ "$OS" == 'linux' ] || [ "$OS" == 'osx' ]; then
 		$SUDO apt-get install curl -y
 	elif [ "$DIST" == 'arch' ]; then
 		$SUDO pacman -Sy curl --noconfirm
+	elif [ "$DIST" == 'alpine' ]; then
+		$SUDO apk add curl
 	elif [ "$OS" == 'osx' ]; then
 		brew install curl
 	fi

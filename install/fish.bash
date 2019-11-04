@@ -20,6 +20,8 @@ if [ "$DIST" == 'ubuntu' ] || [ "$DIST" == 'debian' ]; then
     $SUDO apt-get install fish -y
 elif [ "$DIST" == 'arch' ]; then
     $SUDO pacman -Syu curl git tar which fish --noconfirm
+elif [ "$DIST" == 'alpine' ]; then
+    $SUDO apk add curl git tar fish
 elif [ "$OS" == 'osx' ]; then
     brew install curl git fish
 fi
