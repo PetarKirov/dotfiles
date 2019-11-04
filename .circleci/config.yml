@@ -7,9 +7,9 @@ workflows:
       - ubuntu
       - archlinux
       - linuxbrew
-      - macOS-Xcode-10_3
-      - macOS-Xcode-11_1
-      - macOS-Xcode-11_2
+      # - macOS-Xcode-10_3
+      # - macOS-Xcode-11_1
+      # - macOS-Xcode-11_2
 
 .linux_tmpl8_def: &linux_tmpl8
   docker:
