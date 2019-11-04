@@ -7,6 +7,7 @@ workflows:
       - ubuntu
       - archlinux
       - linuxbrew
+      - alpine
       # - macOS-Xcode-10_3
       # - macOS-Xcode-11_1
       # - macOS-Xcode-11_2
@@ -21,7 +22,7 @@ workflows:
         name: Test Install Scripts
         command: |
           apk add bash coreutils
-          ./test/run_all_scripts.bash $CIRCLE_JOB
+          ./test/run_all_scripts.bash $CIRCLE_JOB "${DISABLED_TESTS:-}"
 
 .macos_tmpl8_def: &macos_tmpl8
   steps:
@@ -39,6 +40,10 @@ jobs:
     << : *linux_tmpl8
   linuxbrew:
     << : *linux_tmpl8
+  alpine:
+    << : *linux_tmpl8
+    environment:
+      - DISABLED_TESTS: flutter
   macOS-Xcode-10_3:
     << : *macos_tmpl8
     macos:
