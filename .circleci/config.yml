@@ -1,0 +1,13 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: docker:stable-git
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Test Install Scripts
+          command: |
+            apk add bash coreutils
+            ./test/run_all_docker.bash
