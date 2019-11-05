@@ -15,7 +15,7 @@ fi
 
 for bundle in $DIR/test/bundles/*; do
     bundle_name=$(basename $bundle '.bash')
-    if [[ " ${DISABLED_TEST_BUNDLES[@]} " =~ " ${bundle_name} " ]]; then
+    if [[ " ${DISABLED_TEST_BUNDLES[@]-} " =~ " ${bundle_name} " ]]; then
         continue
     fi
     bundle_relative_path=$(realpath --relative-to="$DIR" "$bundle")
