@@ -27,7 +27,7 @@ jobs:
     runs-on: ${{ matrix.macos_version }}
     steps:
       - uses: actions/checkout@v1
-      - run: ./test/run_all_scripts.bash 'NATIVE' ''
+      - run: ./test/run_all_scripts.bash 'NATIVE' 'fish_nvm'
     strategy:
       fail-fast: true
       matrix:
