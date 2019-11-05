@@ -13,14 +13,15 @@ if [ "$IMAGE" != 'NATIVE' ]; then
         "$DIR"
 fi
 
-for bundle in $DIR/test/bundles/*; do
+cd $DIR
+
+for bundle in ./test/bundles/*; do
     bundle_name=$(basename $bundle '.bash')
     if [[ " ${DISABLED_TEST_BUNDLES[@]-} " =~ " ${bundle_name} " ]]; then
         continue
     fi
-    bundle_relative_path=$(realpath --relative-to="$DIR" "$bundle")
     if [ "$IMAGE" != 'NATIVE' ]; then
-        "$DIR/test/install_on_docker.bash" "my_$IMAGE" "$bundle_relative_path"
+        "$DIR/test/install_on_docker.bash" "my_$IMAGE" "$bundle"
     else
         "$bundle"
     fi
