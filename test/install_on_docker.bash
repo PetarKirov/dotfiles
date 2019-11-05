@@ -7,6 +7,6 @@ TEST="${2:-install/nvim.bash}"
 
 set -x
 
-docker run --network=host -it \
+docker run --network=host \
     "$DOCKER_IMAGE" \
     /bin/bash "/scripts/$TEST"
