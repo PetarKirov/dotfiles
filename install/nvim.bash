@@ -10,7 +10,7 @@ if [ "$DIST" == 'ubuntu' ] || [ "$DIST" == 'debian' ]; then
         # NeoVim is part of Debian, while on Ubuntu we need to add a PPA
         $SUDO apt-get update
         $SUDO apt-get install software-properties-common -y
-        $SUDO add-apt-repository ppa:neovim-ppa/stable -y
+        $SUDO add-apt-repository ppa:neovim-ppa/unstable -y
     fi
     $SUDO apt-get update
     $SUDO apt-get install curl git neovim -y
