@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  run_install_scripts:
+    name: Run install scripts on '${{ matrix.linux_distro }}'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - run: ./test/run_all_scripts.bash "${{ matrix.linux_distro }}" "${{ matrix.disabled_tests }}"
+    strategy:
+      fail-fast: true
+      matrix:
+        linux_distro: ['alpine', 'archlinux', 'debian', 'linuxbrew', 'ubuntu']
+        include:
+          - linux_distro: 'alpine'
+            disabled_tests: 'flutter'
