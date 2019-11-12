@@ -102,7 +102,7 @@ function grmbr --argument-names remote master_branch feature_branch
         set origin $remote
     end
     echo "Updating '$master_branch' from '$remote' and deleting '$feature_branch' if '$origin/$feature_branch' was deleted"
-    git fetch $remote $origin --prune
+    git fetch --multiple --prune $remote $origin
     and git checkout $master_branch
     and git merge --ff-only $remote/$master_branch
     and git checkout $feature_branch
