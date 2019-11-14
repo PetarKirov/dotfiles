@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - run: ./test/shellcheck.sh
       - run: ./test/run_all_scripts.bash "${{ matrix.linux_distro }}" "${{ matrix.disabled_tests }}"
     strategy:
       fail-fast: true

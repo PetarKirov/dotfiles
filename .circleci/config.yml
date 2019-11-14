@@ -22,6 +22,8 @@ workflows:
         name: Test Install Scripts
         command: |
           apk add bash coreutils
+          apk add shellcheck --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
+          ./test/shellcheck.sh
           ./test/run_all_scripts.bash $CIRCLE_JOB "${DISABLED_TESTS:-}"
 
 .macos_tmpl8_def: &macos_tmpl8
