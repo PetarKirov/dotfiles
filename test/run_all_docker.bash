@@ -22,6 +22,6 @@ do
     image_name="my_$(basename "$image_path" '.Dockerfile')"
     for bundle in $DIR/test/bundles/*; do
         bundle_relative_path=$(realpath --relative-to="$DIR" "$bundle")
-        "$DIR/test/install_on_docker.bash" "$image_name" "$bundle_relative_path"
+        "$DIR/test/install_on_docker.sh" "$image_name" "$bundle_relative_path"
     done
 done

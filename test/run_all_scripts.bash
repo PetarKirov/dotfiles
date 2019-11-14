@@ -16,7 +16,7 @@ fi
 cd $DIR
 
 for bundle in ./test/bundles/*; do
-    bundle_name=$(basename $bundle '.bash')
+    bundle_name=$(basename $bundle '.sh')
     if [[ " ${DISABLED_TEST_BUNDLES[@]-} " =~ " ${bundle_name} " ]]; then
         continue
     fi

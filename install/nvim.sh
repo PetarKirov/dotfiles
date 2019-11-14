@@ -1,11 +1,10 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-set -euo pipefail
+dir=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd -P)
+# shellcheck source=install/detect_os.sh
+. "$dir/detect_os.sh"
 
-DIR="$(dirname ${BASH_SOURCE[0]})"
-. "$DIR/detect_os.bash"
-
-if [ "$DIST" == 'ubuntu' ] || [ "$DIST" == 'debian' ]; then
+if [ "$DIST" = 'ubuntu' ] || [ "$DIST" = 'debian' ]; then
     if [ "$DIST" != 'debian' ]; then
         # NeoVim is part of Debian, while on Ubuntu we need to add a PPA
         $SUDO apt-get update
@@ -14,13 +13,13 @@ if [ "$DIST" == 'ubuntu' ] || [ "$DIST" == 'debian' ]; then
     fi
     $SUDO apt-get update
     $SUDO apt-get install curl git neovim -y
-elif [ "$DIST" == 'arch' ]; then
+elif [ "$DIST" = 'arch' ]; then
     $SUDO pacman -Syu curl git neovim --noconfirm
-elif [ "$DIST" == 'alpine' ]; then
+elif [ "$DIST" = 'alpine' ]; then
     $SUDO apk add curl git neovim
-elif [ "$OS" == 'osx' ]; then
+elif [ "$OS" = 'osx' ]; then
     brew install curl git neovim
 fi
 
 curl -fsSL https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh \
-  | bash -s -- "$HOME/.cache/dein"
+  | /bin/sh -s -- "$HOME/.cache/dein"

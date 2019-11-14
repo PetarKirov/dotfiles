@@ -1,25 +1,26 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-set -euo pipefail
+set -eu
 
-if ! [ -z "${OS:-}" ] && ! [ -z "${DIST:-}" ]; then
+if [ -n "${OS:-}" ] && [ -n "${DIST:-}" ]; then
     echo "Variables \$OS=$OS and \$DIST=$DIST already set." \
         'Skipping OS detection.'
     return 0
 fi
 
-OS=''
-DIST=''
-SUDO=''
+export OS=''
+export DIST=''
+export SUDO=''
 
 case $(uname | tr '[:upper:]' '[:lower:]') in
     linux*)
         OS='linux'
-        if [ "$EUID" -ne 0 ]; then
+        if [ "$(id -u)" -ne 0 ]; then
             SUDO='sudo'
         fi
         if [ -f /etc/os-release ]; then
             # freedesktop.org and systemd
+            # shellcheck disable=SC1091
             . /etc/os-release
             DIST="$NAME"
         elif type lsb_release >/dev/null 2>&1; then
@@ -27,6 +28,7 @@ case $(uname | tr '[:upper:]' '[:lower:]') in
             DIST="$(lsb_release -si)"
         elif [ -f /etc/lsb-release ]; then
             # For some versions of Debian/Ubuntu without lsb_release command
+            # shellcheck disable=SC1091
             . /etc/lsb-release
             DIST="$DISTRIB_ID"
         elif [ -f /etc/debian_version ]; then
