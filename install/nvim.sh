@@ -11,8 +11,17 @@ if [ "$DIST" = 'ubuntu' ] || [ "$DIST" = 'debian' ]; then
         $SUDO apt-get install software-properties-common -y
         $SUDO add-apt-repository ppa:neovim-ppa/unstable -y
     fi
-    $SUDO apt-get update
-    $SUDO apt-get install curl git neovim -y
+    if grep -q stretch /etc/os-release; then
+        # Debian Stretch comes with a super outdated version of neovim
+        $SUDO echo "deb http://deb.debian.org/debian stretch-backports main" \
+            >> /etc/apt/sources.list
+        $SUDO apt-get update
+        $SUDO apt-get -t stretch-backports install neovim -y
+        $SUDO apt-get install curl git -y
+    else
+        $SUDO apt-get update
+        $SUDO apt-get install curl git neovim -y
+    fi
 elif [ "$DIST" = 'arch' ]; then
     $SUDO pacman -Syu curl git neovim --noconfirm
 elif [ "$DIST" = 'alpine' ]; then
