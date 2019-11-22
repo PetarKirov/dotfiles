@@ -8,8 +8,8 @@ IMAGE="$1"
 docker build -t "zlx/${IMAGE}_dev" -f- "$dir" <<EOF
 FROM $IMAGE
 COPY . /dotfiles
-RUN /dotfiles/install/nvim.sh
-RUN /dotfiles/install/fish.sh
 RUN /dotfiles/install/dotfiles.sh
-RUN /dotfiles/install/diff-so-fancy.sh
+RUN /dotfiles/install/diff-so-fancy.sh --docker
+RUN /dotfiles/install/fish.sh
+RUN /dotfiles/install/nvim.sh
 EOF
