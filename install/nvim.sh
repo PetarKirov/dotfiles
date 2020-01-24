@@ -32,3 +32,4 @@ fi
 
 curl -fsSL https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh \
   | /bin/sh -s -- "$HOME/.cache/dein"
+nvim +"call dein#install()" +qall
