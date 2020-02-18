@@ -28,8 +28,6 @@ if dein#load_state($HOME."/.cache/dein")
 
   " File type glyphs/icons
   call dein#add('ryanoasis/vim-devicons')
-  let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-  let g:DevIconsEnableFoldersOpenClose = 1
 
   " Center buffer
   call dein#add('junegunn/goyo.vim')
@@ -42,6 +40,9 @@ if dein#load_state($HOME."/.cache/dein")
 
   " Surround
   call dein#add('tpope/vim-surround')
+
+  " Sort motion
+  call dein#add('christoomey/vim-sort-motion')
 
   " Tabular
   call dein#add('godlygeek/tabular')
@@ -92,6 +93,17 @@ set foldmethod=syntax
 set nofoldenable
 
 " ----- General settings end -----
+
+" ----- Plugin settings start -----
+
+" vim-devicons configuration
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+let g:DevIconsEnableFoldersOpenClose = 1
+
+" Sort Motion configuration
+let g:sort_motion_flags = "i"
+
+" ----- Plugin settings end -----
 
 " ----- Color handling start -----
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
