@@ -28,6 +28,6 @@ elif [ "$OS" = 'osx' ]; then
 fi
 
 curl -fsSL https://get.oh-my.fish > install_omf.fish \
-    && fish install_omf.fish --noninteractive \
+    && fish install_omf.fish --noninteractive --channel=dev \
     && rm install_omf.fish \
     && fish -c 'omf install bobthefish'
