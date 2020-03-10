@@ -30,6 +30,9 @@ elif [ "$OS" = 'osx' ]; then
     brew install curl git neovim
 fi
 
+mkdir -p "$HOME/.config/nvim"
+cp -v "$dir/../.config/nvim/init.vim" "$HOME/.config/nvim/init.vim"
+
 curl -fsSL https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh \
   | /bin/sh -s -- "$HOME/.cache/dein"
 nvim +"call dein#install()" +qall
