@@ -53,7 +53,7 @@ void runGit(string repoPath, string[] args)
 {
     import std.process : spawnProcess, wait;
     repoPath.isValidGitDir.enforce;
-    auto cmd = ["git", "-C", repoPath] ~ args;
+    auto cmd = ["git", "-c", "color.status=always", "-C", repoPath] ~ args;
     "> ".writeln(cmd);
     cmd
         .spawnProcess
