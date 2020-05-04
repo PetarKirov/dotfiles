@@ -23,5 +23,7 @@
     whitespace = red reverse
 [difftool "diffpdf"]
   cmd = diffpdf \"$LOCAL\" \"$REMOTE\"
+[difftool "nvimdiff"]
+    cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
 [diff]
 	colorMoved = dimmed-zebra
