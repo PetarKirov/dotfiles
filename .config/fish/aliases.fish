@@ -1,5 +1,7 @@
 # Basic abbreviations
 abbr -a l 'ls -lah'
+abbr -a p 'pushd'
+abbr -a po 'popd'
 
 # Check if a given name looks like a text file name.
 #
