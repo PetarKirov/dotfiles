@@ -8,7 +8,7 @@ dir=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd -P)
 
 if [ "$DIST" = 'ubuntu' ] || [ "$DIST" = 'debian' ]; then
     $SUDO apt-get update
-    if [ "$1" = '--docker' ]; then
+    if [ "${1:-}" = '--docker' ]; then
         # setup locales for ubuntu/debian dev container
         $SUDO apt-get install less curl perl locales -y
         echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen
