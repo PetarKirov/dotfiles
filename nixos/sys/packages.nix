@@ -3,6 +3,13 @@
   services.openssh.enable = true;
   virtualisation.docker.enable = true;
 
+  nix = {
+   package = pkgs.nixFlakes;
+   extraOptions = ''
+     experimental-features = nix-command flakes
+   '';
+  };
+
   environment.systemPackages = with pkgs; [
     iputils
     openssl bind
@@ -11,5 +18,6 @@
     neovim
     tree
     jq
+    direnv
   ];
 }
