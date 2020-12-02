@@ -94,7 +94,7 @@ in {
     # gptfdisk parted # disk partitioning
     # htop iotop # monitoring
     # exfat ntfs3g # file systems
-    # p7zip unrar unzip # archival and compression
+    p7zip unrar # archival and compression (unzip is installed via sys/*.nix)
     # usbutils pciutils
 
     # blockchain

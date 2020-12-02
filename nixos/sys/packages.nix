@@ -11,6 +11,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    unzip
     iputils
     openssl bind
     curl wget
