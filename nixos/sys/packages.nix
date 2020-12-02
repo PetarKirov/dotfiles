@@ -11,6 +11,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    exfat ntfs3g
     unzip
     iputils
     openssl bind
