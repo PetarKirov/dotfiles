@@ -68,6 +68,10 @@ set -g theme_newline_prompt ' ╰─➤ '
 # https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode/Regular/complete
 set -g theme_nerd_fonts yes
 
+# Set common dirs:
+set -g DLANG $REPOS/dlang/dlang
+set -g WORK $REPOS/jarvis-network
+
 # Integrate direnv (https://direnv.net/)
 if type direnv -q
     eval (direnv hook fish)
