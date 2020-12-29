@@ -79,7 +79,11 @@ abbr -a glg git log
 abbr -a gl git lg
 
 abbr -a grb git rebase
+abbr -a grbc git rebase --continue
 abbr -a grbi git rebase -i
+
+abbr -a gchp git cherry-pick
+abbr -a gchpc git cherry-pick --continue
 
 function git-diff-nvim \
     --description 'Opens the output of `git diff` in nvim, excluding any whitespace changes'
