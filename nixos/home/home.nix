@@ -1,6 +1,12 @@
 { config, pkgs, ... }:
 let
   unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+  commaSrc = pkgs.fetchFromGitHub {
+    owner  = "Shopify";
+    repo   = "comma";
+    rev    = "4a62ec17e20ce0e738a8e5126b4298a73903b468";
+    sha256 = "sha256-IT7zlcM1Oh4sWeCJ1m4NkteuajPxTnNo1tbitG0eqlg=";
+  };
 in {
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -13,6 +19,8 @@ in {
   nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
+    (callPackage commaSrc {})
+
     # NixOS
     # appimage-run
     # patchelf
