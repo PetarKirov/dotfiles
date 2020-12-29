@@ -73,18 +73,19 @@ in {
     #unstable.dmd unstable.dub unstable.ldc
 
     # DevOps
-    #azure-cli
+    azure-cli
     #docker-compose
-    #helm
-    #kubectl
-    #terraform
+    kubernetes-helm
+    kubectl
+    terraform
 
     # gui
     glxinfo
-    google-chrome firefox opera # browsers
+    google-chrome firefox # opera # browsers
     libreoffice
-    discord-ptb slack tdesktop teams zoom-us # IM / Video
+    unstable.discord-ptb slack tdesktop teams zoom-us # IM / Video
     unstable.vscode # GUI text editors / IDEs
+    unstable.insomnia # API client
     #remmina # remote desktop
     #transmission-gtk # P2P/Torrent
     alacritty tilix # Terminal emulators
