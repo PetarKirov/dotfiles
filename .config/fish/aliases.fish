@@ -100,9 +100,9 @@ function grmbr --argument-names remote master_branch feature_branch
     test -n "$feature_branch"; or exit 1
     test -n "$master_branch"; or set master_branch master
     test -n "$remote"; or set remote upstream
-    if git remote -v | grep -q me;
+    if git remote -v | grep -q '^me';
         set origin 'me'
-    else if git remote -v | grep -q origin;
+    else if git remote -v | grep -q '^origin';
         set origin 'origin'
     else
         set origin $remote
