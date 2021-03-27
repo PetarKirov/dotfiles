@@ -13,9 +13,12 @@
   environment.systemPackages = with pkgs; [
     exfat ntfs3g
     unzip
-    iputils
-    openssl bind
     curl wget
+    openssl bind gnupg
+    iputils
+    htop
+    file
+    ripgrep
     git
     neovim
     tree
