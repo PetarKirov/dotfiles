@@ -15,6 +15,7 @@ in {
   # paths it should manage.
   home.username = "zlx";
   home.homeDirectory = "/home/zlx";
+  manual.manpages.enable = false;
 
   nixpkgs.config.allowUnfree = true;
 
@@ -22,46 +23,38 @@ in {
     (callPackage commaSrc {})
 
     # NixOS
+    cachix
+    nix-tree
     # appimage-run
     # patchelf
     # home-manager
-    # nodePackages.node2nix
 
     (unstable.nerdfonts.override { fonts = [ "FiraCode" "FiraMono"]; })
 
     # shell / dev utils
     asciinema
-    # file
     # w3m
-    jq yq
+    yq
 
     # Build systems
-    # cmake gnumake ninja
+    # cmake gnumake ninja meson
 
     # Debuggers
-    # lldb_10 gdb
+    # gdb lldb_11
 
     # C/C++ toolchain
     # GCC9 should have the highest priority
-    # (lib.setPrio 30 binutils) (lib.setPrio 20 clang_10) (lib.setPrio 10 gcc10) lld_10
+    # (lib.setPrio 30 binutils) (lib.setPrio 20 clang_11) (lib.setPrio 10 gcc10) lld_11
 
     # Haskell
     # ghc
 
     # Python
-    #python3
-    #meson
-
+    # python3
 
     # crypto & network
-    #bind
-    #curl wget
-    openssl gnupg # Crypto
-    #nethogs # monitoring
-    #wireguard # VPN
-
-
-
+    # nethogs # monitoring
+    wireguard # VPN
 
     bat
     gitAndTools.delta
@@ -78,16 +71,23 @@ in {
     kubernetes-helm
     kubectl
     terraform
+    unstable.lens
+    mysql-workbench
+    mariadb
 
-    # gui
+    # gui sys
+    gparted
+    wireshark-qt
     glxinfo
+
+    # gui general
     google-chrome firefox # opera # browsers
     libreoffice
-    unstable.discord-ptb slack tdesktop teams zoom-us # IM / Video
+    unstable.discord-ptb slack tdesktop unstable.teams zoom-us # IM / Video
     unstable.vscode # GUI text editors / IDEs
     unstable.insomnia # API client
     #remmina # remote desktop
-    #transmission-gtk # P2P/Torrent
+    deluge # transmission-gtk # P2P/Torrent
     alacritty tilix # Terminal emulators
     spotify vlc # Audio & video players
     #audacity # Audio editing
@@ -98,11 +98,10 @@ in {
     xclip xorg.xhost # X11 related
     # qrencode
 
-
     # sys
     # gptfdisk parted # disk partitioning
-    # htop iotop # monitoring
-    # exfat ntfs3g # file systems
+    # ext4magic testdisk # disk recovery
+    # iotop # monitoring
     p7zip unrar # archival and compression (unzip is installed via sys/*.nix)
     # usbutils pciutils
 
