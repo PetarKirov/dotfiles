@@ -52,7 +52,6 @@ in {
 
     # crypto & network
     # nethogs # monitoring
-    wireguard # VPN
 
     bat
     gitAndTools.delta

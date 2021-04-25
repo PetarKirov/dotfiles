@@ -21,6 +21,7 @@
     unzip
     curl wget
     openssl bind gnupg
+    wireguard
     iputils
     htop
     file
