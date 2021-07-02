@@ -14,6 +14,8 @@
     (nerdfonts.override { fonts = [ "DroidSansMono" "FiraCode" "FiraMono"]; })
   ];
 
+  programs.fish.enable = true;
+
   environment.systemPackages = with pkgs; [
     exfat ntfs3g
     unzip
