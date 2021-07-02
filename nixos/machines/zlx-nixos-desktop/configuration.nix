@@ -1,5 +1,6 @@
 { config, pkgs, ... }:
 {
+  networking.hostName = "zlx-nixos-desktop";
   imports =
     [
       # Include the results of the hardware scan.

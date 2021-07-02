@@ -1,6 +1,5 @@
 #{ hostName? , ... }:
 {
-  networking.hostName = "zlx-nixos-desktop";
   networking.networkmanager.enable = true;
   networking.networkmanager.dns = "none";
   networking.nameservers = [ "1.1.1.1" ];
