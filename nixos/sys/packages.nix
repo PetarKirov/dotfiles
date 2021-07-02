@@ -10,6 +10,10 @@
    '';
   };
 
+  fonts.fonts = with pkgs; [
+    (nerdfonts.override { fonts = [ "DroidSansMono" "FiraCode" "FiraMono"]; })
+  ];
+
   environment.systemPackages = with pkgs; [
     exfat ntfs3g
     unzip

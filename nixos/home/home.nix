@@ -29,8 +29,6 @@ in {
     # patchelf
     # home-manager
 
-    (unstable.nerdfonts.override { fonts = [ "FiraCode" "FiraMono"]; })
-
     # shell / dev utils
     asciinema
     # w3m
