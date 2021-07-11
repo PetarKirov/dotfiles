@@ -100,6 +100,10 @@ set incsearch
 set foldmethod=syntax
 set nofoldenable
 
+" Show some forms of whitespace
+set listchars=tab:>·,trail:~,extends:>,precedes:<
+set list
+
 " ----- General settings end -----
 
 " ----- Plugin settings start -----
