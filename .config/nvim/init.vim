@@ -91,7 +91,7 @@ endif
 
 filetype plugin indent on
 syntax on
-colorscheme OceanicNext
+colorscheme evening
 set number
 set relativenumber
 set mouse=a
