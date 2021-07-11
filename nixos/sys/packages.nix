@@ -20,7 +20,7 @@
     exfat ntfs3g
     unzip
     curl wget
-    openssl bind gnupg
+    openssl bind gnupg nmap
     wireguard
     iputils
     htop
