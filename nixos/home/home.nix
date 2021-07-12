@@ -82,8 +82,8 @@ in {
     unstable.discord-ptb slack tdesktop unstable.teams zoom-us # IM / Video
     unstable.vscode # GUI text editors / IDEs
     unstable.insomnia # API client
-    #remmina # remote desktop
-    deluge # transmission-gtk # P2P/Torrent
+    # remmina # remote desktop
+    deluge transmission-gtk # P2P/Torrent
     alacritty tilix # Terminal emulators
     spotify vlc # Audio & video players
     #audacity # Audio editing
