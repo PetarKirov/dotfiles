@@ -84,7 +84,7 @@ in {
     unstable.insomnia # API client
     # remmina # remote desktop
     deluge transmission-gtk # P2P/Torrent
-    alacritty tilix # Terminal emulators
+    tilix # alacritty # Terminal emulators
     spotify vlc # Audio & video players
     #audacity # Audio editing
     #blender # 3D modeling
