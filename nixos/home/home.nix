@@ -63,14 +63,12 @@ in {
     #unstable.dmd unstable.dub unstable.ldc
 
     # DevOps
-    azure-cli
-    #docker-compose
-    kubernetes-helm
-    kubectl
-    terraform
-    unstable.lens
-    mysql-workbench
-    mariadb
+    # azure-cli
+    # docker-compose
+    # kubernetes-helm
+    # kubectl
+    # terraform
+    # unstable.lens
 
     # gui sys
     gparted
