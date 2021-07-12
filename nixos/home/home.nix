@@ -77,7 +77,8 @@ in {
 
     # gui general
     google-chrome firefox # opera # browsers
-    libreoffice
+    # libreoffice
+    unstable.onlyoffice-bin
     unstable.discord-ptb slack tdesktop unstable.teams zoom-us # IM / Video
     unstable.vscode # GUI text editors / IDEs
     unstable.insomnia # API client
