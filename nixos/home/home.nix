@@ -85,9 +85,9 @@ in {
     # remmina # remote desktop
     deluge transmission-gtk # P2P/Torrent
     tilix # alacritty # Terminal emulators
-    spotify vlc # Audio & video players
-    #audacity # Audio editing
-    #blender # 3D modeling
+    spotify vlc mpv # Audio & video players
+    # reaper audacity # Audio editing
+    # blender # 3D modeling
     gimp inkscape # Image editing
     pick-colour-picker
     svgcleaner # SVG optimization
