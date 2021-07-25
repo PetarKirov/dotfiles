@@ -117,6 +117,9 @@ function grmbr --argument-names remote master_branch feature_branch
     and git branch -d $feature_branch
 end
 
+# ----- Direnv: -----
+abbr -a dea direnv allow .
+abbr -a ded direnv deny .
 
 # ----- Docker: -----
 function docker-pull-run --argument-names container_name image_name
