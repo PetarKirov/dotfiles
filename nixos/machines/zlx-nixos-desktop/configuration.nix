@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 {
   networking.hostName = "zlx-nixos-desktop";
+
   imports =
     [
       # Include the results of the hardware scan.
@@ -19,6 +20,8 @@
       # Include https://github.com/nix-community/home-manager
       <home-manager/nixos>
     ];
+
+  boot.kernelPackages = pkgs.lib.mkOverride 0 pkgs.linuxPackages_5_4;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
