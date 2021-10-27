@@ -24,9 +24,11 @@ in {
 
     # NixOS
     cachix
+    nix-index
+    nix-prefetch-git
     nix-tree
     # appimage-run
-    # patchelf
+    patchelf
     # home-manager
 
     # shell / dev utils
@@ -38,7 +40,7 @@ in {
     # cmake gnumake ninja meson
 
     # Debuggers
-    # gdb lldb_11
+    # gdb lldb_13
 
     # C/C++ toolchain
     # GCC9 should have the highest priority
@@ -68,7 +70,7 @@ in {
     # kubernetes-helm
     # kubectl
     # terraform
-    # unstable.lens
+    unstable.lens
 
     # gui sys
     gparted
@@ -81,23 +83,24 @@ in {
     unstable.onlyoffice-bin
     unstable.discord-ptb slack tdesktop unstable.teams zoom-us # IM / Video
     unstable.vscode # GUI text editors / IDEs
-    unstable.insomnia # API client
+    unstable.postman # API client
     # remmina # remote desktop
     deluge transmission-gtk # P2P/Torrent
     tilix # alacritty # Terminal emulators
     spotify vlc mpv # Audio & video players
     # reaper audacity # Audio editing
-    # blender # 3D modeling
+    blender # 3D modeling
     gimp inkscape # Image editing
     pick-colour-picker
     gcolor3
     svgcleaner # SVG optimization
     xclip xorg.xhost # X11 related
+    xournal # Edit PDFs
     # qrencode
 
     # sys
     # gptfdisk parted # disk partitioning
-    # ext4magic testdisk # disk recovery
+    ext4magic testdisk # disk recovery
     # iotop # monitoring
     p7zip unrar # archival and compression (unzip is installed via sys/*.nix)
     # usbutils pciutils
