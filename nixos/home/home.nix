@@ -93,7 +93,6 @@ in {
     gimp inkscape # Image editing
     pick-colour-picker
     gcolor3
-    svgcleaner # SVG optimization
     xclip xorg.xhost # X11 related
     xournal # Edit PDFs
     # qrencode
