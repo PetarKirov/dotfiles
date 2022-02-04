@@ -10,21 +10,21 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  networking.wg-quick.interfaces = {
-    wg-mlvd = {
-      address = [ "10.65.142.200/32" "fc00:bbbb:bbbb:bb01::2:8ec7/128" ];
-      dns = [ "193.138.218.74" ];
-      privateKeyFile = "/home/zlx/wireguard-keys/private2";
-      peers = [
-        {
-          publicKey = "yXn7ziIFrHRgoZlhWRkxoGFb3maolOxOn6sh+OPLdT8=";
-          allowedIPs = [ "0.0.0.0/0" "::0/0" ];
-          endpoint = "217.138.221.226:51820";
-          persistentKeepalive = 15;
-        }
-      ];
-    };
-  };
+  # networking.wg-quick.interfaces = {
+  #  wg-mlvd = {
+  #    address = [ "10.65.142.200/32" "fc00:bbbb:bbbb:bb01::2:8ec7/128" ];
+  #    dns = [ "193.138.218.74" ];
+  #    privateKeyFile = "/home/zlx/wireguard-keys/private2";
+  #    peers = [
+  #      {
+  #        publicKey = "yXn7ziIFrHRgoZlhWRkxoGFb3maolOxOn6sh+OPLdT8=";
+  #        allowedIPs = [ "0.0.0.0/0" "::0/0" ];
+  #        endpoint = "217.138.221.226:51820";
+  #        persistentKeepalive = 15;
+  #      }
+  #    ];
+  #  };
+  # };
 
   # networking.wg-quick.interfaces = {
   #   wg-anonine = {
