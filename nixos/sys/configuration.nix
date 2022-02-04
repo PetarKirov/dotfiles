@@ -14,9 +14,6 @@
       ./extra_services.nix
       ./ledger-nano-udev-rules.nix
       ./packages.nix
-
-      # Include https://github.com/nix-community/home-manager
-      <home-manager/nixos>
     ];
 
   # This value determines the NixOS release from which the default
