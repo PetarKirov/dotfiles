@@ -4,7 +4,7 @@
   virtualisation.docker.enable = true;
 
   nix = {
-    package = pkgs.nixStable;
+    package = pkgs.nixFlakes;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
