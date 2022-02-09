@@ -11,7 +11,15 @@ in {
   home.homeDirectory = "/home/zlx";
   manual.manpages.enable = false;
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
+    "google-chrome"
+    "slack"
+    "spotify-unwrapped"
+    "spotify"
+    "teamviewer"
+    "unrar"
+    "zoom"
+  ];
 
   home.packages = with pkgs; [
     # NixOS
