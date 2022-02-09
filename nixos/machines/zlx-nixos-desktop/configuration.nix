@@ -16,9 +16,6 @@
       ../../sys/extra_services.nix
       ../../sys/ledger-nano-udev-rules.nix
       ../../sys/packages.nix
-
-      # Include https://github.com/nix-community/home-manager
-      <home-manager/nixos>
     ];
 
   boot.kernelPackages = pkgs.lib.mkOverride 0 pkgs.linuxPackages_5_4;
