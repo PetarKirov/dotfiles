@@ -17,12 +17,12 @@
       "${host}" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ../machines/${host}/configuration.nix
+          ./nixos/machines/${host}/configuration.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = false;
             home-manager.useUserPackages = true;
-            home-manager.users."${name}" = import ../home/home.nix;
+            home-manager.users."${name}" = import ./nixos/home/home.nix;
 
             # Optionally, use home-manager.extraSpecialArgs to pass
             # arguments to home.nix
