@@ -1,7 +1,5 @@
-{ config, pkgs, username, ... }:
-let
-  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
-in {
+{ config, pkgs, unstablePkgs, username, ... }:
+{
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
@@ -12,10 +10,13 @@ in {
   manual.manpages.enable = false;
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
+    "discord-ptb"
     "google-chrome"
+    "postman"
     "slack"
     "spotify-unwrapped"
     "spotify"
+    "teams"
     "teamviewer"
     "unrar"
     "zoom"
@@ -56,13 +57,10 @@ in {
     # nethogs # monitoring
 
     bat
-    gitAndTools.delta
     gitAndTools.diff-so-fancy
-    teamviewer
-    unstable.vscode
 
     # D toolchain
-    #unstable.dmd unstable.dub unstable.ldc
+    #unstablePkgs.dmd unstablePkgs.dub unstablePkgs.ldc
 
     # DevOps
     # azure-cli
@@ -70,7 +68,7 @@ in {
     # kubernetes-helm
     # kubectl
     # terraform
-    unstable.lens
+    # lens
 
     # gui sys
     gparted
@@ -80,10 +78,11 @@ in {
     # gui general
     google-chrome firefox # opera # browsers
     # libreoffice
-    unstable.onlyoffice-bin
-    unstable.discord-ptb slack tdesktop unstable.teams zoom-us # IM / Video
-    unstable.vscode # GUI text editors / IDEs
-    unstable.postman # API client
+    onlyoffice-bin
+    teamviewer
+    discord-ptb slack tdesktop teams zoom-us # IM / Video
+    unstablePkgs.vscode # GUI text editors / IDEs
+    postman # API client
     # remmina # remote desktop
     deluge transmission-gtk # P2P/Torrent
     tilix # alacritty # Terminal emulators
