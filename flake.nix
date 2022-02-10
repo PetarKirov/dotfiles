@@ -10,9 +10,17 @@
       url = "github:nix-community/home-manager/release-21.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-on-droid = {
+      url = "github:t184256/nix-on-droid";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
   };
 
-  outputs = { home-manager, nixpkgs, nixpkgs-unstable, ... }:
+  outputs = { home-manager, nixpkgs, nixpkgs-unstable, nix-on-droid, ... }:
   let
     username = "zlx";
     host = "zlx-nixos-desktop";
@@ -39,6 +47,22 @@
             };
           }
         ];
+      };
+    };
+
+    nixOnDroidConfigurations = {
+      device = nix-on-droid.lib.nixOnDroidConfiguration {
+        config = ./nix-on-droid.nix;
+        system = "aarch64-linux";
+        extraModules = [
+          # import source out-of-tree modules like:
+          # flake.nixOnDroidModules.module
+        ];
+        extraSpecialArgs = {
+          # arguments to be available in every nix-on-droid module
+        };
+        # your own pkgs instance (see nix-on-droid.overlay for useful additions)
+        # pkgs = ...;
       };
     };
   };
