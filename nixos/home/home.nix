@@ -22,7 +22,7 @@ in {
   ];
 
   home.packages = with pkgs; [
-    # NixOS
+    # Nix-related:
     cachix
     nix-index
     nix-prefetch-git
@@ -31,18 +31,18 @@ in {
     patchelf
     # home-manager
 
-    # shell / dev utils
+    # shell / dev utils:
     asciinema
     # w3m
     yq
 
-    # Build systems
+    # Build systems:
     # cmake gnumake ninja meson
 
-    # Debuggers
+    # Debuggers:
     # gdb lldb_13
 
-    # C/C++ toolchain
+    # C/C++ toolchain:
     # GCC9 should have the highest priority
     # (lib.setPrio 30 binutils) (lib.setPrio 20 clang_11) (lib.setPrio 10 gcc10) lld_11
 
@@ -133,33 +133,7 @@ in {
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
-    userName = "Petar Kirov";
-    userEmail = "petar.p.kirov@gmail.com";
-    #delta.enable = true;
-    aliases = {
-	# lg - show git log
-	# lr - show git log in reverse
-	# lgl - show git log in long (more verbose) mode
-	# lrl - show git log reverse in long (more verbose) mode
-    	lgl = "log --color --graph --pretty=format:'%C(bold red)%h%Creset  %<(13,trunc)%C(bold yellow)%cr%Creset %<(80,trunc)%s%Creset 💾 on %C(bold yellow)%ad%Creset by %C(bold blue)%an%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'";
-
-	lg = "log --color --graph --pretty=format:'%C(bold red)%h%Creset %<(80,trunc)%s%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'";
-
-	lrl = "log --color --reverse --pretty=format:'%C(bold red)%h%Creset  %<(13,trunc)%C(bold yellow)%cr%Creset %<(80,trunc)%s%Creset 💾 on %C(bold yellow)%ad%Creset by %C(bold blue)%an%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'";
-
-	lr = "log --color --reverse --pretty=format:'%C(bold red)%h%Creset %<(80,trunc)%s%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'";
-    };
-    extraConfig = {
-      core = {
-        editor = "nvim";
-      };
-      color = {
-        ui = true;
-      };
-      diff = {
-      	colorMoved = "dimmed-zebra";
-      };
-    };
+    includes = [ { path = ../../.gitconfig; } ];
   };
 
   # This value determines the Home Manager release that your
