@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, username, ... }:
 let
   unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
 in {
@@ -7,8 +7,8 @@ in {
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.username = "zlx";
-  home.homeDirectory = "/home/zlx";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
   manual.manpages.enable = false;
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [

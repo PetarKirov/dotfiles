@@ -9,7 +9,7 @@
 
   outputs = inputs@{ home-manager, nixpkgs, ... }:
   let
-    name = "zlx";
+    username = "zlx";
     host = "zlx-nixos-desktop";
   in
   {
@@ -22,10 +22,10 @@
           {
             home-manager.useGlobalPkgs = false;
             home-manager.useUserPackages = true;
-            home-manager.users."${name}" = import ./nixos/home/home.nix;
-
-            # Optionally, use home-manager.extraSpecialArgs to pass
-            # arguments to home.nix
+            home-manager.users."${username}" = import ./nixos/home/home.nix;
+            home-manager.extraSpecialArgs = {
+              inherit username;
+            };
           }
         ];
       };
