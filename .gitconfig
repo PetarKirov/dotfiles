@@ -3,26 +3,9 @@
 	name = Petar Kirov
 [core]
 	editor = nvim
-    pager = diff-so-fancy | less --tabs=4 -RFX
-    #pager = delta --dark --highlight-removed --minus-color="#70000F" --plus-color="#8E6406" --theme=Dracula --plus-emph-color="#F6D117" --minus-emph-color="#DD330F"
-[interactive]
-    #diffFilter = delta --color-only
 [include]
     path = git/aliases.gitconfig
-[color]
-	ui = true
-[color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
-[color "diff"]
-	meta = yellow
-	frag = magenta bold
-	commit = yellow bold
-	old = red bold
-	new = green bold
-    whitespace = red reverse
+    path = git/delta.gitconfig
 [difftool "diffpdf"]
   cmd = diffpdf \"$LOCAL\" \"$REMOTE\"
 [difftool "nvimdiff"]

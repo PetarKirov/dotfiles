@@ -1,0 +1,4 @@
+[include]
+    path = ./delta-themes.gitconfig
+[delta]
+    dark = true
