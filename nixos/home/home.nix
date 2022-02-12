@@ -19,14 +19,6 @@
   ];
 
   home.packages = with pkgs; [
-    # Nix-related:
-    cachix
-    nix-index
-    nix-prefetch-git
-    nix-tree
-    # appimage-run
-    patchelf
-
     # shell / dev utils:
     asciinema
     # w3m
@@ -101,6 +93,7 @@
     # blockchain
     # go-ethereum
   ]
+  ++ (import ./nix-related.nix { inherit pkgs; })
   ++ (import ./gnome-themes.nix { inherit pkgs; })
   ;
 
