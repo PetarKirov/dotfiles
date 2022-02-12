@@ -24,30 +24,28 @@
   let
     username = "zlx";
     host = "zlx-nixos-desktop";
+    system = "x86_64-linux";
   in
   {
-    nixosConfigurations = let
-      system = "x86_64-linux";
-    in {
-      "${host}" = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          ./nixos/machines/${host}/configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = false;
-            home-manager.useUserPackages = true;
-            home-manager.users."${username}" = import ./nixos/home/home.nix;
-            home-manager.extraSpecialArgs = {
-              inherit username;
-              unstablePkgs = import nixpkgs-unstable {
-                inherit system;
-                config = { allowUnfree = true; };
-              };
-            };
-          }
-        ];
+    nixosConfigurations."${host}" = nixpkgs.lib.nixosSystem {
+      inherit system;
+      modules = [ ./nixos/machines/${host}/configuration.nix ];
+    };
+
+    homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
+      inherit system username;
+      homeDirectory = "/home/${username}";
+      configuration = import ./nixos/home/home.nix;
+      extraSpecialArgs = {
+        unstablePkgs = import nixpkgs-unstable {
+          inherit system;
+          config = { allowUnfree = true; };
+        };
       };
+      # Update the state version as needed.
+      # See the changelog here:
+      # https://nix-community.github.io/home-manager/release-notes.html#sec-release-21.05
+      stateVersion = "21.11";
     };
 
     nixOnDroidConfigurations = {
