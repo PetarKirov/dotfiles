@@ -1,0 +1,5 @@
+[alias]
+    lg = log --color --graph --pretty=format:'%C(bold red)%h%Creset  %<(13,trunc)%C(bold yellow)%cr%Creset %<(80,trunc)%s%Creset 💾 on %C(bold yellow)%ad%Creset by %C(bold blue)%an%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'
+    lgs = log --color --graph --pretty=format:'%C(bold red)%h%Creset %<(80,trunc)%s%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'
+    lr = log --color --reverse --pretty=format:'%C(bold red)%h%Creset  %<(13,trunc)%C(bold yellow)%cr%Creset %<(80,trunc)%s%Creset 💾 on %C(bold yellow)%ad%Creset by %C(bold blue)%an%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'
+    lrs = log --color --reverse --pretty=format:'%C(bold red)%h%Creset %<(80,trunc)%s%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'

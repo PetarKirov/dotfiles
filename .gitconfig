@@ -7,11 +7,8 @@
     #pager = delta --dark --highlight-removed --minus-color="#70000F" --plus-color="#8E6406" --theme=Dracula --plus-emph-color="#F6D117" --minus-emph-color="#DD330F"
 [interactive]
     #diffFilter = delta --color-only
-[alias]
-    lg = log --color --graph --pretty=format:'%C(bold red)%h%Creset  %<(13,trunc)%C(bold yellow)%cr%Creset %<(80,trunc)%s%Creset 💾 on %C(bold yellow)%ad%Creset by %C(bold blue)%an%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'
-    lgs = log --color --graph --pretty=format:'%C(bold red)%h%Creset %<(80,trunc)%s%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'
-    lr = log --color --reverse --pretty=format:'%C(bold red)%h%Creset  %<(13,trunc)%C(bold yellow)%cr%Creset %<(80,trunc)%s%Creset 💾 on %C(bold yellow)%ad%Creset by %C(bold blue)%an%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'
-    lrs = log --color --reverse --pretty=format:'%C(bold red)%h%Creset %<(80,trunc)%s%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'
+[include]
+    path = git/aliases.gitconfig
 [color]
 	ui = true
 [color "diff-highlight"]

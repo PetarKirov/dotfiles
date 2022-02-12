@@ -132,7 +132,10 @@
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
-    includes = [ { path = ../../.gitconfig; } ];
+    includes = [
+      { path = ../../.gitconfig; }
+      { path = ../../.config/git/aliases.gitconfig; }
+    ];
   };
 
   # This value determines the Home Manager release that your
