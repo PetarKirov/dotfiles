@@ -1,4 +1,51 @@
 [include]
     path = ./delta-themes.gitconfig
 [delta]
+    features = file-label-unicode line-numbers file-and-hunk-style plus-min-style
     dark = true
+    syntax-theme = Monokai Extended
+    navigate = true
+
+[delta "file-and-hunk-style"]
+    commit-style = "#ffd21a" bold italic
+    commit-decoration-style = "#ffd21a" box ul
+
+    file-style = 184 bold
+    file-decoration-style = 184 ol ul
+
+    hunk-header-file-style = "#1688f0" ul bold
+    hunk-header-line-number-style = "#ffd21a" box bold
+    hunk-header-style = file line-number syntax bold italic
+    hunk-header-decoration-style = "#1688f0" box
+
+[delta "plus-min-style"]
+    plus-style = syntax "#1b3a08"
+    plus-emph-style = syntax "#439113"
+    minus-style = syntax "#610509"
+    minus-emph-style = syntax "#f3121d"
+
+[delta "file-label"]
+    file-added-label = [+]
+    file-copied-label = [==]
+    file-modified-label = [*]
+    file-removed-label = [-]
+    file-renamed-label = [->]
+
+[delta "file-label-unicode"]
+    file-added-label = │➕│
+    file-removed-label = │🗑 │
+    file-modified-label = │🖊️ │
+    file-copied-label = │📋 │
+    file-renamed-label = │⇨│
+    right-arrow = ⇨
+
+[delta "line-numbers"]
+    keep-plus-minus-markers = false
+    line-numbers = true
+    line-numbers-zero-style = lightgray italic
+    line-numbers-left-format = "{nm:>1}┊"
+    line-numbers-right-format = "{np:>1}┊"
+    line-numbers-left-style = gray
+    line-numbers-right-style = gray
+    line-numbers-minus-style = "#ff0051" bold italic auto
+    line-numbers-plus-style = "#03e57f" bold italic auto
