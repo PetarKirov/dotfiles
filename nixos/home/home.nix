@@ -20,43 +20,12 @@
 
   home.packages = with pkgs; [
     # shell / dev utils:
+    bat
+    gitAndTools.diff-so-fancy
     asciinema
     # qrencode
     # w3m
     yq
-
-    # Build systems:
-    # cmake gnumake ninja meson
-
-    # Debuggers:
-    # gdb lldb_13
-
-    # C/C++ toolchain:
-    # GCC9 should have the highest priority
-    # (lib.setPrio 30 binutils) (lib.setPrio 20 clang_11) (lib.setPrio 10 gcc10) lld_11
-
-    # Haskell
-    # ghc
-
-    # Python
-    # python3
-
-    # crypto & network
-    # nethogs # monitoring
-
-    bat
-    gitAndTools.diff-so-fancy
-
-    # D toolchain
-    #unstablePkgs.dmd unstablePkgs.dub unstablePkgs.ldc
-
-    # DevOps
-    # azure-cli
-    # docker-compose
-    # kubernetes-helm
-    # kubectl
-    # terraform
-    # lens
 
     # sys
     # gptfdisk parted # disk partitioning
@@ -64,10 +33,8 @@
     # iotop # monitoring
     p7zip unrar # archival and compression (unzip is installed via sys/*.nix)
     # usbutils pciutils
-
-    # blockchain
-    # go-ethereum
   ]
+  ++ (import ./dev-toolchain.nix { inherit pkgs unstablePkgs; })
   ++ (import ./gui.nix { inherit pkgs unstablePkgs; })
   ++ (import ./nix-related.nix { inherit pkgs; })
   ++ (import ./gnome-themes.nix { inherit pkgs; })
