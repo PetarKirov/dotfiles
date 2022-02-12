@@ -19,14 +19,6 @@
   ];
 
   home.packages = with pkgs; [
-    # shell / dev utils:
-    bat
-    gitAndTools.diff-so-fancy
-    asciinema
-    # qrencode
-    # w3m
-    yq
-
     # sys
     # gptfdisk parted # disk partitioning
     ext4magic testdisk # disk recovery
@@ -34,6 +26,7 @@
     p7zip unrar # archival and compression (unzip is installed via sys/*.nix)
     # usbutils pciutils
   ]
+  ++ (import ./cli-utils.nix { inherit pkgs; })
   ++ (import ./dev-toolchain.nix { inherit pkgs unstablePkgs; })
   ++ (import ./gui.nix { inherit pkgs unstablePkgs; })
   ++ (import ./nix-related.nix { inherit pkgs; })
