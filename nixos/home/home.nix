@@ -21,6 +21,7 @@
   home.packages = with pkgs; [
     # shell / dev utils:
     asciinema
+    # qrencode
     # w3m
     yq
 
@@ -57,32 +58,6 @@
     # terraform
     # lens
 
-    # gui sys
-    gparted
-    wireshark-qt
-    glxinfo
-
-    # gui general
-    google-chrome firefox # opera # browsers
-    # libreoffice
-    onlyoffice-bin
-    teamviewer
-    discord-ptb slack tdesktop teams zoom-us # IM / Video
-    unstablePkgs.vscode # GUI text editors / IDEs
-    postman # API client
-    # remmina # remote desktop
-    deluge transmission-gtk # P2P/Torrent
-    tilix # alacritty # Terminal emulators
-    spotify vlc mpv # Audio & video players
-    # reaper audacity # Audio editing
-    blender # 3D modeling
-    gimp inkscape # Image editing
-    pick-colour-picker
-    gcolor3
-    xclip xorg.xhost # X11 related
-    xournal # Edit PDFs
-    # qrencode
-
     # sys
     # gptfdisk parted # disk partitioning
     ext4magic testdisk # disk recovery
@@ -93,6 +68,7 @@
     # blockchain
     # go-ethereum
   ]
+  ++ (import ./gui.nix { inherit pkgs unstablePkgs; })
   ++ (import ./nix-related.nix { inherit pkgs; })
   ++ (import ./gnome-themes.nix { inherit pkgs; })
   ;
