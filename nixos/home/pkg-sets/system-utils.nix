@@ -1,18 +1,20 @@
-{ pkgs }:
-with pkgs; [
-  ## Disk partitioning:
-  # gptfdisk parted
+{ pkgs, ... }:
+{
+  home.packages = with pkgs; [
+    ## Disk partitioning:
+    # gptfdisk parted
 
-  ## Disk recovery:
-  ext4magic testdisk
+    ## Disk recovery:
+    ext4magic testdisk
 
-  ## Monitoring:
-  # iotop
-  # nethogs
+    ## Monitoring:
+    # iotop
+    # nethogs
 
-  ## Inspecting devices:
-  # usbutils pciutils
+    ## Inspecting devices:
+    # usbutils pciutils
 
-  ## Archival and compression (unzip is installed via sys/*.nix):
-  p7zip unrar
-]
+    ## Archival and compression (unzip is installed via sys/*.nix):
+    p7zip unrar
+  ];
+}

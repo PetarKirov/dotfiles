@@ -18,14 +18,14 @@
     "zoom"
   ];
 
-  home.packages = [ ]
-  ++ (import ./pkg-sets/system-utils.nix { inherit pkgs; })
-  ++ (import ./pkg-sets/cli-utils.nix { inherit pkgs; })
-  ++ (import ./pkg-sets/dev-toolchain.nix { inherit pkgs unstablePkgs; })
-  ++ (import ./pkg-sets/gui.nix { inherit pkgs unstablePkgs; })
-  ++ (import ./pkg-sets/nix-related.nix { inherit pkgs; })
-  ++ (import ./pkg-sets/gnome-themes.nix { inherit pkgs; })
-  ;
+  imports = [
+    ./pkg-sets/system-utils.nix
+    ./pkg-sets/cli-utils.nix
+    ./pkg-sets/dev-toolchain.nix
+    ./pkg-sets/gui.nix
+    ./pkg-sets/nix-related.nix
+    ./pkg-sets/gnome-themes.nix
+  ];
 
   programs.git = {
     enable = true;
