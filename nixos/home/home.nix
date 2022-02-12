@@ -19,6 +19,8 @@
   ];
 
   imports = [
+    ./git.nix
+
     ./pkg-sets/system-utils.nix
     ./pkg-sets/cli-utils.nix
     ./pkg-sets/dev-toolchain.nix
@@ -26,16 +28,4 @@
     ./pkg-sets/nix-related.nix
     ./pkg-sets/gnome-themes.nix
   ];
-
-  programs.git = {
-    enable = true;
-    package = pkgs.gitAndTools.gitFull;
-    delta.enable = true;
-    includes = [
-      { path = ../../.gitconfig; }
-      { path = ../../.config/git/aliases.gitconfig; }
-      { path = ../../.config/git/delta.gitconfig; }
-      { path = ../../.config/git/delta-themes.gitconfig; }
-    ];
-  };
 }
