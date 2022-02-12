@@ -19,13 +19,8 @@
   ];
 
   home.packages = with pkgs; [
-    # sys
-    # gptfdisk parted # disk partitioning
-    ext4magic testdisk # disk recovery
-    # iotop # monitoring
-    p7zip unrar # archival and compression (unzip is installed via sys/*.nix)
-    # usbutils pciutils
   ]
+  ++ (import ./system-utils.nix { inherit pkgs; })
   ++ (import ./cli-utils.nix { inherit pkgs; })
   ++ (import ./dev-toolchain.nix { inherit pkgs unstablePkgs; })
   ++ (import ./gui.nix { inherit pkgs unstablePkgs; })
