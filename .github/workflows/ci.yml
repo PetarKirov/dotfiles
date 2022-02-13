@@ -19,7 +19,12 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        linux_distro: ['alpine', 'archlinux', 'debian', 'linuxbrew', 'ubuntu']
+        linux_distro:
+          - alpine
+          - archlinux
+          - debian
+          - ubuntu
+          - linuxbrew
         include:
           - linux_distro: 'alpine'
             disabled_tests: 'flutter'
@@ -32,4 +37,4 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        macos_version: ['macOS-10.14', 'macOS-latest']
+        macos_version: [macOS-latest]
