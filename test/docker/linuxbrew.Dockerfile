@@ -1,4 +1,3 @@
-FROM linuxbrew/linuxbrew
-ENV OS=osx DIST=linuxbrew
-RUN brew update-reset
+FROM homebrew/brew
+ENV OS=linux DIST=homebrew
 COPY . /scripts
