@@ -1,5 +1,7 @@
-# Nix Flakes-based System and Home Configuration
+# Nix Flakes-based System and Home Configuration and some Install Scripts
 
+[![Actions Status](https://github.com/PetarKirov/dotfiles/workflows/CI/badge.svg)](https://github.com/PetarKirov/dotfiles/actions)
+osx
 `flake.nix` is the repo entrypoint. It contains the following outputs:
 
 * `nixosConfigurations.*` - [NixOS][0] system configurations
