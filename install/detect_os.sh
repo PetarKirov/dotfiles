@@ -41,6 +41,7 @@ case $(uname | tr '[:upper:]' '[:lower:]') in
     ;;
     darwin*)
         OS='osx'
+        DIST='homebrew'
         SUDO='sudo'
     ;;
     msys*)
