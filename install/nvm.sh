@@ -22,4 +22,7 @@ if [ "$OS" = 'linux' ] || [ "$OS" = 'osx' ]; then
         fish -c 'omf install https://github.com/edc/bass'
         fish -c 'omf install https://github.com/FabioAntunes/fish-nvm'
     fi
+else
+    echo "Unsupported platform: DIST: '$DIST' OS: '$OS'"
+    return 13
 fi

@@ -28,6 +28,9 @@ elif [ "$DIST" = 'alpine' ]; then
     $SUDO apk add curl git neovim
 elif [ "$DIST" = 'homebrew' ]; then
     brew install curl git neovim
+else
+    echo "Unsupported platform: DIST: '$DIST' OS: '$OS'"
+    return 13
 fi
 
 mkdir -p "$HOME/.config/nvim"

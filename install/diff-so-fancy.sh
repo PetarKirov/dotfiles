@@ -24,6 +24,9 @@ elif [ "$DIST" = 'alpine' ]; then
     $SUDO apk add less curl perl ncurses
 elif [ "$DIST" = 'homebrew' ]; then
     brew install less curl perl
+else
+    echo "Unsupported platform: DIST: '$DIST' OS: '$OS'"
+    return 13
 fi
 
 url="https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy"

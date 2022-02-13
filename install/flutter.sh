@@ -16,6 +16,9 @@ elif [ "$DIST" = 'arch' ]; then
     $SUDO pacman -Sy curl git tar unzip which xz --noconfirm
 elif [ "$DIST" = 'homebrew' ]; then
     brew install bash curl git unzip
+else
+    echo "Unsupported platform: DIST: '$DIST' OS: '$OS'"
+    return 13
 fi
 
 git clone -b "$flutter_channel" https://github.com/flutter/flutter.git "$repo_dir"

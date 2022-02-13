@@ -25,6 +25,9 @@ elif [ "$DIST" = 'alpine' ]; then
     $SUDO apk add curl git tar fish
 elif [ "$DIST" = 'homebrew' ]; then
     brew install curl git fish
+else
+    echo "Unsupported platform: DIST: '$DIST' OS: '$OS'"
+    return 13
 fi
 
 curl -fsSL https://get.oh-my.fish > install_omf.fish \
