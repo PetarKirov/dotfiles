@@ -24,7 +24,7 @@ jobs:
           - archlinux
           - debian
           - ubuntu
-          - linuxbrew
+          - homebrew
         include:
           - linux_distro: 'alpine'
             disabled_tests: 'flutter'
