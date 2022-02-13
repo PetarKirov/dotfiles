@@ -12,7 +12,7 @@ if [ "$OS" = 'linux' ] || [ "$OS" = 'osx' ]; then
 		$SUDO pacman -Sy bash curl --noconfirm
 	elif [ "$DIST" = 'alpine' ]; then
 		$SUDO apk add bash curl
-	elif [ "$OS" = 'osx' ]; then
+	elif [ "$DIST" = 'homebrew' ]; then
 		brew install bash curl
 	fi
     url="https://github.com/nvm-sh/nvm/raw/v0.34.0/install.sh"

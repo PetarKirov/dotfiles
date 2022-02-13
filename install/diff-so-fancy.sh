@@ -22,7 +22,7 @@ elif [ "$DIST" = 'arch' ]; then
     $SUDO pacman -Sy less curl perl --noconfirm
 elif [ "$DIST" = 'alpine' ]; then
     $SUDO apk add less curl perl ncurses
-elif [ "$OS" = 'osx' ]; then
+elif [ "$DIST" = 'homebrew' ]; then
     brew install less curl perl
 fi
 

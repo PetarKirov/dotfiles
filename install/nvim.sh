@@ -26,7 +26,7 @@ elif [ "$DIST" = 'arch' ]; then
     $SUDO pacman -Syu curl git neovim --noconfirm
 elif [ "$DIST" = 'alpine' ]; then
     $SUDO apk add curl git neovim
-elif [ "$OS" = 'osx' ]; then
+elif [ "$DIST" = 'homebrew' ]; then
     brew install curl git neovim
 fi
 
