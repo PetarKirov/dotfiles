@@ -6,7 +6,7 @@
   manual.manpages.enable = false;
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
-    "discord-ptb"
+    "discord"
     "google-chrome"
     "postman"
     "slack"

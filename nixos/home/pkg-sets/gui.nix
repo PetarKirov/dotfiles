@@ -13,7 +13,7 @@
     xournal
 
     ## IM / Video:
-    discord-ptb
+    discord
     slack
     tdesktop
     teams
