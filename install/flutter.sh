@@ -13,7 +13,7 @@ if [ "$DIST" = 'ubuntu' ] || [ "$DIST" = 'debian' ]; then
     $SUDO apt update
     $SUDO apt-get install curl git tar unzip xz-utils -yy
 elif [ "$DIST" = 'arch' ]; then
-    $SUDO pacman -Sy curl git tar unzip which xz --noconfirm
+    $SUDO pacman -Syu curl git tar unzip which xz --noconfirm
 elif [ "$DIST" = 'homebrew' ]; then
     brew install bash curl git unzip
 else

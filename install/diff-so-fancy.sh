@@ -19,7 +19,7 @@ if [ "$DIST" = 'ubuntu' ] || [ "$DIST" = 'debian' ]; then
         $SUDO apt-get install less curl perl -y
     fi
 elif [ "$DIST" = 'arch' ]; then
-    $SUDO pacman -Sy less curl perl --noconfirm
+    $SUDO pacman -Syu less curl perl --noconfirm
 elif [ "$DIST" = 'alpine' ]; then
     $SUDO apk add less curl perl ncurses
 elif [ "$DIST" = 'homebrew' ]; then

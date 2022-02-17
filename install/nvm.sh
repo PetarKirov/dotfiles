@@ -9,7 +9,7 @@ if [ "$OS" = 'linux' ] || [ "$OS" = 'osx' ]; then
 		$SUDO apt-get update
 		$SUDO apt-get install bash curl -y
 	elif [ "$DIST" = 'arch' ]; then
-		$SUDO pacman -Sy bash curl --noconfirm
+		$SUDO pacman -Syu bash curl --noconfirm
 	elif [ "$DIST" = 'alpine' ]; then
 		$SUDO apk add bash curl
 	elif [ "$DIST" = 'homebrew' ]; then

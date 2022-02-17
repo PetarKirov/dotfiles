@@ -1,3 +1,3 @@
 FROM archlinux:base
-RUN pacman -Sy awk --noconfirm
+RUN pacman -Syu awk --noconfirm
 COPY . /scripts
