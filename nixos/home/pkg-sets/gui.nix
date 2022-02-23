@@ -16,7 +16,7 @@
     discord
     slack
     tdesktop
-    teams
+    # teams
     zoom-us
 
     ## Text editors / IDEs
