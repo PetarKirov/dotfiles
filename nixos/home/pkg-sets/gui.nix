@@ -15,7 +15,7 @@
     ## IM / Video:
     discord
     slack
-    tdesktop
+    unstablePkgs.tdesktop
     # teams
     zoom-us
 
