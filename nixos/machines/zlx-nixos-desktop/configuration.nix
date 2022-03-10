@@ -18,7 +18,7 @@
       ../../sys/packages.nix
     ];
 
-  boot.kernelPackages = pkgs.lib.mkOverride 0 pkgs.linuxPackages_5_4;
+  boot.kernelPackages = pkgs.lib.mkOverride 0 pkgs.linuxKernel.packages.linux_5_16;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
