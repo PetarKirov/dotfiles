@@ -1,6 +1,9 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
+    ## Networking
+    mullvad-vpn
+
     ## Disk partitioning:
     # gptfdisk parted
 
