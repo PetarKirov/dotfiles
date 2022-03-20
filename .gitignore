@@ -1,1 +1,2 @@
-nixos/**/result
+# Nix build artifacts
+result
