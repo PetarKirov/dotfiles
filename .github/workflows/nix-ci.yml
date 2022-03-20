@@ -1,0 +1,31 @@
+name: Nix CI
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+env:
+  NIXOS_CONFIG_NAME: zlx-nixos-desktop
+  HM_CONFIG_NAME: zlx
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.4.0
+
+      - uses: cachix/install-nix-action@v16
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      - uses: cachix/cachix-action@v10
+        with:
+          name: petar-kirov-dotfiles
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
+      - name: Build NixOS system derivation
+        run: nix build ".#nixosConfigurations.${NIXOS_CONFIG_NAME}.config.system.build.toplevel"
+
+      - name: Build Home Manager user derivation
+        run: nix build ".#homeConfigurations.${HM_CONFIG_NAME}.activationPackage"
