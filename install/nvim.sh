@@ -33,9 +33,12 @@ else
     return 13
 fi
 
-mkdir -p "$HOME/.config/nvim"
-cp -v "$dir/../.config/nvim/init.vim" "$HOME/.config/nvim/init.vim"
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+mkdir -p "$XDG_CONFIG_HOME"
+
+ln -s "$dir/../.config/nvim" "$XDG_CONFIG_HOME/nvim"
 
 curl -fsSL https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh \
   | /bin/sh -s -- "$HOME/.cache/dein"
+
 nvim +"call dein#install()" +qall
