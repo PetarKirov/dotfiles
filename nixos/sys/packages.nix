@@ -21,6 +21,9 @@
     viAlias = true;
     vimAlias = true;
     defaultEditor = true;
+    configure.customRC = ''
+      source ~/.config/nvim/init.vim
+    '';
   };
 
   environment.systemPackages = with pkgs; [
