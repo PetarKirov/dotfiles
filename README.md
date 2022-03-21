@@ -2,13 +2,13 @@
 
 ## CI Status
 
-| CI Workflow     | Platform           |                                 |                                        |                                 |                                 |                                     |
-|-----------------|--------------------|---------------------------------|----------------------------------------|---------------------------------|---------------------------------|-------------------------------------|
-| Install Scripts | Linux (via Docker) | [![Alpine][gh-actions-alpine]][gh-actions] | [![Arch Linux][gh-actions-archlinux]][gh-actions] | [![Debian][gh-actions-debian]][gh-actions] | [![Ubuntu][gh-actions-ubuntu]][gh-actions] | [![Homebrew][gh-actions-homebrew]][gh-actions] |
-| Install Scripts | macOS              | [![macOS][gh-actions-macos]][gh-actions]   |                                        |                                 |                                 |                                     |
-| NixOS           | NixOS              | (not implemented yet)           |                                        |                                 |                                 |                                     |
-| Home Manager    | NixOS              | (not implemented yet)           |                                        |                                 |                                 |                                     |
-| Nix-on-Droid    | NixOS              | (not implemented yet)           |                                        |                                 |                                 |                                     |
+| CI Workflow                     | Target Platform                | CI Job Status                                                                                                                                                                                                                     |
+| ------------------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NixOS System Configuration      | NixOS                          | [![NixOS][gh-actions-nixos]][gh-actions]                                                                                                                                                                                          |
+| Home Manager User Configuration | Linux / macOS                  | [![Nix Home Manager][gh-actions-nix-hm]][gh-actions]                                                                                                                                                                              |
+| Nix-on-Droid                    | Android                        | (not implemented yet)                                                                                                                                                                                                             |
+| Legacy Install Scripts          | Linux + distro package manager | [![Alpine][gh-actions-alpine]][gh-actions] [![Arch Linux][gh-actions-archlinux]][gh-actions] [![Debian][gh-actions-debian]][gh-actions] [![Ubuntu][gh-actions-ubuntu]][gh-actions] [![Homebrew][gh-actions-homebrew]][gh-actions] |
+| Legacy Install Scripts          | macOS + HomeBrew               | [![macOS][gh-actions-macos]][gh-actions]                                                                                                                                                                                          |
 
 ---
 
@@ -69,3 +69,5 @@ This repo contains my personal system configuration based comprised of:
 [gh-actions-ubuntu]: https://github-actions.40ants.com/PetarKirov/dotfiles/matrix.svg?only=ci.ubuntu
 [gh-actions-homebrew]: https://github-actions.40ants.com/PetarKirov/dotfiles/matrix.svg?only=ci.homebrew
 [gh-actions-macos]: https://github-actions.40ants.com/PetarKirov/dotfiles/matrix.svg?only=ci.macOS-latest
+[gh-actions-nixos]: https://github-actions.40ants.com/PetarKirov/dotfiles/matrix.svg?only=ci.nixos
+[gh-actions-nix-hm]: https://github-actions.40ants.com/PetarKirov/dotfiles/matrix.svg?only=ci.nix-hm
