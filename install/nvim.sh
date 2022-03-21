@@ -5,22 +5,19 @@ dir=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd -P)
 . "$dir/detect_os.sh"
 
 if [ "$DIST" = 'ubuntu' ] || [ "$DIST" = 'debian' ]; then
-    if [ "$DIST" != 'debian' ]; then
-        # NeoVim is part of Debian, while on Ubuntu we need to add a PPA
-        $SUDO apt-get update
+    $SUDO apt-get update
+    $SUDO apt-get install curl git -yy
+
+    if [ "$DIST" = 'ubuntu' ]; then
         $SUDO apt-get install software-properties-common -y
         $SUDO add-apt-repository ppa:neovim-ppa/unstable -y
-    fi
-    if grep -q stretch /etc/os-release; then
-        # Debian Stretch comes with a super outdated version of neovim
-        $SUDO echo "deb http://deb.debian.org/debian stretch-backports main" \
-            >> /etc/apt/sources.list
         $SUDO apt-get update
-        $SUDO apt-get -t stretch-backports install neovim -y
-        $SUDO apt-get install curl git -y
+        $SUDO apt-get install neovim -yy
     else
+        $SUDO echo 'deb http://deb.debian.org/debian/ testing main' > /etc/apt/sources.list.d/debian-testing.list
+        $SUDO echo 'APT::Default-Release "stable";' > /etc/apt/apt.conf.d/99defaultrelease
         $SUDO apt-get update
-        $SUDO apt-get install curl git neovim -y
+        $SUDO apt-get -t testing install neovim -yy
     fi
 elif [ "$DIST" = 'arch' ]; then
     $SUDO pacman -Syu curl git neovim --noconfirm
