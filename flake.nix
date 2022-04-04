@@ -23,13 +23,14 @@
   outputs = { home-manager, nixpkgs, nixpkgs-unstable, nix-on-droid, ... }:
   let
     username = "zlx";
-    host = "zlx-nixos-desktop";
+    hostname = "zlx-nixos-desktop";
     system = "x86_64-linux";
   in
   {
-    nixosConfigurations."${host}" = nixpkgs.lib.nixosSystem {
+    nixosConfigurations."${hostname}" = nixpkgs.lib.nixosSystem {
       inherit system;
-      modules = [ ./nixos/machines/${host}/configuration.nix ];
+      modules = [ ./nixos/machines/import-machine.nix ];
+      specialArgs = { inherit username hostname; };
     };
 
     homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
