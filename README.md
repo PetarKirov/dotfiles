@@ -70,3 +70,62 @@ This repo contains my personal system configuration based comprised of:
 [gh-actions-macos]: https://github-actions.40ants.com/PetarKirov/dotfiles/matrix.svg?only=ci.macOS-latest
 [gh-actions-nixos]: https://github-actions.40ants.com/PetarKirov/dotfiles/matrix.svg?only=ci.nixos
 [gh-actions-nix-hm]: https://github-actions.40ants.com/PetarKirov/dotfiles/matrix.svg?only=ci.nix-hm
+
+### Installation
+
+1. Boot into a live NixOS environment (either a live USB containing the NixOS
+installer or an existing NixOS installed on another drive)
+2. Clone this repo and `cd` into it:
+`git clone https://github.com/PetarKirov/dotfiles && cd dotfiles`
+3. Run the automated ZFS partitioning tool:
+   * Run it in "dry-run" mode to get information about your system:
+     `./utils/make_zfs.bash`
+   * If you need to partition your drive run:
+     `env DRY_RUN=0 KEEP_PARTITIONS=0 ./utils/make_zfs.bash`
+   * If your drive is already partitioned, run: `env DRY_RUN=0
+     ./utils/make_zfs.bash`
+4. Now there should be a root ZFS partition mounted at `/mnt`. To install NixOS
+there, run:
+
+   ```sh
+   nixos-generate-config --root /mnt --dir /../home/zlx/code/repos/dotfiles/nixos/machines/zlx-nixos-desktop3
+
+   sudo nixos-install --impure --flake '.#zlx-nixos-desktop2' --root /mnt
+   ```
+
+   (Replace `zlx-nixos-desktop2` in the command above with the name of the
+   machine config you want to apply.)
+
+5. Now that NixOS is installed, chroot into (using `nixos-enter`) and change the
+password of the default user:
+
+   ```sh
+   sudo nixos-enter --root /mnt
+   passwd zlx
+   exit
+   ```
+
+   (Replace `zlx` in the command above with the your username.)
+
+6. Copy the `dotfiles` repo inside the user's home dir:
+
+   ```sh
+   mkdir -p /mnt/home/zlx/code/repos
+   cp -a ../dotfiles /mnt/home/zlx/code/repos
+   ```
+
+7. Build the home-manager config and copy it to the new Nix Store:
+
+   ```sh
+   nix build '.#homeConfigurations.zlx.activationPackage'
+   sudo nix copy --to /mnt ./result/ --no-check-sigs
+   ```
+
+8. Reboot into the new Nix install, open a terminal, cd into the dotfiles dir and activate the home-manager config:
+
+   ```sh
+   cd /home/zlx/code/repos/dotfiles
+   nix path-info '.#homeConfigurations.zlx.activationPackage' | xargs -I@@ sh -c '@@/activate'
+   ```
+
+9. You're done!
