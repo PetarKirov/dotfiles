@@ -20,37 +20,50 @@
     };
   };
 
-  outputs = { home-manager, nixpkgs, nixpkgs-unstable, nix-on-droid, ... }:
-  let
-    username = "zlx";
-    hostname = "zlx-nixos-desktop";
+  outputs = {
+    home-manager,
+    nixpkgs,
+    nixpkgs-unstable,
+    nix-on-droid,
+    ...
+  }: let
     system = "x86_64-linux";
-  in
-  {
-    nixosConfigurations."${hostname}" = nixpkgs.lib.nixosSystem {
-      inherit system;
-      modules = [ ./nixos/machines/import-machine.nix ];
-      specialArgs = { inherit username hostname; };
-    };
+    defaultUser = "zlx";
+    users = [defaultUser];
 
-    homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
-      inherit system username;
-      homeDirectory = "/home/${username}";
-      configuration = import ./nixos/home/home.nix;
-      extraSpecialArgs = {
-        unstablePkgs = import nixpkgs-unstable {
-          inherit system;
-          config = { allowUnfree = true; };
-        };
+    machines = builtins.attrNames (
+      nixpkgs.lib.filterAttrs
+      (n: v: v == "directory")
+      (builtins.readDir ./nixos/machines)
+    );
+
+    makeMachineConfig = username: hostname: {
+      name = hostname;
+      value = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [./nixos/machines/import-machine.nix];
+        specialArgs = {inherit username hostname;};
       };
-      # Update the state version as needed.
-      # See the changelog here:
-      # https://nix-community.github.io/home-manager/release-notes.html#sec-release-21.05
-      stateVersion = "21.11";
     };
 
-    nixOnDroidConfigurations = {
-      device = nix-on-droid.lib.nixOnDroidConfiguration {
+    makeHomeConfig = username: {
+      name = username;
+      value = home-manager.lib.homeManagerConfiguration {
+        inherit system username;
+        homeDirectory = "/home/${username}";
+        configuration = import ./nixos/home/home.nix;
+        extraSpecialArgs = {
+          unstablePkgs = import nixpkgs-unstable {
+            inherit system;
+            config = {allowUnfree = true;};
+          };
+        };
+        stateVersion = "21.11";
+      };
+    };
+
+    makeNixOnDroidConfig = username:
+      nix-on-droid.lib.nixOnDroidConfiguration {
         config = ./nix-on-droid.nix;
         system = "aarch64-linux";
         extraModules = [
@@ -63,6 +76,9 @@
         # your own pkgs instance (see nix-on-droid.overlay for useful additions)
         # pkgs = ...;
       };
-    };
+  in {
+    nixosConfigurations = builtins.listToAttrs (builtins.map (makeMachineConfig defaultUser) machines);
+    homeConfigurations = builtins.listToAttrs (builtins.map makeHomeConfig users);
+    nixOnDroidConfigurations = {device = makeNixOnDroidConfig defaultUser;};
   };
 }
