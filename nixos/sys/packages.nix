@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
 {
   services.openssh.enable = true;
-  virtualisation.docker.enable = true;
 
   nix = {
     package = pkgs.nixFlakes;

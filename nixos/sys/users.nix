@@ -10,6 +10,6 @@
     shell = pkgs.fish;
     initialPassword = "";
     isNormalUser = true;
-    extraGroups = ["wheel" "docker" "plugdev"];
+    extraGroups = ["wheel" "docker" "plugdev" "libvirtd"];
   };
 }
