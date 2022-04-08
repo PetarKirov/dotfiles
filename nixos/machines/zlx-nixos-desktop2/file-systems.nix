@@ -1,39 +1,51 @@
-{
-  fileSystems."/nix" = {
-    device = "zfs_root/nixos/nix";
-    fsType = "zfs";
-    options = ["zfsutil"];
+let
+  zfs_root = "zfs_root";
+
+  make_zfs_fs = {
+    mountpoint,
+    dataset,
+  }: let
+    mnt =
+      if mountpoint == "/"
+      then ""
+      else mountpoint;
+  in {
+    name = mountpoint;
+    value = {
+      device = "${zfs_root}/${dataset}${mnt}";
+      fsType = "zfs";
+      options = ["zfsutil"];
+    };
   };
 
-  fileSystems."/etc" = {
-    device = "zfs_root/nixos/etc";
-    fsType = "zfs";
-    options = ["zfsutil"];
-  };
-
-  fileSystems."/var" = {
-    device = "zfs_root/nixos/var";
-    fsType = "zfs";
-    options = ["zfsutil"];
-  };
-
-  fileSystems."/var/lib" = {
-    device = "zfs_root/nixos/var/lib";
-    fsType = "zfs";
-    options = ["zfsutil"];
-  };
-
-  fileSystems."/var/lib/docker" = {
-    device = "zfs_root/nixos/var/lib/docker";
-    fsType = "zfs";
-    options = ["zfsutil"];
-  };
-
-  fileSystems."/home" = {
-    device = "zfs_root/userdata/home";
-    fsType = "zfs";
-    options = ["zfsutil"];
-  };
+  make_zfs_file_systems = datasetList: builtins.listToAttrs (builtins.map make_zfs_fs datasetList);
+in {
+  fileSystems = make_zfs_file_systems [
+    {
+      dataset = "nixos";
+      mountpoint = "/";
+    }
+    {
+      dataset = "nixos";
+      mountpoint = "/nix";
+    }
+    {
+      dataset = "nixos";
+      mountpoint = "/var";
+    }
+    {
+      dataset = "nixos";
+      mountpoint = "/var/lib";
+    }
+    {
+      dataset = "nixos";
+      mountpoint = "/var/lib/docker";
+    }
+    {
+      dataset = "userdata";
+      mountpoint = "/home";
+    }
+  ];
 
   swapDevices = [
     {
