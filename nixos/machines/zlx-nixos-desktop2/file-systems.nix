@@ -45,7 +45,12 @@ in {
       dataset = "userdata";
       mountpoint = "/home";
     }
-  ];
+  ] // {
+    "/boot" = {
+      device = "/dev/disk/by-partuuid/3eeaff26-57b4-49d8-9eaf-5392dd3c61ed";
+      fsType = "vfat";
+    };
+  };
 
   swapDevices = [
     {
