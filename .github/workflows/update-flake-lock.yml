@@ -1,0 +1,56 @@
+name: Update Nix Flake lockfile
+
+on:
+  # Enable option to manually run the action:
+  workflow_dispatch:
+
+  # Run every Sunday:
+  schedule:
+    - cron: 0 0 * * 0
+
+jobs:
+  main:
+    if: github.repository == 'PetarKirov/dotfiles'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: cachix/install-nix-action@v16
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      - name: Run `nix flake update`
+        id: update-lockfile
+        run: |
+          set -euxo pipefail
+
+          git config --global user.email "out@space.com"
+          git config --global user.name "beep boop"
+
+          nix flake update --commit-lock-file
+          git log -1 '--pretty=format:%b' | sed '1,2d' > commit_msg_body
+          git reset --soft 'HEAD~'
+
+          cat <<EOF
+          ::set-output name=commit_msg::chore(flake.lock): Update all Flake inputs ($(date -I))
+
+          $(cat ./commit_msg_body)
+          EOF
+
+      - uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          title: 'Update Nix Flake lockfile'
+          commit-message: ${{ steps.update-lockfile.outputs.commit_msg }}
+          branch: 'create-pull-request/update-flake-lockfile'
+          delete-branch: true
+          branch-suffix: timestamp
+          add-paths: flake.lock
