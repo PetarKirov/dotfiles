@@ -3,7 +3,7 @@
   services.openssh.enable = true;
 
   nix = {
-    package = pkgs.nixFlakes;
+    package = pkgs.nix_2_7;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
