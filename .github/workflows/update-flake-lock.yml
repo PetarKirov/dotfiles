@@ -38,7 +38,7 @@ jobs:
           $(cat ./commit_msg_body)
           EOF
 
-      - uses: tibdex/github-app-token@v1
+      - uses: tibdex/github-app-token@v1.5.0
         id: generate-token
         with:
           app_id: ${{ secrets.APP_ID }}
