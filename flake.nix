@@ -37,12 +37,12 @@
       (builtins.readDir ./nixos/machines)
     );
 
-    makeMachineConfig = username: hostname: {
+    makeMachineConfig = defaultUser: hostname: {
       name = hostname;
       value = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [./nixos/machines/import-machine.nix];
-        specialArgs = {inherit username hostname;};
+        specialArgs = {inherit defaultUser hostname;};
       };
     };
 

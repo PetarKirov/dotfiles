@@ -1,12 +1,12 @@
 {
   pkgs,
-  username,
+  defaultUser,
   ...
 }: {
   # Ensure the plugdev group exists, so it could be used for udev rules
   users.groups.plugdev = {};
 
-  users.users."${username}" = {
+  users.users."${defaultUser}" = {
     shell = pkgs.fish;
     initialPassword = "";
     isNormalUser = true;
