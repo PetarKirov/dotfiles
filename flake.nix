@@ -1,6 +1,11 @@
 {
   description = "NixOS configuration";
 
+  nixConfig = {
+    extra-substituters = "https://petar-kirov-dotfiles.cachix.org";
+    extra-trusted-public-keys = "petar-kirov-dotfiles.cachix.org-1:WW4VsSGibdlNBDpqSsVhjVpz5/FZBX8uS0+yLdFEYP0=";
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/release-21.11";
 
