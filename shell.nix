@@ -2,6 +2,7 @@
 mkShell {
   buildInputs = [
     figlet
+    dconf2nix
   ];
 
   shellHook = ''
