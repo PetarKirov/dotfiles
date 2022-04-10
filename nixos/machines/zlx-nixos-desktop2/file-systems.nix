@@ -1,56 +1,32 @@
-let
-  zfs_root = "zfs_root";
-
-  make_zfs_fs = {
-    mountpoint,
-    dataset,
-  }: let
-    mnt =
-      if mountpoint == "/"
-      then ""
-      else mountpoint;
-  in {
-    name = mountpoint;
+with builtins; let
+  zfsRoot = "zfs_root";
+  splitPath = path: filter (x: (typeOf x) == "string") (split "/" path);
+  pathTail = path: concatStringsSep "/" (tail (splitPath path));
+  makeZfs = zfsDataset: {
+    name = "/" + pathTail zfsDataset;
     value = {
-      device = "${zfs_root}/${dataset}${mnt}";
+      device = "${zfsRoot}/${zfsDataset}";
       fsType = "zfs";
       options = ["zfsutil"];
     };
   };
-
-  make_zfs_file_systems = datasetList: builtins.listToAttrs (builtins.map make_zfs_fs datasetList);
+  zfsFileSystems = datasetList: listToAttrs (map makeZfs datasetList);
 in {
-  fileSystems = make_zfs_file_systems [
+  fileSystems =
     {
-      dataset = "nixos";
-      mountpoint = "/";
+      "/boot" = {
+        device = "/dev/disk/by-partuuid/3eeaff26-57b4-49d8-9eaf-5392dd3c61ed";
+        fsType = "vfat";
+      };
     }
-    {
-      dataset = "nixos";
-      mountpoint = "/nix";
-    }
-    {
-      dataset = "nixos";
-      mountpoint = "/var";
-    }
-    {
-      dataset = "nixos";
-      mountpoint = "/var/lib";
-    }
-    {
-      dataset = "nixos";
-      mountpoint = "/var/lib/docker";
-    }
-    {
-      dataset = "userdata";
-      mountpoint = "/home";
-    }
-  ] // {
-    "/boot" = {
-      device = "/dev/disk/by-partuuid/3eeaff26-57b4-49d8-9eaf-5392dd3c61ed";
-      fsType = "vfat";
-    };
-  };
+    // zfsFileSystems [
+      "nixos"
+      "nixos/nix"
+      "nixos/var"
+      "nixos/var/lib"
+      "nixos/var/lib/docker"
+      "userdata/home"
+    ];
 
   swapDevices = [
     {
