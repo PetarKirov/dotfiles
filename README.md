@@ -20,6 +20,7 @@ This repo contains my personal system configuration that consists of:
 
 * [My config](./nixos/sys/) for [NixOS](https://nixos.wiki/wiki/NixOS)
 * [My config](./nixos/home/) for [Home Manager](https://github.com/nix-community/home-manager)
+* [My dconf (written in Nix)](./nixos/home/dconf.nix) for the [Gnome Desktop Environment](https://www.gnome.org/)
 * [My](./utils/make_zfs.bash) ZFS partitioning and formatting script
 * [My dotfiles](./.config) for [Git](https://git-scm.com/), [Fish](https://fishshell.com/), [NeoVim](https://neovim.io/), [EditorConfig](https://editorconfig.org/), [Prettier](https://prettier.io/)
 * My config for [Nix-on-Droid](https://github.com/t184256/nix-on-droid) (WIP)

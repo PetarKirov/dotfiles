@@ -21,6 +21,7 @@
   imports = [
     ./git.nix
     ./xdg-symlinks.nix
+    ./dconf.nix
 
     ./pkg-sets/system-utils.nix
     ./pkg-sets/cli-utils.nix
