@@ -36,6 +36,8 @@
     defaultUser = "zlx";
     users = [defaultUser];
 
+    pkgs = nixpkgs.legacyPackages.${system};
+
     machines = builtins.attrNames (
       nixpkgs.lib.filterAttrs
       (n: v: v == "directory")
@@ -85,5 +87,6 @@
     nixosConfigurations = builtins.listToAttrs (builtins.map (makeMachineConfig defaultUser) machines);
     homeConfigurations = builtins.listToAttrs (builtins.map makeHomeConfig users);
     nixOnDroidConfigurations = {device = makeNixOnDroidConfig defaultUser;};
+    devShells."${system}".default = import ./shell.nix { inherit pkgs; };
   };
 }
