@@ -44,18 +44,15 @@
       (builtins.readDir ./nixos/machines)
     );
 
-    makeMachineConfig = defaultUser: hostname: {
-      name = hostname;
-      value = nixpkgs.lib.nixosSystem {
+    makeMachineConfig = defaultUser: hostname:
+      nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [./nixos/machines/import-machine.nix];
         specialArgs = {inherit defaultUser hostname;};
       };
-    };
 
-    makeHomeConfig = username: {
-      name = username;
-      value = home-manager.lib.homeManagerConfiguration {
+    makeHomeConfig = username:
+      home-manager.lib.homeManagerConfiguration {
         inherit system username;
         homeDirectory = "/home/${username}";
         configuration = import ./nixos/home/home.nix;
@@ -67,7 +64,6 @@
         };
         stateVersion = "21.11";
       };
-    };
 
     makeNixOnDroidConfig = username:
       nix-on-droid.lib.nixOnDroidConfiguration {
@@ -84,9 +80,9 @@
         # pkgs = ...;
       };
   in {
-    nixosConfigurations = builtins.listToAttrs (builtins.map (makeMachineConfig defaultUser) machines);
-    homeConfigurations = builtins.listToAttrs (builtins.map makeHomeConfig users);
+    nixosConfigurations = pkgs.lib.genAttrs machines (makeMachineConfig defaultUser);
+    homeConfigurations = pkgs.lib.genAttrs users makeHomeConfig;
     nixOnDroidConfigurations = {device = makeNixOnDroidConfig defaultUser;};
-    devShells."${system}".default = import ./shell.nix { inherit pkgs; };
+    devShells."${system}".default = import ./shell.nix {inherit pkgs;};
   };
 }
