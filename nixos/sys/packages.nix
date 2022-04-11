@@ -25,6 +25,7 @@
     openssl bind gnupg nmap
     wireguard
     iputils
+    pciutils
     htop
     file
     ripgrep
