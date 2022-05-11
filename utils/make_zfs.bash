@@ -217,6 +217,9 @@ function create_single_disk_zfs_root_fs {
   local partition_id
   partition_id="$(partition_id "$part_num")"
 
+  # ashift: https://openzfs.github.io/openzfs-docs/man/7/zpoolprops.7.html#:~:text=command%3A-,ashift,-%3D
+  # autotrim: https://openzfs.github.io/openzfs-docs/man/7/zpoolprops.7.html#:~:text=for%20more%20details.-,autotrim,-%3D
+  # listsnapshots: https://openzfs.github.io/openzfs-docs/man/7/zpoolprops.7.html#:~:text=on%20feature%20states.-,listsnapshots,-%3D
   # atime: https://openzfs.github.io/openzfs-docs/man/7/zfsprops.7.html#:~:text=for%20more%20details.-,atime,-%3D
   # mountpoint: https://openzfs.github.io/openzfs-docs/man/7/zfsprops.7.html#:~:text=mountpoint%3Dpath%7Cnone%7Clegacy
   # acltype: https://openzfs.github.io/openzfs-docs/man/7/zfsprops.7.html#:~:text=acltype%3Doff%7Cnfsv4%7Cposix
@@ -226,6 +229,7 @@ function create_single_disk_zfs_root_fs {
     -R /mnt \
     -o ashift=12 \
     -o autotrim=on \
+    -o listsnapshots=on \
     -O acltype=posixacl \
     -O atime=off \
     -O canmount=off \
