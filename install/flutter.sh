@@ -15,7 +15,7 @@ if [ "$DIST" = 'ubuntu' ] || [ "$DIST" = 'debian' ]; then
 elif [ "$DIST" = 'arch' ]; then
     $SUDO pacman -Syu curl git tar unzip which xz --noconfirm
 elif [ "$DIST" = 'homebrew' ]; then
-    brew install bash curl git unzip
+    HOMEBREW_NO_INSTALL_UPGRADE=1 brew install bash curl git unzip
 else
     echo "Unsupported platform: DIST: '$DIST' OS: '$OS'"
     return 13
