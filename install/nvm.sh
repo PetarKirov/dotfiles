@@ -13,7 +13,7 @@ if [ "$OS" = 'linux' ] || [ "$OS" = 'osx' ]; then
   elif [ "$DIST" = 'alpine' ]; then
     $SUDO apk add bash curl
   elif [ "$DIST" = 'homebrew' ]; then
-    brew install bash curl
+		HOMEBREW_NO_INSTALL_UPGRADE=1 brew install bash curl
   fi
   url="https://github.com/nvm-sh/nvm/raw/v0.34.0/install.sh"
   curl -fsSL "$url" | /usr/bin/env bash

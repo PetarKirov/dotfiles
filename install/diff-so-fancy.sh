@@ -23,7 +23,7 @@ elif [ "$DIST" = 'arch' ]; then
 elif [ "$DIST" = 'alpine' ]; then
     $SUDO apk add less curl perl ncurses
 elif [ "$DIST" = 'homebrew' ]; then
-    brew install less curl perl
+    HOMEBREW_NO_INSTALL_UPGRADE=1 brew install less curl perl
 else
     echo "Unsupported platform: DIST: '$DIST' OS: '$OS'"
     return 13
