@@ -11,7 +11,7 @@ on:
 jobs:
   nix_tests:
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         include:
           - slug: nixos
@@ -45,7 +45,7 @@ jobs:
       - run: ./test/shellcheck.sh
       - run: ./test/run_all_scripts.bash "${{ matrix.linux_distro }}" "${{ matrix.disabled_tests }}"
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         linux_distro:
           - alpine
@@ -62,6 +62,6 @@ jobs:
       - uses: actions/checkout@v1
       - run: ./test/run_all_scripts.bash 'NATIVE' 'fish_nvm'
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         macos_version: [macOS-latest]
