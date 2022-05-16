@@ -24,7 +24,7 @@ elif [ "$DIST" = 'arch' ]; then
 elif [ "$DIST" = 'alpine' ]; then
     $SUDO apk add curl git neovim
 elif [ "$DIST" = 'homebrew' ]; then
-    HOMEBREW_NO_INSTALL_UPGRADE=1 brew install curl git neovim
+    HOMEBREW_NO_INSTALL_UPGRADE=1 brew install curl neovim
 else
     echo "Unsupported platform: DIST: '$DIST' OS: '$OS'"
     return 13
