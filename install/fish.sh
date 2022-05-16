@@ -24,7 +24,7 @@ elif [ "$DIST" = 'arch' ]; then
 elif [ "$DIST" = 'alpine' ]; then
     $SUDO apk add curl git tar fish
 elif [ "$DIST" = 'homebrew' ]; then
-    HOMEBREW_NO_INSTALL_UPGRADE=1 brew install curl git fish
+    HOMEBREW_NO_INSTALL_UPGRADE=1 brew install curl fish
 else
     echo "Unsupported platform: DIST: '$DIST' OS: '$OS'"
     return 13
