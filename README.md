@@ -127,13 +127,34 @@ installer](https://nixos.org/download.html#nixos-iso) or an existing NixOS insta
 4. Now there should be a root ZFS partition mounted at `/mnt`. To install NixOS
 there, run:
 
-   ```sh
-   nixos-generate-config --root /mnt --dir /../home/zlx/code/repos/dotfiles/nixos/machines/zlx-nixos-desktop3
+<dl>
+  <dt>Bash $</dt>
+  <dd>
 
-   sudo nixos-install --impure --flake '.#zlx-nixos-desktop2' --root /mnt
-   ```
+  ```bash
+  mkdir ./nixos/machines/zlx-nixos-desktop3
+  sudo nixos-generate-config --root /mnt --dir  /..$(git rev-parse --show-toplevel)/nixos/machines/zlx-nixos-desktop3
 
-   (Replace `zlx-nixos-desktop2` in the command above with the name of the
+  sudo nixos-install --impure --flake '.#zlx-nixos-desktop3' --root /mnt
+  ```
+
+  </dd>
+
+  <dt>Fish ⋊&gt;</dt>
+  <dd>
+
+  ```fish
+  mkdir ./nixos/machines/zlx-nixos-desktop3
+
+  sudo nixos-generate-config --root /mnt --dir  /..(git rev-parse --show-toplevel)/nixos/machines/zlx-nixos-desktop3
+
+  sudo nixos-install --impure --flake '.#zlx-nixos-desktop3' --root /mnt
+  ```
+
+  </dd>
+</dl>
+
+   (Replace `zlx-nixos-desktop3` in the command above with the name of the
    machine config you want to apply.)
 
 5. Now that NixOS is installed, chroot into (using `nixos-enter`) and change the
