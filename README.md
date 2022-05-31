@@ -113,8 +113,33 @@ cp -r nixos/machines/zlx-nixos-desktop2 nixos/machines/my-machine
 
 ## Installing NixOS
 
-1. Boot into a live NixOS environment (either a live USB containing the [NixOS
+1. Boot into a live NixOS environment (either a live CD containing the [NixOS
 installer](https://nixos.org/download.html#nixos-iso) or an existing NixOS installation on another drive)
+    * If you're using a live CD environment, be sure to update `/etc/nixos/configuration.nix` like so:
+    ```sh
+    # Open the file and change it to the snippet below:
+    sudo nvim /etc/nixos/configuration.nix
+
+    # Once the file has been updated and saved, apply the settings:
+    sudo nixos-rebuild switch
+    ```
+
+    ```nix
+    { config, pkgs, ... }:
+    {
+      imports = [ <nixpkgs/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix> ];
+      nix = {
+        package = pkgs.nix_2_7;
+        trustedUsers = [ "root" "nixos" ];
+        extraOptions = ''
+          experimental-features = nix-command flakes
+        '';
+      };  
+    }
+    ``` 
+    These settings will ensure that you're using a recent enough version of
+    Nix with the necessary features enabled.
+
 2. Clone this repo and `cd` into it:
 `git clone https://github.com/PetarKirov/dotfiles && cd dotfiles`
 3. Run the automated ZFS partitioning tool:
