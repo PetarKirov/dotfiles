@@ -1,7 +1,7 @@
 { pkgs, defaultUser, ... }:
 {
   nix = {
-    package = pkgs.nix_2_7;
+    package = pkgs.nixVersions.stable;
     trustedUsers = [ "root" defaultUser ];
     extraOptions = ''
       experimental-features = nix-command flakes
