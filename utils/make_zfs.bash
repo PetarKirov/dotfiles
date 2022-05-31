@@ -191,11 +191,16 @@ function add_gpt_partition {
 
 function get_block_device_ids {
   for kname in $(lsblk -dn -o kname); do
+    local path
     if [[ -e "/sys/block/$kname/wwid" ]]; then
-      kindof_id="$(cat "/sys/block/$kname/wwid")"
+      path="/sys/block/$kname/wwid"
     elif [[ -e "/sys/block/$kname/device/wwid" ]]; then
-      kindof_id="$(cat "/sys/block/$kname/device/wwid")"
+      path="/sys/block/$kname/device/wwid"
     fi
+    if [[ "${path:-}" == '' ]] || ! cat "$path" >/dev/null 2>&1; then
+      continue;
+    fi
+    kindof_id="$(cat "$path")"
     kindof_id="${kindof_id##*.}"
     find /dev/disk/by-id/ -lname "*/$kname" | grep -Pv "^/dev/disk/by-id/.*${kindof_id}$"
   done
