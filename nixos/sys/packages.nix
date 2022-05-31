@@ -23,7 +23,7 @@
     unzip
     curl wget
     openssl bind gnupg nmap
-    wireguard
+    wireguard-tools
     iputils
     pciutils
     htop
