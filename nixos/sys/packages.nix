@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 {
   services.openssh.enable = true;
+  services.tailscale.enable = true;
 
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "DroidSansMono" "FiraCode" "FiraMono"]; })
