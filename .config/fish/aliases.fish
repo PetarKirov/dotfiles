@@ -58,7 +58,7 @@ abbr -a gai git add --intent-to-add
 abbr -a gcm git commit
 abbr -a gcma git commit --amend --no-edit
 
-abbr -a gps git push
+abbr -a gps git push -u '(git-default-remote)' HEAD
 abbr -a gpf git push --force
 
 function gaw --description 'Stages files specified in `$argv`, excluding their whitepace changes'
