@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, defaultUser, ... }:
 {
   services.openssh.enable = true;
   services.tailscale.enable = true;
@@ -6,6 +6,13 @@
   fonts.fonts = with pkgs; [
     (nerdfonts.override { fonts = [ "DroidSansMono" "FiraCode" "FiraMono"]; })
   ];
+
+  programs.git = {
+    enable = true;
+    config = {
+      safe.directory = "/home/${defaultUser}/code/repos/dotfiles";
+    };
+  };
 
   programs.fish.enable = true;
 
@@ -30,7 +37,6 @@
     htop
     file
     ripgrep
-    git
     tree
     jq
     direnv
