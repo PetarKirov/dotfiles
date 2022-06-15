@@ -1,9 +1,13 @@
 { config, pkgs, unstablePkgs, ... }:
 {
   # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
-
   manual.manpages.enable = false;
+  programs = {
+    home-manager.enable = true;
+    direnv.enable = true;
+    bash.enable = true;
+    fish.enable = true;
+  };
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
     "discord"
