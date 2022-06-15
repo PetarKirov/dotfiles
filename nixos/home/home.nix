@@ -9,6 +9,10 @@
     fish.enable = true;
   };
 
+  home.sessionVariables = {
+    DIRENV_WARN_TIMEOUT = "30s";
+  };
+
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
     "discord"
     "google-chrome"
