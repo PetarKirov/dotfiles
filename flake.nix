@@ -23,6 +23,9 @@
         home-manager.follows = "home-manager";
       };
     };
+
+    omf-bobthefish.url = "github:oh-my-fish/theme-bobthefish";
+    omf-bobthefish.flake = false;
   };
 
   outputs = {
@@ -30,6 +33,7 @@
     nixpkgs,
     nixpkgs-unstable,
     nix-on-droid,
+    omf-bobthefish,
     ...
   }: let
     system = "x86_64-linux";
@@ -57,6 +61,7 @@
         homeDirectory = "/home/${username}";
         configuration = import ./nixos/home/home.nix;
         extraSpecialArgs = {
+          inherit omf-bobthefish;
           unstablePkgs = import nixpkgs-unstable {
             inherit system;
             config = {allowUnfree = true;};

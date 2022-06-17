@@ -1,12 +1,15 @@
-{ config, pkgs, unstablePkgs, ... }:
 {
+  config,
+  pkgs,
+  unstablePkgs,
+  ...
+}: {
   # Let Home Manager install and manage itself.
   manual.manpages.enable = false;
   programs = {
     home-manager.enable = true;
     direnv.enable = true;
     bash.enable = true;
-    fish.enable = true;
   };
 
   home.sessionVariables = rec {
@@ -19,29 +22,31 @@
     WORK = "${REPOS}/metacraft-labs";
   };
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
-    "discord"
-    "google-chrome"
-    "postman"
-    "slack"
-    "spotify-unwrapped"
-    "spotify"
-    "teams"
-    "teamviewer"
-    "unrar"
-    "zoom"
-  ];
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (pkgs.lib.getName pkg) [
+      "discord"
+      "google-chrome"
+      "postman"
+      "slack"
+      "spotify-unwrapped"
+      "spotify"
+      "teams"
+      "teamviewer"
+      "unrar"
+      "zoom"
+    ];
 
   imports = [
+    ./dconf.nix
+    ./fish.nix
     ./git.nix
     ./xdg-symlinks.nix
-    ./dconf.nix
 
-    ./pkg-sets/system-utils.nix
     ./pkg-sets/cli-utils.nix
     ./pkg-sets/dev-toolchain.nix
+    ./pkg-sets/gnome-themes.nix
     ./pkg-sets/gui.nix
     ./pkg-sets/nix-related.nix
-    ./pkg-sets/gnome-themes.nix
+    ./pkg-sets/system-utils.nix
   ];
 }
