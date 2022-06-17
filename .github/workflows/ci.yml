@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  nix_tests:
+  Nix:
     strategy:
       fail-fast: false
       matrix:
@@ -36,32 +36,3 @@ jobs:
 
       - name: Build ${{ matrix.job_name }}
         run: nix build "${{ matrix.nix_flake_output }}"
-
-  linux_tests:
-    name: ${{ matrix.linux_distro }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - run: ./test/shellcheck.sh
-      - run: ./test/run_all_scripts.bash "${{ matrix.linux_distro }}" "${{ matrix.disabled_tests }}"
-    strategy:
-      fail-fast: false
-      matrix:
-        linux_distro:
-          - alpine
-          - archlinux
-          - debian
-          - ubuntu
-        include:
-          - linux_distro: 'alpine'
-            disabled_tests: 'flutter'
-  macos_tests:
-    name: ${{ matrix.macos_version }}
-    runs-on: ${{ matrix.macos_version }}
-    steps:
-      - uses: actions/checkout@v1
-      - run: ./test/run_all_scripts.bash 'NATIVE' 'fish_nvm'
-    strategy:
-      fail-fast: false
-      matrix:
-        macos_version: [macOS-latest]
