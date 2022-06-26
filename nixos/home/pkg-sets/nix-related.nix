@@ -7,5 +7,6 @@
     nix-tree
     # appimage-run
     patchelf
+    alejandra
   ];
 }
