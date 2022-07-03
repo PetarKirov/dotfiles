@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   home.packages = with pkgs; [
     ## Networking
     mullvad-vpn
@@ -8,7 +7,8 @@
     # gptfdisk parted
 
     ## Disk recovery:
-    ext4magic testdisk
+    ext4magic
+    testdisk
 
     ## Monitoring:
     # iotop
@@ -18,6 +18,7 @@
     # usbutils pciutils
 
     ## Archival and compression (unzip is installed via sys/*.nix):
-    p7zip unrar
+    p7zip
+    unrar
   ];
 }

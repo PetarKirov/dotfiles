@@ -2,7 +2,7 @@
 {
   networking.networkmanager.enable = true;
   networking.networkmanager.dns = "none";
-  networking.nameservers = [ "1.1.1.1" ];
+  networking.nameservers = ["1.1.1.1"];
 
   networking.wireguard.enable = true;
   services.mullvad-vpn.enable = true;

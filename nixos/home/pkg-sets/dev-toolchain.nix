@@ -1,5 +1,8 @@
-{ pkgs, unstablePkgs, ... }:
-
+{
+  pkgs,
+  unstablePkgs,
+  ...
+}:
 # Note:
 # Most / all packages listed here are commented out,
 # in favor of per project (dev)shell.nix files.
