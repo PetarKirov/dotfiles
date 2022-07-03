@@ -1,20 +1,22 @@
-{ config, pkgs, ... }:
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
 
-      # Include custom system configuration
-      ./boot.nix
-      ./networking.nix
-      ./i18n.nix
-      ./users.nix
-      ./gnome_desktop_env.nix
-      ./extra_services.nix
-      ./ledger-nano-udev-rules.nix
-      ./packages.nix
-    ];
+    # Include custom system configuration
+    ./boot.nix
+    ./networking.nix
+    ./i18n.nix
+    ./users.nix
+    ./gnome_desktop_env.nix
+    ./extra_services.nix
+    ./ledger-nano-udev-rules.nix
+    ./packages.nix
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

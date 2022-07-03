@@ -1,8 +1,11 @@
-{ config, pkgs, ... }:
 {
+  config,
+  pkgs,
+  ...
+}: {
   boot.kernelPackages = pkgs.lib.mkOverride 1 config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.kernel.sysctl."kernel.perf_event_paranoid" = 1;
-  boot.supportedFilesystems = [ "zfs" ];
+  boot.supportedFilesystems = ["zfs"];
   boot.zfs.forceImportRoot = false;
 
   boot.loader.systemd-boot.enable = true;

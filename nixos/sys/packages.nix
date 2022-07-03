@@ -1,10 +1,14 @@
-{ config, pkgs, defaultUser, ... }:
 {
+  config,
+  pkgs,
+  defaultUser,
+  ...
+}: {
   services.openssh.enable = true;
   services.tailscale.enable = true;
 
   fonts.fonts = with pkgs; [
-    (nerdfonts.override { fonts = [ "DroidSansMono" "FiraCode" "FiraMono"]; })
+    (nerdfonts.override {fonts = ["DroidSansMono" "FiraCode" "FiraMono"];})
   ];
 
   programs.git = {
@@ -27,10 +31,15 @@
   };
 
   environment.systemPackages = with pkgs; [
-    exfat ntfs3g
+    exfat
+    ntfs3g
     unzip
-    curl wget
-    openssl bind gnupg nmap
+    curl
+    wget
+    openssl
+    bind
+    gnupg
+    nmap
     wireguard-tools
     iputils
     pciutils

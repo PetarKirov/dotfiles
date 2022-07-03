@@ -1,10 +1,7 @@
 # Generated via dconf2nix: https://github.com/gvolpe/dconf2nix
-{ lib, ... }:
-
-let
+{lib, ...}: let
   mkTuple = lib.hm.gvariant.mkTuple;
-in
-{
+in {
   dconf.settings = {
     "com/gexperts/Tilix" = {
       control-scroll-zoom = true;
@@ -24,8 +21,8 @@ in
     "org/gnome/desktop/wm/keybindings" = {
       switch-applications = [];
       switch-applications-backward = [];
-      switch-windows = [ "<Alt>Tab" ];
-      switch-windows-backward = [ "<Shift><Alt>Tab" ];
+      switch-windows = ["<Alt>Tab"];
+      switch-windows-backward = ["<Shift><Alt>Tab"];
     };
 
     "org/gnome/desktop/wm/preferences" = {
@@ -33,7 +30,7 @@ in
     };
 
     "org/gnome/settings-daemon/plugins/media-keys" = {
-      custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" ];
+      custom-keybindings = ["/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"];
     };
 
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
@@ -45,8 +42,8 @@ in
     "org/gnome/desktop/input-sources" = {
       current = "uint32 0";
       per-window = false;
-      sources = [ (mkTuple [ "xkb" "us" ]) (mkTuple [ "xkb" "bg+phonetic" ]) ];
-      xkb-options = [ "terminate:ctrl_alt_bksp" ];
+      sources = [(mkTuple ["xkb" "us"]) (mkTuple ["xkb" "bg+phonetic"])];
+      xkb-options = ["terminate:ctrl_alt_bksp"];
     };
 
     "org/gnome/desktop/interface" = {
@@ -58,6 +55,5 @@ in
       gtk-theme = "Yaru-dark";
       icon-theme = "Yaru";
     };
-
   };
 }

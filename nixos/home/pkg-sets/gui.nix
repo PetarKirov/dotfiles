@@ -1,11 +1,17 @@
-{ pkgs, unstablePkgs, ... }:
 {
+  pkgs,
+  unstablePkgs,
+  ...
+}: {
   home.packages = with pkgs; [
     ## Browsers:
-    google-chrome firefox # opera
+    google-chrome
+    firefox # opera
 
     ## Audio & video players:
-    spotify vlc mpv
+    spotify
+    vlc
+    mpv
 
     ## Office:
     # libreoffice
@@ -31,7 +37,8 @@
     # teamviewer
 
     ## P2P:
-    deluge transmission-gtk
+    deluge
+    transmission-gtk
 
     ## Terminal emulators:
     # alacritty
@@ -44,7 +51,8 @@
     blender
 
     ## Image editing:
-    gimp inkscape
+    gimp
+    inkscape
     pick-colour-picker
     gcolor3
 
