@@ -57,6 +57,8 @@
       gcm = "git commit -m";
       gcma = "git commit --amend --no-edit";
 
+      gpu = "git pull";
+
       gps = "git push -u (git-default-remote) HEAD";
       gpf = "git push --force";
 
