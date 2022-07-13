@@ -1,6 +1,13 @@
 [user]
 	email = petar.p.kirov@gmail.com
 	name = Petar Kirov
+[fetch]
+  prune = true
+[pull]
+  ff = true
+  rebase = false
+[merge]
+  ff = only
 [core]
 	editor = nvim
 [include]
