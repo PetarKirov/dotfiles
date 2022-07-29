@@ -36,6 +36,7 @@
       # Direnv
       dea = "direnv allow .";
       ded = "direnv deny .";
+      der = "direnv reload";
 
       # Git
       gs = "git status";
