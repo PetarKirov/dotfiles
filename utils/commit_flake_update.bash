@@ -13,13 +13,22 @@ if ! git config --get user.name >/dev/null 2>&1 || \
 fi
 
 nix flake update --commit-lock-file
-git log -1 '--pretty=format:%b' | sed '1,2d' > commit_msg_body
+
+cat >commit_msg <<EOF
+chore(flake.lock): Update all Flake inputs ($(date -I))
+
+$(git log -1 '--pretty=format:%b' | sed '1,2d')
+EOF
+
 git reset --soft 'HEAD~'
+
+if [[ -z "${GITHUB_ENV:-}" ]]; then
+  echo "Not running in CI - exiting"
+  exit 0
+fi
 
 >> "$GITHUB_ENV" cat <<EOF
 COMMIT_MSG<<EOV
-chore(flake.lock): Update all Flake inputs ($(date -I))
-
-$(cat ./commit_msg_body)
+$(cat ./commit_msg)
 EOV
 EOF
