@@ -8,6 +8,16 @@
   boot.blacklistedKernelModules = ["nouveau" "nvidia"];
   boot.extraModulePackages = [];
 
+  boot.kernelPatches = [
+    {
+      name = "enable-pinctrl-amd-for-elan-touchpad";
+      patch = null;
+      extraConfig = ''
+        PINCTRL_AMD y
+      '';
+    }
+  ];
+
   imports = [./file-systems.nix];
 
   hardware.enableAllFirmware = true;
