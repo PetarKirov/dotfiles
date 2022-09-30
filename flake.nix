@@ -27,6 +27,12 @@
       };
     };
 
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+
     omf-bobthefish.url = "github:oh-my-fish/theme-bobthefish";
     omf-bobthefish.flake = false;
   };
@@ -37,13 +43,19 @@
     nixpkgs-unstable,
     nix-on-droid,
     omf-bobthefish,
+    rust-overlay,
     ...
   }: let
     system = "x86_64-linux";
     defaultUser = "zlx";
     users = [defaultUser];
 
-    pkgs = nixpkgs.legacyPackages.${system};
+    pkgs = import nixpkgs {
+      inherit system;
+      overlays = [
+        rust-overlay.overlays.default
+      ];
+    };
 
     machines = builtins.attrNames (
       nixpkgs.lib.filterAttrs
