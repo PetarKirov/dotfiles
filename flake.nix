@@ -38,6 +38,7 @@
   };
 
   outputs = {
+    self,
     home-manager,
     nixpkgs,
     nixpkgs-unstable,
@@ -54,6 +55,7 @@
       inherit system;
       overlays = [
         rust-overlay.overlays.default
+        self.overlays.default
       ];
     };
 
@@ -104,5 +106,6 @@
     homeConfigurations = pkgs.lib.genAttrs users makeHomeConfig;
     nixOnDroidConfigurations = {device = makeNixOnDroidConfig defaultUser;};
     devShells."${system}".default = import ./shell.nix {inherit pkgs;};
+    overlays.default = import ./nixos/pkgs/overlay.nix;
   };
 }

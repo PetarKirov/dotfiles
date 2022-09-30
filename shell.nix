@@ -5,6 +5,7 @@ with pkgs;
       figlet
       dconf2nix
       alejandra
+      my-pkgs.asusctl
     ];
 
     shellHook = ''

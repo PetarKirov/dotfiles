@@ -1,5 +1,7 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
+    my-pkgs.asusctl
+
     ## Networking
     mullvad-vpn
 
