@@ -1,26 +1,41 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dmd -run
 
-set -euo pipefail
+import std.conv : to;
+import std.format : fmt = format;
 
-DISK_ID="${DISK_ID:-${1:-}}"
-ESP_SIZE_GiB="${ESP_SIZE_GiB:-4}"
-SWAP_SIZE_GiB="${SWAP_SIZE_GiB:-16}"
+struct UiConfig
+{
+    bool interactive = true;
+    bool dryRun = true;
+    bool keepPartitions = true;
+}
 
-DRY_RUN="${DRY_RUN:-true}"
-KEEP_PARTITIONS="${KEEP_PARTITIONS:-true}"
+struct DevicePartitionConfig
+{
+    ulong espSize = 4.GiB;
+    ulong swapSize = 16.GiB;
+    ulong alignment = 1.MiB;
+    string primaryDevicePath;
+    string[] additionalDevicePaths;
+    string[] zfsDatasets;
+}
 
-red=$(tput -T ansi setaf 1)
-no_fg_color=$(tput -T ansi setaf 9)
-no_bg_color=$(tput -T ansi setab 9)
-no_color="${no_fg_color}${no_bg_color}"
-bold=$(tput -T ansi bold)
-offbold=$'\E[22m'
-normal=$(tput -T ansi sgr0)
+//DISK_ID="${DISK_ID:-${1:-}}"
 
-function main {
-  print_devices
+void main(string[] args)
+{
+    Context ctx = new Context();
+    printDevices(ctx);
 
-  prompt "Please enter block device id path you want to operate on:"
+    string primaryDevice;
+}
+
+
+/+
+  while ()
+  prompt(
+    "Please enter block device id path you want to operate on:"
+  );
   DISK_ID="$REPLY"
   while [[ "${DISK_ID}" != /dev/disk/by-id/* ]]; do
     echo "Expected path to start with '${bold}/dev/disk/by-id/${offbold}'"
@@ -43,16 +58,6 @@ function main {
   DEV_SECTORS="$(cat "/sys/block/${DEV_NAME}"/size)"
   DEV_SECTOR_SIZE="$(cat "/sys/block/${DEV_NAME}"/queue/hw_sector_size)"
   DEV_SIZE="$(( DEV_SECTORS * DEV_SECTOR_SIZE ))"
-
-  FS_TYPE_ESP="ef00"
-  FS_TYPE_SWAP="8200"
-  FS_TYPE_ROOT="bf00"
-
-  KiB=1024
-  MiB=$((1024 * KiB))
-  GiB=$((1024 * MiB))
-
-  ALIGN=${MiB}
 
   DEV_SIZE_A=$(( DEV_SIZE / ALIGN ))
 
@@ -99,11 +104,11 @@ EOF
 
   [[ "$KEEP_PARTITIONS" != "true" ]] && {
     confirm
-    force_create_gpt
-    add_gpt_partition $ESP_PART_NUM "$ESP_START_S" "$ESP_END_S" "$FS_TYPE_ESP" "esp"
-    add_gpt_partition $ROOT_PART_NUM "$ROOT_START_S" "$ROOT_END_S" "$FS_TYPE_ROOT" "zfs_root"
-    add_gpt_partition $SWAP_PART_NUM "$SWAP_START_S" "$SWAP_END_S" "$FS_TYPE_SWAP" "swap"
-    print_gpt_partition_info
+    recreateGptPartitionTable
+    addGptPartition $ESP_PART_NUM "$ESP_START_S" "$ESP_END_S" "$FS_TYPE_ESP" "esp"
+    addGptPartition $ROOT_PART_NUM "$ROOT_START_S" "$ROOT_END_S" "$FS_TYPE_ROOT" "zfs_root"
+    addGptPartition $SWAP_PART_NUM "$SWAP_START_S" "$SWAP_END_S" "$FS_TYPE_SWAP" "swap"
+    printGptPartitionInfo
   } | draw_box "Partitioning '$DISK_ID'"
 
   local esp_partition
@@ -112,7 +117,7 @@ EOF
   local zfs_pool_name=zfs_root
 
   if check_zfs_pool "$zfs_pool_name"; then
-    print_zfs_info | draw_box "A pool named '${zfs_pool_name}' already exists:"
+    printZfsInfo | draw_box "A pool named '${zfs_pool_name}' already exists:"
     confirm "Are you sure you want to destroy it and create a new one? (yes/no)"
     run_cmd sudo umount -R /mnt || true
     run_cmd sudo zpool destroy zfs_root
@@ -122,7 +127,7 @@ EOF
     create_single_disk_zfs_root_fs "$zfs_pool_name" $ROOT_PART_NUM
     create_zfs_datasets "$zfs_pool_name" "$esp_partition"
     DRY_RUN=0
-    print_zfs_info
+    printZfsInfo
   } | draw_box "Creating zpool and zfs datasets"
 
   {
@@ -130,161 +135,183 @@ EOF
     run_cmd sudo mount "$esp_partition" /mnt/boot
   } | draw_box "Mounting file systems"
 }
++/
 
-function partition_id {
-  echo "${DISK_ID}-part${1}"
+string partition_id(string devicePath, uint partNum) {
+    return "%s-part%s".fmt(devicePath, partNum);
 }
 
-function check_partition {
-  local id="$1"
-  local i=0
-  local realdev_partition
-  realdev_partition="$(readlink -f "$id")"
-  while ! ls -la "$id" >/dev/null 2>&1 || ! [ -b "$realdev_partition" ]; do
-    if (( i > 10 )); then
-      break
-    fi
-    run_cmd udevadm settle --timeout=15 --exit-if-exists="$realdev_partition"
-    sudo blockdev --rereadpt "$DISK_ID" || true
-    i=$(( i + 1))
-    sleep 1
-  done
-  test -e "$id" || log_error "'$id' does not exist"
-  test -b "$id" || log_error "'$id' is not a block device"
+void checkPartition(Context ctx, string partitionPath) {
+    /+
+      local id="$1"
+      local i=0
+      local realdev_partition
+      realdev_partition="$(readlink -f "$id")"
+      while ! ls -la "$id" >/dev/null 2>&1 || ! [ -b "$realdev_partition" ]; do
+        if (( i > 10 )); then
+          break
+        fi
+        run_cmd udevadm settle --timeout=15 --exit-if-exists="$realdev_partition"
+        sudo blockdev --rereadpt "$DISK_ID" || true
+        i=$(( i + 1))
+        sleep 1
+      done
+      test -e "$id" || log_error "'$id' does not exist"
+      test -b "$id" || log_error "'$id' is not a block device"
+    +/
 }
 
-function force_create_gpt {
-  run_cmd sudo blkdiscard -f "$DEV"
-  run_cmd sudo sgdisk --zap-all "$DEV"
+void recreateGptPartitionTable(Context ctx, string devicePath) {
+  `blkdiscard -f "%s"`.runSudoCommand(ctx, devicePath);
+  `sgdisk --zap-all "%s"`.runSudoCommand(ctx, devicePath);
 }
 
-function add_gpt_partition {
-  local partnum="$1"
-  local start="$2"
-  local end="$3"
-  local type="$4"
-  local name="$5"
+void addGptPartition(
+    Context ctx,
+    string devicePath,
+    uint partnum,
+    ulong start,
+    ulong end,
+    PartitionType type,
+    string name)
+{
+    (`sgdisk ` ~
+        `-n${partnum}:${start}:${end} ` ~
+        `-t${partnum}:${type} ` ~
+        `-c${partnum}:${name} "$DEV"`)
+        .runSudoCommand([
+            "partnum": partnum.to!string,
+            "start": start.to!string,
+            "end": end.to!string,
+            "type": type,
+            "dev": devicePath
+        ]);
 
-  run_cmd sudo sgdisk \
-    "-n${partnum}:${start}:${end}" \
-    "-t${partnum}:${type}" \
-    "-c${partnum}:${name}" "$DEV"
+    string partitionPath = partition_id(devicePath, partnum);
+    checkPartition(ctx, partitionPath);
 
-  local parition_id
-  parition_id="$(partition_id "$1")"
-  check_partition "$parition_id"
-
-  case "$name" in
-    swap)
-      run_cmd sudo mkswap -L swap "$parition_id"
-      ;;
-
-    esp)
-      run_cmd sudo mkfs.fat -F 32 -n EFI "$parition_id"
-      ;;
-
-    *)
-      return
-      ;;
-  esac
+    final switch (name)
+    {
+        case "swap":
+            `mkswap -L swap '%s'`.runSudoCommand(partitionPath);
+            break;
+        case "esp":
+            `mkfs.fat -F 32 -n EFI '%s'`.runSudoCommand(partitionPath);
+            break;
+    }
 }
 
-function get_block_device_ids {
-  for kname in $(lsblk -dn -o kname); do
-    local path
-    if [[ -e "/sys/block/$kname/wwid" ]]; then
-      path="/sys/block/$kname/wwid"
-    elif [[ -e "/sys/block/$kname/device/wwid" ]]; then
-      path="/sys/block/$kname/device/wwid"
-    fi
-    if [[ "${path:-}" == '' ]] || ! cat "$path" >/dev/null 2>&1; then
-      continue;
-    fi
-    kindof_id="$(cat "$path")"
-    kindof_id="${kindof_id##*.}"
-    find /dev/disk/by-id/ -lname "*/$kname" | grep -Pv "^/dev/disk/by-id/.*${kindof_id}$"
-  done
+string[] get_block_device_ids(Context ctx)
+{
+    assert(0, "Not implemented");
+    foreach (kname; "lsblk -dn -o kname".runCommandGetOutput(ctx).byLine)
+    {
+    // local path
+    // if [[ -e "/sys/block/$kname/wwid" ]]; then
+    //   path="/sys/block/$kname/wwid"
+    // elif [[ -e "/sys/block/$kname/device/wwid" ]]; then
+    //   path="/sys/block/$kname/device/wwid"
+    // fi
+    // if [[ "${path:-}" == '' ]] || ! cat "$path" >/dev/null 2>&1; then
+    //   continue;
+    // fi
+    // kindof_id="$(cat "$path")"
+    // kindof_id="${kindof_id##*.}"
+    // find /dev/disk/by-id/ -lname "*/$kname" | grep -Pv "^/dev/disk/by-id/.*${kindof_id}$"
+    }
 }
 
-function print_devices {
-  for device_id_path in $(get_block_device_ids); do
-    print_one_device "$device_id_path" | draw_box "$device_id_path"
-  done
+void printDevices(Context ctx) {
+    ctx.drawBox("", (ctx) {
+        foreach (devicePaths; get_block_device_ids(ctx))
+            print_one_device(ctx, devicePaths);
+    });
 }
 
-function print_one_device {
-  lsblk -o tran,name,size,fstype,mountpoints,label,partlabel,serial "$1"
+string print_one_device(Context ctx, string devicePath) {
+    return `lsblk -o tran,name,size,fstype,mountpoints,label,partlabel,serial "%s"`
+        .runCommandGetOutput(ctx, devicePath);
 }
 
-function create_single_disk_zfs_root_fs {
-  local pool_name="$1"
-  local part_num="$2"
-  local partition_id
-  partition_id="$(partition_id "$part_num")"
+void create_single_disk_zfs_root_fs(
+    Context ctx,
+    string partitionPath,
+    string poolName,
+)
+{
+    /*
+    ashift: https://openzfs.github.io/openzfs-docs/man/7/zpoolprops.7.html#:~:text=command%3A-,ashift,-%3D
+    autotrim: https://openzfs.github.io/openzfs-docs/man/7/zpoolprops.7.html#:~:text=for%20more%20details.-,autotrim,-%3D
+    listsnapshots: https://openzfs.github.io/openzfs-docs/man/7/zpoolprops.7.html#:~:text=on%20feature%20states.-,listsnapshots,-%3D
+    atime: https://openzfs.github.io/openzfs-docs/man/7/zfsprops.7.html#:~:text=for%20more%20details.-,atime,-%3D
+    mountpoint: https://openzfs.github.io/openzfs-docs/man/7/zfsprops.7.html#:~:text=mountpoint%3Dpath%7Cnone%7Clegacy
+    acltype: https://openzfs.github.io/openzfs-docs/man/7/zfsprops.7.html#:~:text=acltype%3Doff%7Cnfsv4%7Cposix
+    xattr: https://openzfs.github.io/openzfs-docs/man/7/zfsprops.7.html#:~:text=used%20by%20OpenZFS.-,xattr,-%3D
+    */
 
-  # ashift: https://openzfs.github.io/openzfs-docs/man/7/zpoolprops.7.html#:~:text=command%3A-,ashift,-%3D
-  # autotrim: https://openzfs.github.io/openzfs-docs/man/7/zpoolprops.7.html#:~:text=for%20more%20details.-,autotrim,-%3D
-  # listsnapshots: https://openzfs.github.io/openzfs-docs/man/7/zpoolprops.7.html#:~:text=on%20feature%20states.-,listsnapshots,-%3D
-  # atime: https://openzfs.github.io/openzfs-docs/man/7/zfsprops.7.html#:~:text=for%20more%20details.-,atime,-%3D
-  # mountpoint: https://openzfs.github.io/openzfs-docs/man/7/zfsprops.7.html#:~:text=mountpoint%3Dpath%7Cnone%7Clegacy
-  # acltype: https://openzfs.github.io/openzfs-docs/man/7/zfsprops.7.html#:~:text=acltype%3Doff%7Cnfsv4%7Cposix
-  # xattr: https://openzfs.github.io/openzfs-docs/man/7/zfsprops.7.html#:~:text=used%20by%20OpenZFS.-,xattr,-%3D
-
-  run_cmd sudo zpool create \
-    -R /mnt \
-    -o ashift=12 \
-    -o autotrim=on \
-    -o listsnapshots=on \
-    -O acltype=posixacl \
-    -O atime=off \
-    -O canmount=off \
-    -O mountpoint=none \
-    -O checksum=sha512 \
-    -O compression=lz4 \
-    -O xattr=sa \
-    "$pool_name" \
-    "$partition_id"
+  (`zpool create` ~
+    `-R /mnt` ~
+    `-o ashift=12` ~
+    `-o autotrim=on` ~
+    `-o listsnapshots=on` ~
+    `-O acltype=posixacl` ~
+    `-O atime=off` ~
+    `-O canmount=off` ~
+    `-O mountpoint=none` ~
+    `-O checksum=sha512` ~
+    `-O compression=lz4` ~
+    `-O xattr=sa` ~
+    `"%s"` ~
+    `"%s"`)
+    .runSudoCommand(ctx, poolName, partitionPath);
 }
 
-function check_zfs_pool {
-  local pool_name="$1"
-  zpool status "$pool_name" >/dev/null 2>&1
+void check_zfs_pool(string poolName) {
+  `zpool status`.runCommandSilently(poolName);
 }
 
-function create_zfs_datasets {
-  local pool_name="$1"
-  local esp_partition="$2"
+void create_zfs_datasets(Context ctx, string poolName, ZfsDataset[] datasets) {
 
-  # Root
-  run_cmd sudo zfs create "$pool_name/nixos" -o mountpoint=/ -o canmount=on
+    foreach (dataset; datasets)
+    {
+        `zfs create "%s/%s"`
+            .opts(dataset.options)
+            .runSudoCommand(ctx, poolName, dataset.name);
+    }
 
-  # Reserved
-  run_cmd sudo zfs create "$pool_name/reserved" -o mountpoint=none -o refreservation=5G
+//   # Root
+//   run_cmd sudo zfs create "$pool_name/nixos" -o mountpoint=/ -o canmount=on
 
-  # Nix Store
-  run_cmd sudo zfs create "$pool_name/nixos/nix" -o canmount=on -o refreservation=50G
+//   # Reserved
+//   run_cmd sudo zfs create "$pool_name/reserved" -o mountpoint=none -o refreservation=5G
 
-  # Docker
-  run_cmd sudo zfs create "$pool_name/nixos/var" -o canmount=on
-  run_cmd sudo zfs create "$pool_name/nixos/var/lib" -o canmount=on
-  run_cmd sudo zfs create "$pool_name/nixos/var/lib/docker" -o canmount=on -o quota=75G
+//   # Nix Store
+//   run_cmd sudo zfs create "$pool_name/nixos/nix" -o canmount=on -o refreservation=50G
 
-  # Home
-  run_cmd sudo zfs create "$pool_name/userdata" -o canmount=off -o mountpoint=/
-  run_cmd sudo zfs create "$pool_name/userdata/home" -o canmount=on -o refreservation=75G -o reservation=150G
+//   # Docker
+//   run_cmd sudo zfs create "$pool_name/nixos/var" -o canmount=on
+//   run_cmd sudo zfs create "$pool_name/nixos/var/lib" -o canmount=on
+//   run_cmd sudo zfs create "$pool_name/nixos/var/lib/docker" -o canmount=on -o quota=75G
+
+//   # Home
+//   run_cmd sudo zfs create "$pool_name/userdata" -o canmount=off -o mountpoint=/
+//   run_cmd sudo zfs create "$pool_name/userdata/home" -o canmount=on -o refreservation=75G -o reservation=150G
 }
 
-function print_zfs_info {
-  run_cmd sudo zpool status
-  run_cmd sudo zfs list -r
+void printZfsInfo(Context ctx) {
+    `zpool status`.runSudoCommand(ctx);
+    `zfs list -r`.runSudoCommand(ctx);
 }
 
-function print_gpt_partition_info {
-  run_cmd sudo sgdisk -p "$DEV"
-  run_cmd sudo parted "$DEV" -- unit MiB print free
-  ls -la '/dev/disk/by-id/' | grep "$DISK_ID_ONLY" | draw_box "Disk IDs"
+void printGptPartitionInfo(Context ctx, string devicePath, string diskId) {
+    `sgdisk -p "%s"`.runSudoCommand(ctx, devicePath);
+    `parted "%s" -- unit MiB print free`.runSudoCommand(ctx, devicePath);
+    ctx.drawBox("Disk IDs", ctx =>
+        `ls -la '/dev/disk/by-id/' | grep "%s"`.runCommand(ctx, diskId)
+    );
 }
 
+/+
 function run_cmd {
   local cmd
   cmd="${bold}$(echo "$*" | fmt -s -w 80 | draw_box "")${offbold}"
@@ -326,23 +353,27 @@ function print_partition_layout {
   echo "│   ├${line} start: $(format_size "$start") (${start} bytes / $(( start / DEV_SECTOR_SIZE )) sectors)"
   echo "│   └${line}   end: $(format_size "$end") (${end} bytes / $(( end / DEV_SECTOR_SIZE )) sectors)"
 }
++/
 
-function prompt {
-  local msg="$1"
-  local end=$'\n╰─➤ '
-  read -p "╭── ${msg}${end}" -r
+string prompt(string msg)
+{
+    import std.stdio : write, writefln, stdout, readln;
+    "╭── %s".writefln(msg);
+    "╰─➤ ".write;
+    stdout.flush();
+    return readln();
 }
 
-# shellcheck disable=SC2120
-function confirm {
-  local default_msg="Are you sure you wish to continue? (yes/no)"
-  prompt "${1:-$default_msg}"
-  if [[ ! $REPLY =~ ^[Yy]$ ]]
-  then
-    exit 0
-  fi
+void confirm(string promptMsg = "Are you sure you wish to continue? (yes/no)") {
+    import std.algorithm : among;
+    import std.string : toLower;
+    import core.stdc.stdlib : exit;
+    const reply = prompt(promptMsg);
+    if (!reply.toLower.among("y", "yes"))
+        exit(1);
 }
 
+/+
 function log_error {
   local rc="$?"
   echo "$red"
@@ -428,3 +459,87 @@ function draw_box {
 }
 
 main
++/
+
+string opts(string cmdLine, string[string] opts)
+{
+    assert(0, "Not implemented");
+}
+
+void runSudoCommand(Args...)(Args args)
+{
+    assert(0, "Not implemented");
+}
+
+void runCommand(Args...)(Args args)
+{
+    assert(0, "Not implemented");
+}
+
+void runCommandSilently(Args...)(Args args)
+{
+    assert(0, "Not implemented");
+}
+
+string runCommandGetOutput(string cmd, Context ctx, string[] args...)
+{
+    assert(0, "Not implemented");
+}
+
+enum PartitionType
+{
+  esp = "ef00",
+  swap = "8200",
+  zfs_root = "bf00",
+}
+
+enum Units
+{
+    KiB = 1L << 10,
+    MiB = 1L << 20,
+    GiB = 1L << 30,
+    TiB = 1L << 40,
+}
+
+
+ulong MiB(uint mebibytes)
+{
+    return mebibytes * Units.MiB;
+}
+
+ulong GiB(uint gibibytes)
+{
+    return gibibytes * Units.GiB;
+}
+
+enum TermAnsiEscSeq
+{
+    normal = "\x1b[0m",
+    bold = "\x1b[1m",
+    noBold = "\x1b[22m",
+    noFgColor = "\x1b[39m",
+    noBgColor = "\x1b[49m",
+    noColor = TermAnsiEscSeq.noFgColor ~ TermAnsiEscSeq.noBgColor,
+    red = "\x1b[31m",
+}
+
+struct ZfsDataset
+{
+    string name;
+    string[string] options;
+}
+
+class Context
+{
+
+}
+
+void drawBox(Context ctx, string label, void delegate(Context ctx) callback)
+{
+
+}
+
+string[] byLine(string s)
+{
+    assert(0, "Not implemented");
+}
