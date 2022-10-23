@@ -14,9 +14,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - slug: nixos
+          - slug: nixos-x13
             job_name: NixOS system configuration
-            nix_flake_output: ".#nixosConfigurations.zlx-nixos-desktop.config.system.build.toplevel"
+            nix_flake_output: ".#nixosConfigurations.zlx-flow-x13.config.system.build.toplevel"
+          - slug: nixos-mcl
+            job_name: NixOS system configuration
+            nix_flake_output: ".#nixosConfigurations.mcl-nixos-desktop01.config.system.build.toplevel"
           - slug: nix-hm
             job_name: Home Manager user configuration
             nix_flake_output: ".#homeConfigurations.zlx.activationPackage"
