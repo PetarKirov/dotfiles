@@ -2,6 +2,7 @@
 
 import std.conv : to;
 import std.format : fmt = format;
+import std.exception : enforce;
 
 struct UiConfig
 {
@@ -24,8 +25,11 @@ struct DevicePartitionConfig
 
 void main(string[] args)
 {
-    Context ctx = new Context();
-    printDevices(ctx);
+    // Context ctx = new Context();
+    // printDevices(ctx);
+
+    import std.stdio : writeln;
+
 
     string primaryDevice;
 }
@@ -384,10 +388,10 @@ function log_error {
 }
 +/
 
-string format_size(ulong size) {
+string format_size(Context ctx, ulong size) {
   return TermAnsiEscSeq.bold ~
     `numfmt --to=iec-i --suffix=B --round=nearest -- %s`
-        .runCommandGetOutput(size) ~
+        .runCommandGetOutput(ctx, size) ~
     TermAnsiEscSeq.normal;
 }
 
@@ -406,7 +410,7 @@ string remove_ansi_escapes(string input)
 {
     import std.regex;
     auto re = regex("\x1b\\[([0-9]{1,2}(;[0-9]{1,2})*)?[m|K]", "g");
-    return input.replaceAll(re);
+    return input.replaceAll(re, "");
 }
 
 /+
@@ -492,10 +496,29 @@ void runCommandSilently(Args...)(Args args)
     assert(0, "Not implemented");
 }
 
-string runCommandGetOutput(string cmd, Context ctx, string[] args...)
+string runCommandGetOutput(Args...)(string cmd, Context ctx, Args args)
 {
-    assert(0, "Not implemented");
+    const command = fmt(cmd, args);
+    return ctx.runCommandGetOutput(command);
 }
+
+class Context
+{
+    bool trace;
+    import std.process : executeShell;
+    import std.stdio : writefln;
+
+    string runCommandGetOutput(string cmd)
+    {
+        if (trace)
+            writefln("> %s%s%s", TermAnsiEscSeq.bold, cmd, TermAnsiEscSeq.normal);
+
+        const result = executeShell(cmd);
+        enforce(result.status == 0);
+        return result.output;
+    }
+}
+
 
 string captureOutput(string cmd, string[] args...)
 {
@@ -560,7 +583,6 @@ enum Units
     TiB = 1L << 40,
 }
 
-
 ulong MiB(uint mebibytes)
 {
     return mebibytes * Units.MiB;
@@ -586,11 +608,6 @@ struct ZfsDataset
 {
     string name;
     string[string] options;
-}
-
-class Context
-{
-
 }
 
 void drawBox(Context ctx, string label, void delegate(Context ctx) callback)
