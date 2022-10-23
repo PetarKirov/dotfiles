@@ -1,4 +1,4 @@
-#!/usr/bin/env dmd -run
+#!/usr/bin/env -S dmd -run
 
 import std.conv : to;
 import std.format : fmt = format;
@@ -222,10 +222,8 @@ string[] get_block_device_ids(Context ctx)
 }
 
 void printDevices(Context ctx) {
-    ctx.drawBox("", (ctx) {
-        foreach (devicePaths; get_block_device_ids(ctx))
-            print_one_device(ctx, devicePaths);
-    });
+    foreach (devicePath; get_block_device_ids(ctx))
+        ctx.drawBox(devicePath, delegate void(Context ctx) { print_one_device(ctx, devicePath); });
 }
 
 string print_one_device(Context ctx, string devicePath) {
@@ -333,35 +331,39 @@ function run_cmd {
     echo "╰── [DRY RUN] ──╯"
   fi
 }
-
-function print_partition_layout {
-  local name="$1"
-  local start="$2"
-  local end="$3"
-  local size="$(( end - start ))"
-  local size_share
-  size_share="$(awk "BEGIN { printf(\"%.2f\", 100.0 * $size / $DEV_SIZE) }")"
-
-  name_len="${#name}"
-  name="${bold}${name}${offbold}"
-  local line
-  line="$(draw_line "$(( name_len ))")"
-
-  echo "│ ╭─${line}─╮"
-  echo "├─┤ ${name} │ size: $(format_size "$size") (${size} bytes / ${size_share}%)"
-  echo "│ ╰─┬${line}╯"
-  echo "│   ├${line} start: $(format_size "$start") (${start} bytes / $(( start / DEV_SECTOR_SIZE )) sectors)"
-  echo "│   └${line}   end: $(format_size "$end") (${end} bytes / $(( end / DEV_SECTOR_SIZE )) sectors)"
-}
 +/
+
+void print_partition_layout(
+    string name,
+    ulong deviceSize,
+    ulong start,
+    ulong end,
+)
+in (start < end)
+{
+    const size = end - start;
+    string size_share = fmt!"%.2f"(double(size) / deviceSize);
+
+    name = TermAnsiEscSeq.bold ~ name ~ TermAnsiEscSeq.noBold;
+    string line = horizontalLine(name.length);
+
+    `
+    │ ╭─${line}─╮"
+    ├─┤ ${name} │ size: $(format_size "$size") (${size} bytes / ${size_share}%)"
+    │ ╰─┬${line}╯"
+    │   ├${line} start: $(format_size "$start") (${start} bytes / $(( start / DEV_SECTOR_SIZE )) sectors)"
+    │   └${line}   end: $(format_size "$end") (${end} bytes / $(( end / DEV_SECTOR_SIZE )) sectors)"
+    `.fmt();
+}
 
 string prompt(string msg)
 {
     import std.stdio : write, writefln, stdout, readln;
+    import std.string : strip;
     "╭── %s".writefln(msg);
     "╰─➤ ".write;
     stdout.flush();
-    return readln();
+    return readln().strip;
 }
 
 void confirm(string promptMsg = "Are you sure you wish to continue? (yes/no)") {
@@ -380,25 +382,34 @@ function log_error {
   echo "$1" | draw_box "Error (exit code: $rc)" yes "$no_color"
   return $rc
 }
++/
 
-function format_size {
-  echo "${bold}$(numfmt --to=iec-i --suffix=B --round=nearest -- "$1")${normal}"
+string format_size(ulong size) {
+  return TermAnsiEscSeq.bold ~
+    `numfmt --to=iec-i --suffix=B --round=nearest -- %s`
+        .runCommandGetOutput(size) ~
+    TermAnsiEscSeq.normal;
 }
 
-function draw_line {
-  repeatStr "$1" "─"
+string horizontalLine(size_t length)
+{
+    return repeatStr(length, "─");
 }
 
-function repeatStr {
-  local len="$1"
-  local str="$2"
-  printf "%${len}s" | sed "s/ /${str}/g"
+string repeatStr(size_t length, string str)
+{
+    import std.range : repeat;
+    return str.repeat(length).to!string;
 }
 
-function remove_ansi_escapes {
-  sed -r "s/\x1b\[([0-9]{1,2}(;[0-9]{1,2})*)?[m|K]//g"
+string remove_ansi_escapes(string input)
+{
+    import std.regex;
+    auto re = regex("\x1b\\[([0-9]{1,2}(;[0-9]{1,2})*)?[m|K]", "g");
+    return input.replaceAll(re);
 }
 
+/+
 function draw_box {
   local title="$1"
   local draw_left_box_side="${2:-}"
@@ -428,18 +439,18 @@ function draw_box {
       top_border_len=0
       top_border=""
     else
-      top_border="$(draw_line "$top_border_len")"
+      top_border="$(horizontalLine "$top_border_len")"
     fi
     inner_width=$(( 3 + title_len + 2 + top_border_len ))
     echo "╭──╼ ${title} ╾${top_border}─╮"
   else
-    top_border="$(draw_line $(( output_width + prefix_len - 3 )))"
+    top_border="$(horizontalLine $(( output_width + prefix_len - 3 )))"
     inner_width=$(( 1 + ${#top_border} ))
     echo "╭──${top_border}─╮"
   fi
 
   local bottom_border
-  bottom_border="$(draw_line $inner_width)"
+  bottom_border="$(horizontalLine $inner_width)"
 
   output_width=$(( inner_width - (prefix_len - 2) ))
 
@@ -482,6 +493,11 @@ void runCommandSilently(Args...)(Args args)
 }
 
 string runCommandGetOutput(string cmd, Context ctx, string[] args...)
+{
+    assert(0, "Not implemented");
+}
+
+string captureOutput(string cmd, string[] args...)
 {
     assert(0, "Not implemented");
 }
