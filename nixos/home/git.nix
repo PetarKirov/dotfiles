@@ -1,7 +1,11 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  unstablePkgs,
+  ...
+}: {
   programs.git = {
     enable = true;
-    package = pkgs.gitAndTools.gitFull;
+    package = unstablePkgs.gitAndTools.gitFull;
     delta.enable = true;
     includes = [
       {path = ../../.gitconfig;}
