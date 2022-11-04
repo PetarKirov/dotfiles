@@ -486,6 +486,49 @@ string runCommandGetOutput(string cmd, Context ctx, string[] args...)
     assert(0, "Not implemented");
 }
 
+string replaceVars(string format, string[string] vars)
+{
+    string getVar(string name)
+    {
+        if (auto p = name in vars)
+            return *p;
+        assert(0, "variable `" ~ name ~
+            "` not found, used in format string `" ~ format ~ "`.");
+    }
+    return format.expandVars!getVar;
+}
+
+string replaceVars(Vars...)(string format)
+{
+    string[string] vars;
+    static foreach (var; Vars)
+        vars[var.stringof] = var;
+
+    return replaceVars(format, vars);
+}
+
+unittest
+{
+    const cmd = "sgdisk";
+    const device = "/dev/disk/by-partuuid";
+    const name = "zeus";
+    const id = "5";
+
+    const fmtString = "executing `$cmd '$device/${name}_${id}'`";
+    const expectedResult = "executing `sgdisk '/dev/disk/by-partuuid/zeus_5'`";
+
+    assert(
+        fmtString.replaceVars!(cmd, device, name, id) ==
+        expectedResult
+    );
+
+    // order of passed arguments doesn't matter
+    assert(
+        fmtString.replaceVars!(id, name, cmd, device) ==
+        expectedResult
+    );
+}
+
 enum PartitionType
 {
   esp = "ef00",
@@ -542,4 +585,57 @@ void drawBox(Context ctx, string label, void delegate(Context ctx) callback)
 string[] byLine(string s)
 {
     assert(0, "Not implemented");
+}
+
+/// Expand variables using `$VAR_NAME` or `${VAR_NAME}` syntax.
+/// `$$` escapes itself and is expanded to a single `$`.
+/// Credit: https://github.com/dlang/dub/pull/1641
+private string expandVars(alias expandVar)(string s)
+{
+    import std.array : appender;
+    import std.algorithm : countUntil;
+    import std.functional : not;
+    import std.exception : enforce;
+    import std.string : indexOf, representation;
+
+	auto result = appender!string;
+
+	static bool isVarChar(char c)
+	{
+		import std.ascii : isAlphaNum;
+		return isAlphaNum(c) || c == '_';
+	}
+
+	while (true)
+	{
+		auto pos = s.indexOf('$');
+		if (pos < 0)
+		{
+			result.put(s);
+			return result.data;
+		}
+		result.put(s[0 .. pos]);
+		s = s[pos + 1 .. $];
+		enforce(s.length > 0, "Variable name expected at end of string");
+		switch (s[0])
+		{
+			case '$':
+				result.put("$");
+				s = s[1 .. $];
+				break;
+			case '{':
+				pos = s.indexOf('}');
+				enforce(pos >= 0, "Could not find '}' to match '${'");
+				result.put(expandVar(s[1 .. pos]));
+				s = s[pos + 1 .. $];
+				break;
+			default:
+				pos = s.representation.countUntil!(not!isVarChar);
+				if (pos < 0)
+					pos = s.length;
+				result.put(expandVar(s[0 .. pos]));
+				s = s[pos .. $];
+				break;
+		}
+	}
 }
