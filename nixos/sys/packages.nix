@@ -11,6 +11,11 @@
     (nerdfonts.override {fonts = ["DroidSansMono" "FiraCode" "FiraMono"];})
   ];
 
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
+
   programs.git = {
     enable = true;
     config = {
