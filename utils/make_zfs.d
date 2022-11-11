@@ -1,8 +1,16 @@
-#!/usr/bin/env -S dmd -run
+#!/usr/bin/env dub
+/+ dub.sdl:
+	name "hello"
+    dependency "optional" version="~>1.3.0"
++/
 
+import std.algorithm;
+import std.range;
 import std.conv : to;
 import std.format : fmt = format;
 import std.exception : enforce;
+
+import optional : Optional, no, some;
 
 struct UiConfig
 {
@@ -25,8 +33,8 @@ struct DevicePartitionConfig
 
 void main(string[] args)
 {
-    // Context ctx = new Context();
-    // printDevices(ctx);
+    Context ctx = new Context();
+    printDevices(ctx);
 
     import std.stdio : writeln;
 
@@ -205,34 +213,67 @@ void addGptPartition(
     }
 }
 
+Optional!string getWwidFromKname(string kname)
+{
+    static immutable possiblePaths = [
+        "/sys/block/$kname/wwid",
+        "/sys/block/$kname/device/wwid"
+    ];
+
+    possiblePaths
+        .map!(p => p.replaceVars!kname.tryReadFile)
+        
+        .joiner;
+}
+
 string[] get_block_device_ids(Context ctx)
 {
-    assert(0, "Not implemented");
-    foreach (kname; "lsblk -dn -o kname".runCommandGetOutput(ctx).byLine)
-    {
-    // local path
-    // if [[ -e "/sys/block/$kname/wwid" ]]; then
-    //   path="/sys/block/$kname/wwid"
-    // elif [[ -e "/sys/block/$kname/device/wwid" ]]; then
-    //   path="/sys/block/$kname/device/wwid"
-    // fi
+    import std.file : exists, dirEntries, SpanMode;
+
+
+
+    "lsblk -dn -o kname".runCommandGetOutput(ctx)
+        .byLine
+        .map!(kname =>
+            "/dev/disk/by-id/"
+                .dirEntries(SpanMode.shallow)
+                .filter!(e => e.name.readlink.endsWith(kname))
+                .map!(e => e.name)
+        )
+        .joiner
+        .filter!(function (kname) {
+            auto paths = [
+                "/sys/block/$kname/wwid",
+                "/sys/block/$kname/device/wwid"
+            ]
+                .map!(p => p.replaceVars!kname)
+                .find!(p => p.exists);
+
+            string kindof_id;
+            if (paths.empty || !paths.front.tryReadFile(kindof_id))
+                continue;
+        });
+    // foreach (kname; "lsblk -dn -o kname".runCommandGetOutput(ctx).byLine)
+    // {
+
+
     // if [[ "${path:-}" == '' ]] || ! cat "$path" >/dev/null 2>&1; then
     //   continue;
     // fi
     // kindof_id="$(cat "$path")"
     // kindof_id="${kindof_id##*.}"
     // find /dev/disk/by-id/ -lname "*/$kname" | grep -Pv "^/dev/disk/by-id/.*${kindof_id}$"
-    }
+    // }
 }
 
 void printDevices(Context ctx) {
     foreach (devicePath; get_block_device_ids(ctx))
-        ctx.drawBox(devicePath, delegate void(Context ctx) { print_one_device(ctx, devicePath); });
+        ctx.drawBox(devicePath, ctx2 => print_one_device(ctx2, devicePath));
 }
 
-string print_one_device(Context ctx, string devicePath) {
-    return `lsblk -o tran,name,size,fstype,mountpoints,label,partlabel,serial "%s"`
-        .runCommandGetOutput(ctx, devicePath);
+void print_one_device(Context ctx, string devicePath) {
+    `lsblk -o tran,name,size,fstype,mountpoints,label,partlabel,serial '%s'`
+        .runCommand(ctx, devicePath);
 }
 
 void create_single_disk_zfs_root_fs(
@@ -309,7 +350,7 @@ void printGptPartitionInfo(Context ctx, string devicePath, string diskId) {
     `sgdisk -p "%s"`.runSudoCommand(ctx, devicePath);
     `parted "%s" -- unit MiB print free`.runSudoCommand(ctx, devicePath);
     ctx.drawBox("Disk IDs", ctx =>
-        `ls -la '/dev/disk/by-id/' | grep "%s"`.runCommand(ctx, diskId)
+        `ls -la '/dev/disk/by-id/' | grep "$diskId"`.runCommand!(diskId)(ctx)
     );
 }
 
@@ -476,6 +517,15 @@ function draw_box {
 main
 +/
 
+Optional!string tryReadFile(string path)
+{
+    import std.file : readText;
+    try
+        return path.readText.some;
+    catch (Exception ex)
+        return no!string;
+}
+
 string opts(string cmdLine, string[string] opts)
 {
     assert(0, "Not implemented");
@@ -486,7 +536,12 @@ void runSudoCommand(Args...)(Args args)
     assert(0, "Not implemented");
 }
 
-void runCommand(Args...)(Args args)
+void runCommand(Args...)(string format, Context ctx)
+{
+    assert(0, "Not implemented");
+}
+
+void runCommand(Args...)(string format, Context ctx, Args args)
 {
     assert(0, "Not implemented");
 }

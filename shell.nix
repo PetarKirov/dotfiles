@@ -6,6 +6,7 @@ with pkgs;
       dconf2nix
       alejandra
       dmd
+      dub
     ];
 
     shellHook = ''
