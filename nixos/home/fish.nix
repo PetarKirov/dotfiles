@@ -8,6 +8,10 @@
     enable = true;
     plugins = [
       {
+        name = "foreign-env";
+        src = pkgs.fishPlugins.foreign-env.src;
+      }
+      {
         name = "fish-theme-bobthefish";
         src = omf-bobthefish;
       }
