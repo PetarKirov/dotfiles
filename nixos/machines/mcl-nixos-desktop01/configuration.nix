@@ -7,4 +7,6 @@
     autoScrub.enable = true;
     autoScrub.pools = ["zfs_root"];
   };
+
+  services.xserver.displayManager.gdm.autoSuspend = false;
 }
