@@ -1,5 +1,9 @@
-{
+{config, ...}: {
   virtualisation.docker.enable = true;
+  virtualisation.docker.storageDriver =
+    if config.fileSystems ? "/var/lib/docker" && config.fileSystems."/var/lib/docker".fsType == "zfs"
+    then "zfs"
+    else "overlay2";
   virtualisation.libvirtd.enable = true;
 
   boot.extraModprobeConfig = ''
