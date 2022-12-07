@@ -7,12 +7,12 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
 
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-22.05";
+      url = "github:nix-community/home-manager/release-22.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -57,9 +57,17 @@
 
     makeHomeConfig = username:
       home-manager.lib.homeManagerConfiguration {
-        inherit system username;
-        homeDirectory = "/home/${username}";
-        configuration = import ./nixos/home/home.nix;
+        inherit pkgs;
+        modules = [
+          ./nixos/home/home.nix
+          {
+            home = {
+              inherit username;
+              homeDirectory = "/home/${username}";
+              stateVersion = "21.11";
+            };
+          }
+        ];
         extraSpecialArgs = {
           inherit omf-bobthefish;
           unstablePkgs = import nixpkgs-unstable {
@@ -67,7 +75,6 @@
             config = {allowUnfree = true;};
           };
         };
-        stateVersion = "21.11";
       };
 
     makeNixOnDroidConfig = username:
