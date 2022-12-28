@@ -3,6 +3,8 @@
 	name = Petar Kirov
 [fetch]
   prune = true
+[rebase]
+  updateRefs = true
 [pull]
   ff = true
   rebase = false
