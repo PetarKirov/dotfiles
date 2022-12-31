@@ -39,6 +39,7 @@
   imports = [
     ./dconf.nix
     ./shells/fish.nix
+    ./shells/nushell.nix
     ./git.nix
     ./xdg-symlinks.nix
 
