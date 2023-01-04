@@ -18,4 +18,8 @@
     font = "Lat2-Terminus16";
     keyMap = "us";
   };
+
+  systemd.extraConfig = ''
+    DefaultTimeoutStopSec=15s
+  '';
 }
