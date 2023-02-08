@@ -31,6 +31,7 @@
     #unstablePkgs.dmd unstablePkgs.dub unstablePkgs.ldc
 
     ## DevOps:
+    dbeaver
     # azure-cli
     # docker-compose
     # kubernetes-helm
