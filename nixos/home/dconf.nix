@@ -12,7 +12,7 @@ in {
     "com/gexperts/Tilix/profiles/2b7c4080-0ddd-46c5-8f23-563fd3ba789d" = {
       default-size-columns = 150;
       default-size-rows = 36;
-      font = "FiraMono Nerd Font Mono 12";
+      font = "FiraCode Nerd Font Mono weight=450 12";
       scrollback-unlimited = true;
       use-system-font = false;
       visible-name = "Default";
