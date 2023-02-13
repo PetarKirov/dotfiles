@@ -1,12 +1,18 @@
-{lib, ...}: {
+{
+  lib,
+  config,
+  ...
+}: {
   boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "usbhid" "usb_storage" "sd_mod"];
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["amd_pstate" "kvm-amd"];
   boot.kernelParams = [
     "initcall_blacklist=acpi_cpufreq_init"
   ];
-  boot.blacklistedKernelModules = ["nouveau" "nvidia"];
+  boot.blacklistedKernelModules = ["nouveau"];
   boot.extraModulePackages = [];
+
+  services.xserver.videoDrivers = lib.mkBefore ["nvidia"];
 
   boot.kernelPatches = [
     {
