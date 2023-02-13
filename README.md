@@ -34,22 +34,100 @@ It [includes](./flake.nix) a [Nix Flake][nix-flakes] file which acts as an entry
 
 ## Basic Usage
 
-This is how I apply my Nix configuration on my machines.
-If you fork this repo (to modify it as per your needs), you should be able to use the same commands as they're written in a generic way.
+```mermaid
+flowchart TD
+    A(1. Fork this repo)
+    B(2. Create a branch for your configuration)
+    C(3. Customize your configuration)
+    D(4. Apply system and home configuration)
+    E(5. Keep your fork up to date)
 
-### Apply NixOS system configuration
+    subgraph Start
+        direction LR
+        A --> B
+    end
 
-```bash
-sudo nixos-rebuild switch --flake "$CFG#$(hostname)"
+    Start --> Loop
+
+    subgraph Loop
+        direction TB
+        E --> C
+        C --> D
+        D --> E
+    end
 ```
 
-### Apply Home Manager user config
+### 3. Customize your configuration
+
+You most likely want to update some of these things:
+
+1. Git username and email - edit [this file](./.gitconfig)
+2. NixOS username - edit `defaultUser` in
+  [flake.nix](https://github.com/PetarKirov/dotfiles/blob/master/flake.nix#L40)
+3. Commit your NixOS machine config under [`nixos/machines`](./nixos/machines)
+4. Update [`home.sessionVariables`](./nixos/home/home.nix)
+5. Add/remove home packages in [`nixos/home/pkg-sets`](./nixos/home/pkg-sets/)
+
+### 4. Apply home and system configuration
+
+* Switch to latest Home Manager configuration:
+  ```bash
+  home-manager switch --flake $CFG#$USER
+  ```
+  (no `sudo` or reboot necessary)
+* Switch to latest NixOS system configuration:
+  ```bash
+  sudo nixos-rebuild switch --flake "$CFG#$(hostname)"
+  ```
+  (updating the kernel requires reboot, while changes to services (e.g. enabling
+  docker, or updating the firewall rules) don't)
+
+### 5. Keep your fork up to date
+
+First, check your git remotes. You should have one pointing to your fork and one
+pointing to this repo. In this case `petar` points to this repo and `origin`
+points to yours.
 
 ```bash
-home-manager switch --flake $CFG#$USER
+git remote -v
+origin  git@github.com:<your-fork>/dotfiles.git (fetch)
+origin  git@github.com:<your-fork>/dotfiles.git (push)
+petar   https://github.com/PetarKirov/dotfiles.git (fetch)
+petar   https://github.com/PetarKirov/dotfiles.git (push)
+```
+
+(The choice of SSH for the fork and HTTPS for the original repo in the
+URL schema is deliberate to signify that the original repo is read-only, while
+the fork is read/write.)
+
+Next simply pull from the original repo and rebase your branch on top:
+
+```bash
+git pull --rebase petar master
+```
+
+### Putting everything together
+
+To update only the packages managed by home-manager (no `sudo` or restart
+needed):
+
+```bash
+git pull --rebase petar master && home-manager switch --flake $CFG#$USER
+```
+
+To update everything and restart:
+```bash
+git pull --rebase petar master \
+  && home-manager switch --flake $CFG#$USER \
+  && sudo nixos-rebuild switch --flake "$CFG#$(hostname)" \
+  && reboot
 ```
 
 ### Manually update all Nix Flake inputs
+
+If you want to maintain a completely independent fork, or if you just want to
+update dependencies on your own schedule, you can manually update the flake
+inputs like this:
 
 ```bash
 nix flake update $CFG
