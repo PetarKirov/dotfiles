@@ -1,11 +1,11 @@
-{
-  pkgs,
-  unstablePkgs,
-  ...
-}: {
+{pkgs, ...}: {
   programs.git = {
     enable = true;
-    package = unstablePkgs.gitAndTools.gitFull;
+    package = pkgs.git.override {
+      withSsh = true;
+      withLibsecret = true;
+      sendEmailSupport = true;
+    };
     delta.enable = true;
     includes = [
       {path = ../../../.gitconfig;}
