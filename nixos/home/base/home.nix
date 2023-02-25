@@ -7,7 +7,7 @@
   home = {
     inherit username;
     homeDirectory = "/home/${username}";
-    stateVersion = "21.11";
+    stateVersion = "22.11";
   };
 
   manual.manpages.enable = false;
