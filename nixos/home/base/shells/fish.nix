@@ -22,6 +22,7 @@
         src = omf-bobthefish;
       }
     ];
+
     interactiveShellInit = ''
       # bobthefish theme settings:
       set -g theme_newline_cursor yes
@@ -37,6 +38,7 @@
 
       set -g theme_display_node yes
     '';
+
     shellAbbrs = {
       # Basic
       l = "ls -lah";
