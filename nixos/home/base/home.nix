@@ -26,5 +26,6 @@
     CFG = "${REPOS}/dotfiles";
     DLANG = "${REPOS}/dlang";
     WORK = "${REPOS}/metacraft-labs";
+    MINE = "${REPOS}mine";
   };
 }
