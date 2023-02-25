@@ -40,7 +40,15 @@
     defaultUser = "zlx";
     users = [defaultUser];
 
-    pkgs = nixpkgs.legacyPackages.${system};
+    pkgs = import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+    };
+
+    unstablePkgs = import nixpkgs-unstable {
+      inherit system;
+      config.allowUnfree = true;
+    };
 
     machines = builtins.attrNames (
       nixpkgs.lib.filterAttrs
@@ -50,7 +58,7 @@
 
     makeMachineConfig = defaultUser: hostname:
       nixpkgs.lib.nixosSystem {
-        inherit system;
+        inherit pkgs system;
         modules = [./nixos/machines/import-machine.nix];
         specialArgs = {inherit defaultUser hostname;};
       };
@@ -69,11 +77,7 @@
           }
         ];
         extraSpecialArgs = {
-          inherit omf-bobthefish;
-          unstablePkgs = import nixpkgs-unstable {
-            inherit system;
-            config = {allowUnfree = true;};
-          };
+          inherit unstablePkgs omf-bobthefish;
         };
       };
 

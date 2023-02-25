@@ -22,20 +22,6 @@
     WORK = "${REPOS}/metacraft-labs";
   };
 
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (pkgs.lib.getName pkg) [
-      "discord"
-      "google-chrome"
-      "postman"
-      "slack"
-      "spotify-unwrapped"
-      "spotify"
-      "teams"
-      "teamviewer"
-      "unrar"
-      "zoom"
-    ];
-
   imports = [
     ./dconf.nix
     ./shells/fish.nix
