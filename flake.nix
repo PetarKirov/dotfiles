@@ -67,17 +67,10 @@
       home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
-          ./nixos/home/home.nix
-          {
-            home = {
-              inherit username;
-              homeDirectory = "/home/${username}";
-              stateVersion = "21.11";
-            };
-          }
+          ./nixos/home/full
         ];
         extraSpecialArgs = {
-          inherit unstablePkgs omf-bobthefish;
+          inherit username unstablePkgs omf-bobthefish;
         };
       };
 
