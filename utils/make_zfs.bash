@@ -121,7 +121,6 @@ EOF
   {
     create_single_disk_zfs_root_fs "$zfs_pool_name" $ROOT_PART_NUM
     create_zfs_datasets "$zfs_pool_name" "$esp_partition"
-    DRY_RUN=0
     print_zfs_info
   } | draw_box "Creating zpool and zfs datasets"
 
@@ -275,8 +274,11 @@ function create_zfs_datasets {
 }
 
 function print_zfs_info {
-  run_cmd sudo zpool status
-  run_cmd sudo zfs list -r
+  local old_DRY_RUN="$DRY_RUN"
+  DRY_RUN=0
+  run_cmd zpool status
+  run_cmd zfs list -r
+  DRY_RUN="$old_DRY_RUN"
 }
 
 function print_gpt_partition_info {
