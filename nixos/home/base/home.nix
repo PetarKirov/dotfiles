@@ -6,7 +6,10 @@
 }: {
   home = {
     inherit username;
-    homeDirectory = "/home/${username}";
+    homeDirectory =
+      if pkgs.hostPlatform.isDarwin
+      then "/Users/${username}"
+      else "/home/${username}";
     stateVersion = "22.11";
   };
 
