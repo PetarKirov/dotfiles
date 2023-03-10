@@ -1,10 +1,12 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  unstablePkgs,
+  ...
+}: {
   home.packages = with pkgs; [
     cachix
-    nix-index
-    nix-prefetch-git
+    unstablePkgs.nurl
     nix-tree
-    # appimage-run
     patchelf
     alejandra
   ];
