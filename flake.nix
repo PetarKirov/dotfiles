@@ -42,7 +42,7 @@
     instantiateMachines = (import ./nixos/machines) {lib = nixpkgs.lib;};
   in
     flake-parts.lib.mkFlake {inherit inputs;} {
-      systems = ["x86_64-linux"];
+      systems = ["x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin"];
       flake = {
         nixosConfigurations = instantiateMachines defaultUser;
         nixOnDroidConfigurations.device = nix-on-droid.lib.nixOnDroidConfiguration {
@@ -77,6 +77,7 @@
           ${defaultUser} = home-config-full;
           home-config-base = makeHomeConfig [./nixos/home/base] defaultUser;
           home-config-full = makeHomeConfig [./nixos/home/full] defaultUser;
+          home-config-macos = makeHomeConfig [./nixos/home/macos] "pkirov";
         };
       };
     };
