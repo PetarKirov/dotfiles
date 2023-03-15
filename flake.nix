@@ -60,7 +60,7 @@
       nixpkgs.lib.nixosSystem {
         inherit pkgs system;
         modules = [./nixos/machines/import-machine.nix];
-        specialArgs = {inherit defaultUser hostname;};
+        specialArgs = {inherit defaultUser hostname unstablePkgs;};
       };
 
     makeHomeConfig = username:
