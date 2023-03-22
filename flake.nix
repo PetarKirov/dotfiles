@@ -23,6 +23,11 @@
         home-manager.follows = "home-manager";
       };
     };
+
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
   };
 
   outputs = {
