@@ -58,7 +58,7 @@
 
     makeMachineConfig = defaultUser: hostname:
       nixpkgs.lib.nixosSystem {
-        inherit pkgs system;
+        inherit pkgs;
         modules = [./nixos/machines/import-machine.nix];
         specialArgs = {inherit defaultUser hostname unstablePkgs;};
       };
