@@ -1,4 +1,5 @@
 {lib, ...}: {
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   boot.initrd.availableKernelModules = ["xhci_pci" "ehci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-intel"];
