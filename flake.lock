@@ -167,29 +167,12 @@
         "type": "gitlab"
       }
     },
-    "omf-bobthefish": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1679840537,
-        "narHash": "sha256-7nZ25R75WsSPqSmyeJbRQ49cITxL3D5CfyplsixFlY8=",
-        "owner": "oh-my-fish",
-        "repo": "theme-bobthefish",
-        "rev": "76cac812064fa749ffc258a20398c6f6250860c5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "oh-my-fish",
-        "repo": "theme-bobthefish",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
         "nix-on-droid": "nix-on-droid",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-unstable": "nixpkgs-unstable",
-        "omf-bobthefish": "omf-bobthefish"
+        "nixpkgs-unstable": "nixpkgs-unstable"
       }
     },
     "utils": {
