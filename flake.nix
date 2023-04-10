@@ -74,7 +74,13 @@
           config = ./nix-on-droid.nix;
           system = "aarch64-linux";
         };
-        devShells."${system}".default = import ./shell.nix {inherit pkgs;};
+      };
+      perSystem = {
+        pkgs,
+        system,
+        ...
+      }: {
+        devShells.default = import ./shell.nix {inherit pkgs;};
       };
     };
 }
