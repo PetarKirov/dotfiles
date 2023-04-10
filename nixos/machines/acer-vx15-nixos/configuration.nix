@@ -3,7 +3,6 @@
   pkgs,
   ...
 }: {
-  networking.hostName = "acer-vx15-nixos";
   hardware.nvidiaOptimus.disable = true;
 
   imports = [
