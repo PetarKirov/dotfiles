@@ -5,10 +5,8 @@
 | CI Workflow                     | Target Platform                | CI Job Status                                                                                                                                                                      |
 | ------------------------------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | NixOS System Configuration      | NixOS                          | [![NixOS][gh-actions-nixos]][gh-actions]                                                                                                                                           |
-| Home Manager User Configuration | Linux / macOS                  | [![Nix Home Manager][gh-actions-nix-hm]][gh-actions]                                                                                                                               |
+| Home Manager User Configuration | Linux / macOS                  | [![Home Manager on Linux][gh-actions-nix-hm]][gh-actions] [![Home Manager on macOS][gh-actions-nix-hm-macos]][gh-actions]                                                                    |
 | Nix-on-Droid                    | Android                        | (not implemented yet)                                                                                                                                                              |
-| Legacy Install Scripts          | Linux + distro package manager | [![Alpine][gh-actions-alpine]][gh-actions] [![Arch Linux][gh-actions-archlinux]][gh-actions] [![Debian][gh-actions-debian]][gh-actions] [![Ubuntu][gh-actions-ubuntu]][gh-actions] |
-| Legacy Install Scripts          | macOS + HomeBrew               | [![macOS][gh-actions-macos]][gh-actions]                                                                                                                                           |
 
 ---
 
@@ -137,21 +135,116 @@ The versions of most software installed on the system are determined by the
 Nixpkgs commit hash stored in the `flake.lock` file. Running the command above
 will update it (and the other flake inputs) to latest version.
 
-## Getting started
+## Installing NixOS
 
-Clone the repo, e.g. to `$HOME/code/repos`:
+1. Boot into a [live NixOS environment](https://nixos.org/download.html#nixos-iso)
+2. Generate a `hostid` for the target system:
 
-```bash
-git clone https://github.com/PetarKirov/dotfiles
-```
+   ```sh
+   echo "$(tr -dc 0-9a-f < /dev/urandom | head -c 8)"
+   ```
 
-Copy a machine configuration and modify it as needed:
+3. Update `/etc/nixos/configuration.nix` of the live NixOS environment like so:
 
-```bash
-cd dotfiles
-cp -r nixos/machines/zlx-nixos-desktop2 nixos/machines/my-machine
-# Edit nixos/machines/my-machine/*
-```
+    ```nix
+    { config, pkgs, ... }:
+    {
+      imports = [ <nixpkgs/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix> ];
+      networking.hostId = "<enter the hostid obtained at step 2>";
+      nix = {
+        trustedUsers = [ "root" "nixos" ];
+        extraOptions = ''
+          experimental-features = nix-command flakes
+        '';
+      };
+    }
+    ```
+
+    ```sh
+    # Open the file and change it to the snippet below:
+    sudo vim /etc/nixos/configuration.nix
+
+    # Once the file has been updated and saved, apply the settings:
+    sudo nixos-rebuild switch
+    ```
+
+    These settings will ensure that you're using a recent enough version of Nix
+    with the necessary features enabled and that ZFS will set the right hostid
+    when partitioning the storage drive.
+
+4. Clone this repo:
+
+   ```sh
+   git clone https://github.com/PetarKirov/dotfiles && cd dotfiles
+   ```
+
+5. Assuming that you're installing NixOS on a clean drive, run the automated ZFS partitioning tool:
+   * Run it in "dry-run" mode to get information about your system:
+     `./utils/make_zfs.bash`
+   * If you need to partition your drive run:
+     `env DRY_RUN=0 KEEP_PARTITIONS=0 ./utils/make_zfs.bash`
+   * If your drive is already partitioned, run: `env DRY_RUN=0
+     ./utils/make_zfs.bash`
+
+   Now there should be a root ZFS partition mounted at `/mnt`, a boot partition
+   at `/mnt/boot` and a swap partition.
+
+6. Pick a name for the machine and generate the NixOS config, which you'll edit
+   manually:
+
+   ```sh
+   export MACHINE=machine-name
+   mkdir ./nixos/machines/$MACHINE
+   sudo nixos-generate-config \
+     --root /mnt \
+     --dir  /..$(git rev-parse --show-toplevel)/nixos/machines/$MACHINE
+   ```
+
+   Your files were automatically generated under `../dotfiles/nixos/machines/$MACHINE/`.
+
+7. Update them manually to match the format of the other machines under
+   [`./nixos/machines`](./nixos/machines) (e.g. separate `file-systems.nix` file).
+
+   Tip: use `lsblk` to list the storage devices by `partuuid`:
+
+   ```sh
+   lsblk -o KNAME,SIZE,PARTUUID,MOUNTPOINTS
+   ```
+
+8. Copy the `dotfiles` repo inside the user's home dir in order to persist the
+   changes we did in the live environment
+
+   ```sh
+   mkdir -p /mnt/home/$USER/code/repos
+   cp -a ../dotfiles /mnt/home/$USER/code/repos
+   ```
+
+9. With everything configured we can now perform the actual NixOS installation:
+
+   ```sh
+   sudo nixos-install --impure --flake '.#$MACHINE' --root /mnt
+   ```
+
+10. Now that NixOS has been installed on the target drive, chroot into it (using
+    `nixos-enter`) and change the password of the default user:
+
+    ```sh
+    sudo nixos-enter --root /mnt
+    passwd $THE_USER_NAME
+    exit
+    ```
+
+    (Replace `$THE_USER_NAME` in the command above with the your username.)
+
+11. Reboot into the new NixOS install and activate the home-manager config:
+
+    ```sh
+    cd /home/$USER/code/repos/dotfiles
+    nix build ".#homeConfigurations.$USER.activationPackage"
+    nix path-info ".#homeConfigurations.$USER.activationPackage" | xargs -I@@ sh -c '@@/activate'
+    ```
+
+12. You're done!
 
 ## Nix Ecosystem Docs
 
@@ -173,128 +266,6 @@ cp -r nixos/machines/zlx-nixos-desktop2 nixos/machines/my-machine
 * Nix Direnv: <https://github.com/nix-community/nix-direnv>
 * Direnv: <https://direnv.net/>
 
-## Installing NixOS
-
-1. Boot into a live NixOS environment (either a live CD containing the [NixOS
-installer](https://nixos.org/download.html#nixos-iso) or an existing NixOS installation on another drive)
-    * If you're using a live CD environment, be sure to update `/etc/nixos/configuration.nix` like so:
-    ```sh
-    # Open the file and change it to the snippet below:
-    sudo nvim /etc/nixos/configuration.nix
-
-    # Once the file has been updated and saved, apply the settings:
-    sudo nixos-rebuild switch
-    ```
-
-    ```nix
-    { config, pkgs, ... }:
-    {
-      imports = [ <nixpkgs/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix> ];
-      nix = {
-        trustedUsers = [ "root" "nixos" ];
-        extraOptions = ''
-          experimental-features = nix-command flakes
-        '';
-      };
-    }
-    ```
-    These settings will ensure that you're using a recent enough version of
-    Nix with the necessary features enabled.
-
-2. Clone this repo and `cd` into it:
-`git clone https://github.com/PetarKirov/dotfiles && cd dotfiles`
-3. Assuming that you're installing NixOS on a clean drive, run the automated ZFS partitioning tool:
-   * Run it in "dry-run" mode to get information about your system:
-     `./utils/make_zfs.bash`
-   * If you need to partition your drive run:
-     `env DRY_RUN=0 KEEP_PARTITIONS=0 ./utils/make_zfs.bash`
-   * If your drive is already partitioned, run: `env DRY_RUN=0
-     ./utils/make_zfs.bash`
-4. Now there should be a root ZFS partition mounted at `/mnt`. To install NixOS
-there, run:
-
-<dl>
-  <dt>Bash $</dt>
-  <dd>
-
-  ```bash
-  mkdir ./nixos/machines/my-machine
-  sudo nixos-generate-config --root /mnt --dir  /..$(git rev-parse --show-toplevel)/nixos/machines/my-machine
-  ```
-  </dd>
-
-  <dt>Fish ⋊&gt;</dt>
-  <dd>
-
-  ```fish
-  mkdir ./nixos/machines/my-machine
-  sudo nixos-generate-config --root /mnt --dir  /..(git rev-parse --show-toplevel)/nixos/machines/my-machine
-  ```
-  </dd>
-
-  Your files were automatically generated. Now they could be manually changed!
-  > note: Do not forget to set random `hostId`. You can use the following command for generation:
-  > ```
-  > tr -dc 0-9a-f < /dev/urandom | head -c 8
-  > ```
-
-  With everything configured we can continue with:
-
-  <dt>Bash $</dt>
-  <dd>
-
-  ```bash
-  sudo nixos-install --impure --flake '.#my-machine' --root /mnt
-  ```
-  </dd>
-
-  <dt>Fish ⋊&gt;</dt>
-  <dd>
-
-  ```fish
-  sudo nixos-install --impure --flake '.#my-machine' --root /mnt
-  ```
-
-  </dd>
-</dl>
-
-   (Replace `my-machine` in the command above with the name of the
-   machine config you want to apply.)
-
-5. Now that NixOS is installed, chroot into (using `nixos-enter`) and change the
-password of the default user:
-
-   ```sh
-   sudo nixos-enter --root /mnt
-   passwd zlx
-   exit
-   ```
-
-   (Replace `zlx` in the command above with the your username.)
-
-6. Copy the `dotfiles` repo inside the user's home dir:
-
-   ```sh
-   mkdir -p /mnt/home/$USER/code/repos
-   cp -a ../dotfiles /mnt/home/$USER/code/repos
-   ```
-
-7. Build the home-manager config and copy it to the new Nix Store:
-
-   ```sh
-   nix build ".#homeConfigurations.$USER.activationPackage"
-   sudo nix copy --to /mnt ./result/ --no-check-sigs
-   ```
-
-8. Reboot into the new Nix install, open a terminal, cd into the dotfiles dir and activate the home-manager config:
-
-   ```sh
-   cd /home/$USER/code/repos/dotfiles
-   nix path-info ".#homeConfigurations.$USER.activationPackage" | xargs -I@@ sh -c '@@/activate'
-   ```
-
-9. You're done!
-
 [nixos]: https://nixos.org/
 [home-mgr]: https://github.com/nix-community/home-manager
 [nix-on-droid]: https://github.com/t184256/nix-on-droid
@@ -302,10 +273,6 @@ password of the default user:
 
 [gh-actions]: https://github.com/PetarKirov/dotfiles/actions
 
-[gh-actions-alpine]: https://github-actions.40ants.com/PetarKirov/dotfiles/matrix.svg?only=ci.alpine
-[gh-actions-archlinux]: https://github-actions.40ants.com/PetarKirov/dotfiles/matrix.svg?only=ci.archlinux
-[gh-actions-debian]: https://github-actions.40ants.com/PetarKirov/dotfiles/matrix.svg?only=ci.debian
-[gh-actions-ubuntu]: https://github-actions.40ants.com/PetarKirov/dotfiles/matrix.svg?only=ci.ubuntu
-[gh-actions-macos]: https://github-actions.40ants.com/PetarKirov/dotfiles/matrix.svg?only=ci.macOS-latest
 [gh-actions-nixos]: https://github-actions.40ants.com/PetarKirov/dotfiles/matrix.svg?only=ci.nixos
 [gh-actions-nix-hm]: https://github-actions.40ants.com/PetarKirov/dotfiles/matrix.svg?only=ci.nix-hm
+[gh-actions-nix-hm-macos]: https://github-actions.40ants.com/PetarKirov/dotfiles/matrix.svg?only=ci.nix-hm-macos
