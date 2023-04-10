@@ -69,25 +69,13 @@
           inherit username unstablePkgs;
         };
       };
-
-    makeNixOnDroidConfig = username:
-      nix-on-droid.lib.nixOnDroidConfiguration {
-        config = ./nix-on-droid.nix;
-        system = "aarch64-linux";
-        extraModules = [
-          # import source out-of-tree modules like:
-          # flake.nixOnDroidModules.module
-        ];
-        extraSpecialArgs = {
-          # arguments to be available in every nix-on-droid module
-        };
-        # your own pkgs instance (see nix-on-droid.overlay for useful additions)
-        # pkgs = ...;
-      };
   in {
     nixosConfigurations = pkgs.lib.genAttrs machines (makeMachineConfig defaultUser);
     homeConfigurations = pkgs.lib.genAttrs users makeHomeConfig;
-    nixOnDroidConfigurations = {device = makeNixOnDroidConfig defaultUser;};
+    nixOnDroidConfigurations.device = nix-on-droid.lib.nixOnDroidConfiguration {
+      config = ./nix-on-droid.nix;
+      system = "aarch64-linux";
+    };
     devShells."${system}".default = import ./shell.nix {inherit pkgs;};
   };
 }
