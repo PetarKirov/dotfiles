@@ -35,8 +35,9 @@
     nixpkgs,
     nixpkgs-unstable,
     nix-on-droid,
+    flake-parts,
     ...
-  }: let
+  } @ inputs: let
     system = "x86_64-linux";
     defaultUser = "zlx";
     users = [defaultUser];
@@ -74,13 +75,17 @@
           inherit username unstablePkgs;
         };
       };
-  in {
-    nixosConfigurations = pkgs.lib.genAttrs machines (makeMachineConfig defaultUser);
-    homeConfigurations = pkgs.lib.genAttrs users makeHomeConfig;
-    nixOnDroidConfigurations.device = nix-on-droid.lib.nixOnDroidConfiguration {
-      config = ./nix-on-droid.nix;
-      system = "aarch64-linux";
+  in
+    flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["x86_64-linux"];
+      flake = {
+        nixosConfigurations = pkgs.lib.genAttrs machines (makeMachineConfig defaultUser);
+        homeConfigurations = pkgs.lib.genAttrs users makeHomeConfig;
+        nixOnDroidConfigurations.device = nix-on-droid.lib.nixOnDroidConfiguration {
+          config = ./nix-on-droid.nix;
+          system = "aarch64-linux";
+        };
+        devShells."${system}".default = import ./shell.nix {inherit pkgs;};
+      };
     };
-    devShells."${system}".default = import ./shell.nix {inherit pkgs;};
-  };
 }
