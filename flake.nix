@@ -52,20 +52,7 @@
       config.allowUnfree = true;
     };
 
-    machines = builtins.attrNames (
-      nixpkgs.lib.filterAttrs
-      (n: v: v == "directory")
-      (builtins.readDir ./nixos/machines)
-    );
-
-    makeMachineConfig = defaultUser: hostname:
-      nixpkgs.lib.nixosSystem {
-        inherit pkgs;
-        modules = [./nixos/machines/import-machine.nix];
-        specialArgs = {inherit defaultUser hostname unstablePkgs;};
-      };
-
-    makeHomeConfig = username:
+    makeHomeConfig = modules: username:
       home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
@@ -75,11 +62,13 @@
           inherit username unstablePkgs;
         };
       };
+
+    instantiateMachines = (import ./nixos/machines) {lib = nixpkgs.lib;};
   in
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux"];
       flake = {
-        nixosConfigurations = pkgs.lib.genAttrs machines (makeMachineConfig defaultUser);
+        nixosConfigurations = instantiateMachines defaultUser;
         homeConfigurations = pkgs.lib.genAttrs users makeHomeConfig;
         nixOnDroidConfigurations.device = nix-on-droid.lib.nixOnDroidConfiguration {
           config = ./nix-on-droid.nix;
