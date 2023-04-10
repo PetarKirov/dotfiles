@@ -1,11 +1,10 @@
 {
   pkgs,
-  unstablePkgs,
   defaultUser,
   ...
 }: {
   nix = {
-    package = unstablePkgs.nixVersions.nix_2_14;
+    package = pkgs.nixVersions.stable;
     settings = {
       trusted-users = ["root" defaultUser];
       experimental-features = ["nix-command" "flakes"];
