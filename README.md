@@ -215,14 +215,14 @@ will update it (and the other flake inputs) to latest version.
    changes we did in the live environment
 
    ```sh
-   mkdir -p /mnt/home/$USER/code/repos
-   cp -a ../dotfiles /mnt/home/$USER/code/repos
+   sudo mkdir -p /mnt/home/$USER/code/repos
+   sudo cp -a ../dotfiles /mnt/home/$USER/code/repos
    ```
 
 9. With everything configured we can now perform the actual NixOS installation:
 
    ```sh
-   sudo nixos-install --impure --flake '.#$MACHINE' --root /mnt
+   sudo nixos-install --impure --flake ".#$MACHINE" --root /mnt
    ```
 
 10. Now that NixOS has been installed on the target drive, chroot into it (using
@@ -241,6 +241,7 @@ will update it (and the other flake inputs) to latest version.
     ```sh
     cd /home/$USER/code/repos/dotfiles
     nix build ".#homeConfigurations.$USER.activationPackage"
+    sudo rm -rf /home/$USER/.config/fish
     nix path-info ".#homeConfigurations.$USER.activationPackage" | xargs -I@@ sh -c '@@/activate'
     ```
 
