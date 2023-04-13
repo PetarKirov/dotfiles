@@ -47,6 +47,7 @@
     wireguard-tools
     iputils
     pciutils
+    nvme-cli
     htop
     file
     ripgrep
