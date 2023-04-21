@@ -61,7 +61,7 @@ You most likely want to update some of these things:
 
 1. Git username and email - edit [this file](./.gitconfig)
 2. NixOS username - edit `defaultUser` in
-  [flake.nix](https://github.com/PetarKirov/dotfiles/blob/master/flake.nix#L40)
+  [flake.nix](https://github.com/PetarKirov/dotfiles/blob/main/flake.nix#L40)
 3. Commit your NixOS machine config under [`nixos/machines`](./nixos/machines)
 4. Update [`home.sessionVariables`](./nixos/home/home.nix)
 5. Add/remove home packages in [`nixos/home/pkg-sets`](./nixos/home/pkg-sets/)
@@ -101,7 +101,7 @@ the fork is read/write.)
 Next simply pull from the original repo and rebase your branch on top:
 
 ```bash
-git pull --rebase petar master
+git pull --rebase petar main
 ```
 
 ### Putting everything together
@@ -110,12 +110,12 @@ To update only the packages managed by home-manager (no `sudo` or restart
 needed):
 
 ```bash
-git pull --rebase petar master && home-manager switch --flake $CFG#$USER
+git pull --rebase petar main && home-manager switch --flake $CFG#$USER
 ```
 
 To update everything and restart:
 ```bash
-git pull --rebase petar master \
+git pull --rebase petar main \
   && home-manager switch --flake $CFG#$USER \
   && sudo nixos-rebuild switch --flake "$CFG#$(hostname)" \
   && reboot
