@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: {
   # Symlink `functions` folder, but not the whole `fish` directory, as it
@@ -26,6 +27,10 @@
         };
       }
     ];
+
+    shellInit = lib.optionalString pkgs.stdenv.isDarwin ''
+      source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
+    '';
 
     interactiveShellInit = ''
       # bobthefish theme settings:
