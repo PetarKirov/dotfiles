@@ -12,4 +12,8 @@
     git = true;
     extraOptions = ["--group-directories-first"];
   };
+
+  programs.zellij = {
+    enable = true;
+  };
 }
