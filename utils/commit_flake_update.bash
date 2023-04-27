@@ -14,21 +14,9 @@ fi
 
 nix flake update --commit-lock-file
 
-cat >commit_msg <<EOF
+git commit --amend -F - <<EOF
 chore(flake.lock): Update all Flake inputs ($(date -I))
 
 $(git log -1 '--pretty=format:%b' | sed '1,2d')
 EOF
 
-git reset --soft 'HEAD~'
-
-if [[ -z "${GITHUB_ENV:-}" ]]; then
-  echo "Not running in CI - exiting"
-  exit 0
-fi
-
->> "$GITHUB_ENV" cat <<EOF
-COMMIT_MSG<<EOV
-$(cat ./commit_msg)
-EOV
-EOF
