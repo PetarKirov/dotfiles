@@ -4,7 +4,7 @@ in {
   fileSystems =
     {
       "/boot" = {
-        device = "/dev/disk/by-partuuid/50c6a8bb-5313-4ef8-87d4-4e79b1bac594" ;
+        device = "/dev/disk/by-partuuid/50c6a8bb-5313-4ef8-87d4-4e79b1bac594";
         fsType = "vfat";
       };
     }
