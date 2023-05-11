@@ -14,4 +14,8 @@
       {path = ../../../.config/git/delta-themes.gitconfig;}
     ];
   };
+
+  home.packages = with pkgs; [
+    git-filter-repo
+  ];
 }
