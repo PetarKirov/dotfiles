@@ -12,7 +12,7 @@
           networking.hostName = hostname;
           nixpkgs.config.allowUnfree = true;
           imports = [
-            ../sys/imports.nix
+            ../sys
             ./${hostname}/configuration.nix
             ./${hostname}/hardware-configuration.nix
           ];
