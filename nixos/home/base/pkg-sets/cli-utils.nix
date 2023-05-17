@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  unstablePkgs,
+  ...
+}: {
   home.packages = with pkgs; [
     bat
     gitAndTools.diff-so-fancy
@@ -15,5 +19,6 @@
 
   programs.zellij = {
     enable = true;
+    package = unstablePkgs.zellij;
   };
 }
