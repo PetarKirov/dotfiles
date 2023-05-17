@@ -10,5 +10,6 @@
     nix-tree
     patchelf
     alejandra
+    nix-output-monitor
   ];
 }
