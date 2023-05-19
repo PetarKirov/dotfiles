@@ -1,79 +1,77 @@
-" Required:
-set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+" Set Dein base path (required)
+let s:dein_base = '~/.local/share/dein'
 
-" Required:
-if dein#load_state($HOME."/.cache/dein")
-  call dein#begin($HOME."/.cache/dein")
+" Set Dein source path (required)
+let s:dein_src = '~/.local/share/dein/repos/github.com/Shougo/dein.vim'
 
-  " Let dein manage dein
-  " Required:
-  call dein#add($HOME.'/.cache/dein/repos/github.com/Shougo/dein.vim')
+" Set Dein runtime path (required)
+execute 'set runtimepath+=' . s:dein_src
 
-  " Plugins begin:
+" Call Dein initialization (required)
+call dein#begin(s:dein_base)
 
-  " EditorConfig support: https://editorconfig.org/
-  call dein#add('editorconfig/editorconfig-vim')
+call dein#add(s:dein_src)
 
-  " File explorer
-  call dein#add('scrooloose/nerdtree')
+" Plugins begin:
 
-  " Git related
-  call dein#add('Xuyuanp/nerdtree-git-plugin')
-  call dein#add('tpope/vim-fugitive')
+" EditorConfig support: https://editorconfig.org/
+call dein#add('editorconfig/editorconfig-vim')
 
-  " File type glyphs/icons
-  call dein#add('ryanoasis/vim-devicons')
+" File explorer
+call dein#add('scrooloose/nerdtree')
 
-  " Center buffer
-  call dein#add('junegunn/goyo.vim')
+" Git related
+call dein#add('Xuyuanp/nerdtree-git-plugin')
+call dein#add('tpope/vim-fugitive')
 
-  " Multiple cursors
-  call dein#add('mg979/vim-visual-multi')
+" File type glyphs/icons
+call dein#add('ryanoasis/vim-devicons')
 
-  " Graphical undo
-  call dein#add('sjl/gundo.vim')
+" Center buffer
+call dein#add('junegunn/goyo.vim')
 
-  " Surround
-  call dein#add('tpope/vim-surround')
+" Multiple cursors
+call dein#add('mg979/vim-visual-multi')
 
-  " Sort motion
-  call dein#add('christoomey/vim-sort-motion')
+" Graphical undo
+call dein#add('sjl/gundo.vim')
 
-  " Tabular
-  call dein#add('godlygeek/tabular')
+" Surround
+call dein#add('tpope/vim-surround')
 
-  " Cool status bar
-  call dein#add('vim-airline/vim-airline')
+" Sort motion
+call dein#add('christoomey/vim-sort-motion')
 
-  " Language support
-  call dein#add('JesseKPhillips/d.vim')
-  call dein#add('dag/vim-fish')
-  call dein#add('tomlion/vim-solidity')
-  call dein#add('pangloss/vim-javascript')
-  call dein#add('leafgarland/typescript-vim')
-  call dein#add('dart-lang/dart-vim-plugin')
-  call dein#add('thosakwe/vim-flutter')
-  call dein#add('LnL7/vim-nix')
+" Tabular
+call dein#add('godlygeek/tabular')
 
-  " Themes
-  call dein#add('joshdick/onedark.vim')
-  call dein#add('mhartington/oceanic-next')
-  call dein#add('ghifarit53/tokyonight-vim')
-  call dein#add('1612492/github.vim')
-  call dein#add('rktjmp/lush.nvim')
-  call dein#add('rakr/vim-one')
-  call dein#add('sonph/onehalf')
-  call dein#add('dracula/vim')
-  call dein#add('jacoborus/tender.vim')
-  call dein#add('tomasiser/vim-code-dark')
+" Cool status bar
+call dein#add('vim-airline/vim-airline')
 
-  "call dein#add('Shougo/neosnippet.vim')
-  "call dein#add('Shougo/neosnippet-snippets')
+" Language support
+call dein#add('JesseKPhillips/d.vim')
+call dein#add('dag/vim-fish')
+call dein#add('tomlion/vim-solidity')
+call dein#add('pangloss/vim-javascript')
+call dein#add('leafgarland/typescript-vim')
+call dein#add('dart-lang/dart-vim-plugin')
+call dein#add('thosakwe/vim-flutter')
+call dein#add('LnL7/vim-nix')
 
-  " Required:
-  call dein#end()
-  call dein#save_state()
-endif
+" Themes
+call dein#add('joshdick/onedark.vim')
+call dein#add('mhartington/oceanic-next')
+call dein#add('ghifarit53/tokyonight-vim')
+call dein#add('1612492/github.vim')
+call dein#add('rktjmp/lush.nvim')
+call dein#add('rakr/vim-one')
+call dein#add('sonph/onehalf')
+call dein#add('dracula/vim')
+call dein#add('jacoborus/tender.vim')
+call dein#add('tomasiser/vim-code-dark')
+
+"call dein#add('Shougo/neosnippet.vim')
+"call dein#add('Shougo/neosnippet-snippets')
 
 " Install plugins on startup.
 if dein#check_install()
