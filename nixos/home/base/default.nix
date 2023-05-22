@@ -9,6 +9,5 @@
     ./shells/direnv.nix
     ./shells/fish.nix
     ./shells/nushell.nix
-    ./xdg-symlinks.nix
   ];
 }

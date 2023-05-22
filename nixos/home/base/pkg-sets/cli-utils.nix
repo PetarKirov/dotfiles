@@ -1,6 +1,7 @@
 {
   pkgs,
   unstablePkgs,
+  config,
   ...
 }: {
   home.packages = with pkgs; [
@@ -28,6 +29,11 @@
     viAlias = true;
     vimAlias = true;
     defaultEditor = true;
+    extraLuaConfig = ''
+      vim.cmd [[source ${config.home.sessionVariables.CFG}/.config/nvim/general-settings.vim]]
+      vim.cmd [[source ${config.home.sessionVariables.CFG}/.config/nvim/dein-plugins.vim]]
+      vim.cmd [[source ${config.home.sessionVariables.CFG}/.config/nvim/plugin-cfg.vim]]
+    '';
   };
 
   programs.mr = {
