@@ -5,6 +5,7 @@
 }: {
   home.packages = with pkgs; [
     bat
+    ripgrep
     gitAndTools.diff-so-fancy
     jq
     yq
