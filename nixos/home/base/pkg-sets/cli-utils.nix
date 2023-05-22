@@ -29,4 +29,13 @@
     vimAlias = true;
     defaultEditor = true;
   };
+
+  programs.mr = {
+    enable = true;
+    settings = {
+      ".local/share/dein/repos/github.com/Shougo/dein.vim" = {
+        checkout = "git clone https://github.com/Shougo/dein.vim";
+      };
+    };
+  };
 }
