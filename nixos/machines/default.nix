@@ -1,11 +1,16 @@
-{lib}: let
+{
+  lib,
+  inputs,
+  defaultUser,
+  ...
+}: let
   allHosts = builtins.attrNames (
     lib.filterAttrs
     (n: v: v == "directory")
     (builtins.readDir ./.)
   );
 
-  makeNixOSConfig = defaultUser: hostname:
+  makeNixOSConfig = hostname:
     lib.nixosSystem {
       modules = [
         {
@@ -20,6 +25,8 @@
       ];
       specialArgs = {inherit defaultUser;};
     };
-in
-  defaultUser:
-    lib.genAttrs allHosts (makeNixOSConfig defaultUser)
+in {
+  flake = {
+    nixosConfigurations = lib.genAttrs allHosts makeNixOSConfig;
+  };
+}

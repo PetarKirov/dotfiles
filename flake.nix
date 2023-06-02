@@ -43,12 +43,12 @@
     ...
   } @ inputs: let
     defaultUser = "zlx";
-    instantiateMachines = (import ./nixos/machines) {lib = nixpkgs.lib;};
   in
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin"];
+      _module.args = {inherit defaultUser;};
+      imports = [./nixos/machines];
       flake = {
-        nixosConfigurations = instantiateMachines defaultUser;
         nixOnDroidConfigurations.device = nix-on-droid.lib.nixOnDroidConfiguration {
           config = ./nix-on-droid.nix;
           system = "aarch64-linux";
