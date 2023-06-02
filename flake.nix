@@ -28,6 +28,10 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
+
+    flake-utils-plus = {
+      url = "github:gytis-ivaskevicius/flake-utils-plus";
+    };
   };
 
   outputs = {
