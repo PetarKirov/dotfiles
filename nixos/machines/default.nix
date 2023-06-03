@@ -13,6 +13,7 @@
   makeNixOSConfig = hostname:
     lib.nixosSystem {
       modules = [
+        inputs.flake-utils-plus.nixosModules.autoGenFromInputs
         {
           networking.hostName = hostname;
           nixpkgs.config.allowUnfree = true;
@@ -23,7 +24,7 @@
           ];
         }
       ];
-      specialArgs = {inherit defaultUser;};
+      specialArgs = {inherit defaultUser inputs;};
     };
 in {
   flake = {
