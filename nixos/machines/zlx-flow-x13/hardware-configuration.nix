@@ -23,7 +23,6 @@
 
   hardware.enableAllFirmware = true;
   hardware.cpu.amd.updateMicrocode = true;
-  hardware.video.hidpi.enable = true;
 
   powerManagement.cpuFreqGovernor = "schedutil";
 }
