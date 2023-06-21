@@ -32,6 +32,12 @@
     flake-utils-plus = {
       url = "github:gytis-ivaskevicius/flake-utils-plus";
     };
+
+    nixd = {
+      url = "github:nix-community/nixd";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
