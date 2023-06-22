@@ -64,12 +64,13 @@
         pkgs,
         unstablePkgs,
         system,
+        inputs',
         ...
       }: let
         makeHomeConfig = modules: username:
           home-manager.lib.homeManagerConfiguration {
             inherit pkgs modules;
-            extraSpecialArgs = {inherit username unstablePkgs;};
+            extraSpecialArgs = {inherit username unstablePkgs inputs';};
           };
       in {
         _module.args = {
