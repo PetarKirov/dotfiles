@@ -4,7 +4,7 @@
   ...
 }: {
   nix = {
-    package = pkgs.nixVersions.stable;
+    package = pkgs.nixVersions.nix_2_16;
     settings = {
       trusted-users = ["root" defaultUser];
       experimental-features = ["nix-command" "flakes"];
