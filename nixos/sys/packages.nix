@@ -5,6 +5,7 @@
   ...
 }: {
   services.openssh.enable = true;
+  services.yubikey-agent.enable = true;
 
   fonts.fonts = with pkgs; [
     (nerdfonts.override {fonts = ["DroidSansMono" "FiraCode" "FiraMono"];})
@@ -45,6 +46,7 @@
     gnupg
     nmap
     wireguard-tools
+    yubikey-manager
     iputils
     pciutils
     nvme-cli
