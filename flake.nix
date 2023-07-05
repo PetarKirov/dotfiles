@@ -24,6 +24,10 @@
       };
     };
 
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+    };
+
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
@@ -31,12 +35,19 @@
 
     flake-utils-plus = {
       url = "github:gytis-ivaskevicius/flake-utils-plus";
+      inputs.flake-utils.follows = "flake-utils";
     };
 
     nixd = {
       url = "github:nix-community/nixd";
       inputs.flake-parts.follows = "flake-parts";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    vscode-server = {
+      url = "github:nix-community/nixos-vscode-server?rev=7e581626a07486b1779ef02320e7e310feb11611";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
     };
   };
 
