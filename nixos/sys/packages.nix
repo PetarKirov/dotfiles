@@ -6,6 +6,10 @@
 }: {
   services.openssh.enable = true;
   services.yubikey-agent.enable = true;
+  services.vscode-server = {
+    enable = true;
+    installPath = "$HOME/.vscode-server";
+  };
 
   fonts.fonts = with pkgs; [
     (nerdfonts.override {fonts = ["DroidSansMono" "FiraCode" "FiraMono"];})

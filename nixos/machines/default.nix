@@ -14,6 +14,7 @@
     lib.nixosSystem {
       modules = [
         inputs.flake-utils-plus.nixosModules.autoGenFromInputs
+        inputs.vscode-server.nixosModules.default
         {
           networking.hostName = hostname;
           nixpkgs.config.allowUnfree = true;
