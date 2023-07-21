@@ -10,6 +10,11 @@
     gitAndTools.diff-so-fancy
     jq
     yq
+    curl
+    tree
+    htop
+    rage
+    age-plugin-yubikey
   ];
 
   programs.exa = {
