@@ -239,10 +239,17 @@ will update it (and the other flake inputs) to latest version.
 11. Reboot into the new NixOS install and activate the home-manager config:
 
     ```sh
-    cd /home/$USER/code/repos/dotfiles
-    nix build ".#homeConfigurations.$USER.activationPackage"
-    sudo rm -rf /home/$USER/.config/fish
-    nix path-info ".#homeConfigurations.$USER.activationPackage" | xargs -I@@ sh -c '@@/activate'
+    # Home Manager generates config files for Fish which may conflict with the
+    # default fish files. Delete the default ones to prevent any conflicts:
+    rm -rf /home/$USER/.config/fish
+
+    # Change the owner of the repo to your own user:
+    sudo chown -R $USER ~/code
+
+    # Build and activate Home Manager
+    nix build -L --json ~/code/repos/dotfiles#homeConfigurations.$USER.activationPackage \
+      | jq -r '.[].outputs | to_entries[].value' \
+      | xargs -I@@ sh -c '@@/activate'
     ```
 
 12. You're done!
