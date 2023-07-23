@@ -9,7 +9,11 @@
 
   hardware.pulseaudio.enable = false;
   # bluez needs pulseaudio CLI tools to be installed
-  environment.systemPackages = [pkgs.pulseaudio];
+  environment.systemPackages = with pkgs; [
+    pulseaudio
+    lm_sensors
+    gnomeExtensions.freon
+  ];
 
   security.rtkit.enable = true;
 
