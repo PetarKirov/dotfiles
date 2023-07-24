@@ -70,7 +70,7 @@
         makeHomeConfig = modules: username:
           home-manager.lib.homeManagerConfiguration {
             inherit pkgs modules;
-            extraSpecialArgs = {inherit username unstablePkgs inputs';};
+            extraSpecialArgs = {inherit username unstablePkgs inputs' inputs;};
           };
       in {
         _module.args = {

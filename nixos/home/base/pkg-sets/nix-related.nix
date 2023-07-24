@@ -1,10 +1,13 @@
 {
+  lib,
   pkgs,
   unstablePkgs,
+  inputs,
   inputs',
   ...
-}: {
-  home.packages = with pkgs;
+}:
+with pkgs; {
+  home.packages =
     [
       cachix
       unstablePkgs.nurl
@@ -14,7 +17,10 @@
       alejandra
       nix-output-monitor
     ]
-    ++ [
+    ++ lib.optionals (stdenv.isLinux) [
       inputs'.nixd.packages.default
+    ]
+    ++ lib.optionals (stdenv.isDarwin) [
+      inputs.nixd.packages.x86_64-darwin.default
     ];
 }
