@@ -14,6 +14,7 @@ in {
       "nixos/var"
       "nixos/var/lib"
       "nixos/var/lib/docker"
+      "nixos/var/lib/containers"
       "userdata/home"
     ];
 
