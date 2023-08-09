@@ -13,6 +13,7 @@ with pkgs; {
       unstablePkgs.nurl
       unstablePkgs.nix-init
       nix-tree
+      nix-diff
       patchelf
       alejandra
       nix-output-monitor
