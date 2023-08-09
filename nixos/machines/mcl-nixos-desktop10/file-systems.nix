@@ -8,14 +8,16 @@ in {
         fsType = "vfat";
       };
     }
-    // zfsFileSystems [
-      "nixos"
-      "nixos/nix"
-      "nixos/var"
-      "nixos/var/lib"
-      "nixos/var/lib/docker"
-      "userdata/home"
-    ];
+    // (zfsFileSystems {
+      datasets = [
+        "nixos"
+        "nixos/nix"
+        "nixos/var"
+        "nixos/var/lib"
+        "nixos/var/lib/docker"
+        "userdata/home"
+      ];
+    });
 
   swapDevices = [
     {

@@ -1,8 +1,7 @@
 with builtins; let
-  zfsRoot = "zfs_root";
   splitPath = path: filter (x: (typeOf x) == "string") (split "/" path);
   pathTail = path: concatStringsSep "/" (tail (splitPath path));
-  makeZfs = zfsDataset: {
+  makeZfs = zfsRoot: zfsDataset: {
     name = "/" + pathTail zfsDataset;
     value = {
       device = "${zfsRoot}/${zfsDataset}";
@@ -11,5 +10,9 @@ with builtins; let
     };
   };
 in {
-  zfsFileSystems = datasetList: listToAttrs (map makeZfs datasetList);
+  zfsFileSystems = {
+    datasets,
+    zfsRoot ? "zfs_root",
+  }:
+    listToAttrs (map (makeZfs zfsRoot) datasets);
 }
