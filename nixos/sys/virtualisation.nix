@@ -1,6 +1,8 @@
 {
   config,
   pkgs,
+  lib,
+  defaultUser,
   ...
 }: let
   dockerStorageDriver =
@@ -13,8 +15,15 @@
     then "zfs"
     else "overlay2";
 in {
-  virtualisation.docker.enable = true;
-  virtualisation.docker.storageDriver = dockerStorageDriver;
+  virtualisation.lxd.enable = lib.mkDefault true;
+  virtualisation.libvirtd.enable = lib.mkDefault true;
+  virtualisation.virtualbox.host.enable = lib.mkDefault true;
+  users.extraGroups.vboxusers.members = [defaultUser];
+
+  virtualisation.docker = {
+    enable = lib.mkDefault true;
+    storageDriver = dockerStorageDriver;
+  };
 
   virtualisation.containers.storage.settings.storage = {
     driver = podmanStorageDriver;
@@ -24,8 +33,8 @@ in {
 
   virtualisation.podman = {
     enable = true;
-    dockerSocket.enable = false;
-    dockerCompat = false;
+    dockerSocket.enable = !config.virtualisation.docker.enable;
+    dockerCompat = !config.virtualisation.docker.enable;
     extraPackages = [pkgs.gvisor];
   };
 
