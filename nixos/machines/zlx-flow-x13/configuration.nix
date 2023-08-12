@@ -12,4 +12,6 @@
     autoScrub.enable = true;
     autoScrub.pools = ["zfs_root"];
   };
+
+  programs.steam.enable = true;
 }
