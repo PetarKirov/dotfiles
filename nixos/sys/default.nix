@@ -10,5 +10,6 @@
     ./packages.nix
     ./users.nix
     ./virtualisation.nix
+    ./zfs_snapshots.nix
   ];
 }
