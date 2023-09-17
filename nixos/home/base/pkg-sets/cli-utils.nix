@@ -5,14 +5,38 @@
   ...
 }: {
   home.packages = with pkgs; [
+    # foundational tools
+    which
+    findutils
+    gnugrep
+    utillinux
+    diffutils
+    curl
+    htop
+    ncurses
+    tzdata
+    hostname
+    man
+    gnused
+    gnutar
+    bzip2
+    gzip
+    xz
+    zip
+    unzip
+
+    # crypto-related
+    gnupg
+    openssh
+    openssl
+
+    # icing
     bat
     ripgrep
     gitAndTools.diff-so-fancy
     jq
     yq
-    curl
     tree
-    htop
     rage
     gh
     age-plugin-yubikey
