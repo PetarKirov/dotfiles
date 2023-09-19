@@ -14,6 +14,7 @@
     tree
     htop
     rage
+    gh
     age-plugin-yubikey
   ];
 
