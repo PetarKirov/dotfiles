@@ -1,11 +1,7 @@
 {pkgs, ...}: {
   programs.git = {
     enable = true;
-    package = pkgs.git.override {
-      withSsh = true;
-      withLibsecret = true;
-      sendEmailSupport = true;
-    };
+    package = pkgs.gitFull;
     delta.enable = true;
     includes = [
       {path = ../../../.gitconfig;}
