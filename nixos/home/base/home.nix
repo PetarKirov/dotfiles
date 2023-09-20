@@ -1,15 +1,23 @@
 {
   config,
   pkgs,
-  username,
+  lib,
   ...
-}: {
+} @ args: let
+  username =
+    if args ? username
+    then args.username
+    else "!";
+in {
   home = {
-    inherit username;
+    username = lib.mkIf (args ? username) username;
     homeDirectory =
-      if pkgs.hostPlatform.isDarwin
-      then "/Users/${username}"
-      else "/home/${username}";
+      lib.mkIf (args ? username)
+      (
+        if pkgs.hostPlatform.isDarwin
+        then "/Users/${username}"
+        else "/home/${username}"
+      );
     stateVersion = "22.11";
   };
 
