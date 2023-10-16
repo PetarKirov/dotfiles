@@ -1,4 +1,4 @@
 {pkgs, ...}: {
   programs.bash.enable = true;
-  home.packages = with pkgs; [bash];
+  home.packages = with pkgs; [bashInteractive];
 }
