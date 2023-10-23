@@ -1,5 +1,5 @@
 function git-default-branch
-  set default_branches master main dev
+  set default_branches develop dev main master
   for branch in $default_branches
     if git rev-parse --verify $branch >/dev/null 2>&1
       echo $branch
