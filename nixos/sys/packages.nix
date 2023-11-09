@@ -9,6 +9,7 @@
   services.vscode-server = {
     enable = true;
     installPath = "$HOME/.vscode-server";
+    nodejsPackage = pkgs.nodejs;
   };
 
   fonts.fonts = with pkgs; [
