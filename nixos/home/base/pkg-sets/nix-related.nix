@@ -14,6 +14,7 @@ with pkgs; {
       unstablePkgs.nix-init
       nix-tree
       nix-diff
+      nix-du
       patchelf
       alejandra
       nix-output-monitor
