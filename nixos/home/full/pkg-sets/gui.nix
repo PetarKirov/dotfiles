@@ -30,7 +30,7 @@
 
     ## API clients:
     # insomnia
-    postman
+    # postman
 
     ## Remote desktop:
     # remmina
