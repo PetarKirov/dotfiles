@@ -46,4 +46,4 @@ jobs:
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
 
       - name: Build ${{ matrix.job_name }}
-        run: nix build "${{ matrix.nix_flake_output }}"
+        run: nix build --json --keep-going "${{ matrix.nix_flake_output }}"
