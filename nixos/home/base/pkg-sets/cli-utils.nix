@@ -42,7 +42,7 @@
     age-plugin-yubikey
   ];
 
-  programs.exa = {
+  programs.eza = {
     enable = true;
     icons = true;
     git = true;
