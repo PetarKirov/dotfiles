@@ -44,9 +44,16 @@
 
   programs.eza = {
     enable = true;
+    enableAliases = true;
     icons = true;
     git = true;
-    extraOptions = ["--group-directories-first"];
+    extraOptions = [
+      "--group-directories-first"
+      "--header"
+      "--hyperlink"
+      "--color-scale"
+      "--binary"
+    ];
   };
 
   programs.zellij = {
