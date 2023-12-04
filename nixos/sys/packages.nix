@@ -12,7 +12,7 @@
     nodejsPackage = pkgs.nodejs;
   };
 
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     (nerdfonts.override {fonts = ["DroidSansMono" "FiraCode" "FiraMono"];})
   ];
 
