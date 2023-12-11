@@ -1,6 +1,6 @@
 [user]
-	email = petar.p.kirov@gmail.com
-	name = Petar Kirov
+  email = petar.p.kirov@gmail.com
+  name = Petar Kirov
 [fetch]
   prune = true
 [rebase]
@@ -10,14 +10,10 @@
   rebase = false
 [merge]
   ff = only
-[core]
-	editor = nvim
 [include]
-    path = git/aliases.gitconfig
-    path = git/delta.gitconfig
-[difftool "diffpdf"]
-  cmd = diffpdf \"$LOCAL\" \"$REMOTE\"
+  path = git/aliases.gitconfig
+  path = git/delta.gitconfig
 [difftool "nvimdiff"]
-    cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
+  cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
 [diff]
-	colorMoved = dimmed-zebra
+  colorMoved = dimmed-zebra

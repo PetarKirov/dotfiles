@@ -63,9 +63,9 @@
 
   programs.neovim = {
     enable = true;
-    viAlias = true;
-    vimAlias = true;
-    defaultEditor = true;
+    viAlias = false;
+    vimAlias = false;
+    defaultEditor = false;
     extraLuaConfig = ''
       vim.cmd [[source ${config.home.sessionVariables.CFG}/.config/nvim/general-settings.vim]]
       vim.cmd [[source ${config.home.sessionVariables.CFG}/.config/nvim/dein-plugins.vim]]
