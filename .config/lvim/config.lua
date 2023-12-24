@@ -79,13 +79,12 @@ lvim.builtin.treesitter.auto_install = true
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
   { command = "alejandra" },
+  {
+    command = "prettier",
+    filetypes = { "javascript", "typescript", "typescriptreact" },
+  },
 }
---   {
---     command = "prettier",
---     extra_args = { "--print-width", "100" },
---     filetypes = { "typescript", "typescriptreact" },
---   },
--- }
+
 -- local linters = require "lvim.lsp.null-ls.linters"
 -- linters.setup {
 --   { command = "flake8", filetypes = { "python" } },
