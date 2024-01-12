@@ -16,6 +16,12 @@
     gnomeExtensions.freon
     gnomeExtensions.gsconnect
     gnomeExtensions.pano
+    gnomeExtensions.places-status-indicator
+    gnomeExtensions.removable-drive-menu
+    gnomeExtensions.space-bar
+    gnomeExtensions.tiling-assistant
+    gnomeExtensions.weather-or-not
+    gnomeExtensions.quick-settings-tweaker
   ];
 
   security.rtkit.enable = true;
