@@ -12,7 +12,9 @@
   environment.systemPackages = with pkgs; [
     pulseaudio
     lm_sensors
+
     gnomeExtensions.freon
+    gnomeExtensions.gsconnect
   ];
 
   security.rtkit.enable = true;
