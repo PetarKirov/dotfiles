@@ -43,6 +43,10 @@
     ## Terminal emulators:
     # alacritty
     tilix
+    rio
+
+    # Terminal Image Viewers
+    viu
 
     ## Audio editing:
     # reaper audacity
