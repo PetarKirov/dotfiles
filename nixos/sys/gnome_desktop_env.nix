@@ -13,7 +13,7 @@
     pulseaudio
     lm_sensors
 
-    gnomeExtensions.freon
+    # TODO: gnomeExtensions.astra-monitor
     gnomeExtensions.gsconnect
     gnomeExtensions.pano
     gnomeExtensions.places-status-indicator
