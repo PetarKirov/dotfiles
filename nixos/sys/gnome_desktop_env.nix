@@ -15,6 +15,7 @@
 
     gnomeExtensions.freon
     gnomeExtensions.gsconnect
+    gnomeExtensions.pano
   ];
 
   security.rtkit.enable = true;
