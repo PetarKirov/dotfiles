@@ -3,3 +3,6 @@ result
 
 # Direnv
 .direnv
+
+# dotenv
+.env
