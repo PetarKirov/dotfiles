@@ -41,7 +41,6 @@
     nixd = {
       url = "github:nix-community/nixd";
       inputs.flake-parts.follows = "flake-parts";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     vscode-server = {
