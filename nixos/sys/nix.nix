@@ -4,7 +4,6 @@
   ...
 }: {
   nix = {
-    package = pkgs.nixVersions.nix_2_16;
     distributedBuilds = true;
     settings = {
       trusted-users = ["root" defaultUser];
