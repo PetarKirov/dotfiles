@@ -8,8 +8,6 @@
 
   manual.manpages.enable = false;
 
-  nixpkgs.config.allowUnfree = true;
-
   home.packages = with pkgs; [
 
     # NixOS
@@ -65,7 +63,7 @@
     # gui sys
     gparted
     # wireshark-qt
-    glxinfo
+    mesa-demos
     openboard
 
     # gui general
@@ -74,11 +72,11 @@
     libreoffice
     nodePackages.npm
     discord
-    slack tdesktop teams zoom-us # IM / Video
+    slack telegram-desktop teams-for-linux zoom-us # IM / Video
     vscode # GUI text editors / IDEs
     postman # API client
     # remmina # remote desktop
-    deluge transmission-gtk # P2P/Torrent
+    deluge transmission_4-gtk # P2P/Torrent
     tilix # alacritty # Terminal emulators
     spotify vlc mpv # Audio & video players
     # reaper audacity # Audio editing
@@ -101,7 +99,7 @@
     # go-ethereum
 
     # themes
-    gnome3.gnome-tweaks
+    gnome-tweaks
     paper-gtk-theme
     #paper-icon-theme
     #adementary-theme
@@ -126,35 +124,29 @@
     #zuki-themes
   ];
 
+
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+  };
+
   programs.git = {
     enable = true;
-    package = pkgs.gitAndTools.gitFull;
-    userName = "Aleione";
-    userEmail = "bergamaschi@gmail.com";
-    delta.enable = true;
-    aliases = {
-	# lg - show git log
-	# lr - show git log in reverse
-	# lgl - show git log in long (more verbose) mode
-	# lrl - show git log reverse in long (more verbose) mode
-    	lgl = "log --color --graph --pretty=format:'%C(bold red)%h%Creset  %<(13,trunc)%C(bold yellow)%cr%Creset %<(80,trunc)%s%Creset 💾 on %C(bold yellow)%ad%Creset by %C(bold blue)%an%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'";
-
-	lg = "log --color --graph --pretty=format:'%C(bold red)%h%Creset %<(80,trunc)%s%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'";
-
-	lrl = "log --color --reverse --pretty=format:'%C(bold red)%h%Creset  %<(13,trunc)%C(bold yellow)%cr%Creset %<(80,trunc)%s%Creset 💾 on %C(bold yellow)%ad%Creset by %C(bold blue)%an%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'";
-
-	lr = "log --color --reverse --pretty=format:'%C(bold red)%h%Creset %<(80,trunc)%s%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'";
-    };
-    extraConfig = {
-      core = {
-        editor = "code";
+    package = pkgs.gitFull;
+    settings = {
+      user = {
+        name = "Aleione";
+        email = "bergamaschi@gmail.com";
       };
-      color = {
-        ui = true;
+      alias = {
+        lgl = "log --color --graph --pretty=format:'%C(bold red)%h%Creset  %<(13,trunc)%C(bold yellow)%cr%Creset %<(80,trunc)%s%Creset on %C(bold yellow)%ad%Creset by %C(bold blue)%an%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'";
+        lg = "log --color --graph --pretty=format:'%C(bold red)%h%Creset %<(80,trunc)%s%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'";
+        lrl = "log --color --reverse --pretty=format:'%C(bold red)%h%Creset  %<(13,trunc)%C(bold yellow)%cr%Creset %<(80,trunc)%s%Creset on %C(bold yellow)%ad%Creset by %C(bold blue)%an%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'";
+        lr = "log --color --reverse --pretty=format:'%C(bold red)%h%Creset %<(80,trunc)%s%Creset %C(yellow)%d' --abbrev-commit '--date=format:%d %b %Y'";
       };
-      diff = {
-      	colorMoved = "dimmed-zebra";
-      };
+      core.editor = "code";
+      color.ui = true;
+      diff.colorMoved = "dimmed-zebra";
     };
   };
 

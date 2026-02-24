@@ -5,14 +5,15 @@
   nixpkgs.config.allowUnfree = true;
 
   nix = {
-    package = pkgs.nixFlakes;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
   };
 
-  fonts.fonts = with pkgs; [
-    (nerdfonts.override { fonts = [ "DroidSansMono" "FiraCode" "FiraMono"]; })
+  fonts.packages = with pkgs; [
+    nerd-fonts.droid-sans-mono
+    nerd-fonts.fira-code
+    nerd-fonts.fira-mono
   ];
 
   programs.fish.enable = true;
@@ -29,7 +30,7 @@
     unzip
     curl wget
     openssl bind gnupg nmap
-    wireguard
+    wireguard-tools
     iputils
     htop
     file
