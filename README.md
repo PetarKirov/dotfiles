@@ -109,6 +109,16 @@ and [Home Manager](https://github.com/nix-community/home-manager).
 ### Prerequisites
 
 - A running [NixOS](https://nixos.org/download.html) installation
+- **Nix ≥ 2.18** (required by nixpkgs 25.11). Check with `nix --version`.
+  If upgrading from an older NixOS (e.g. 21.11), upgrade Nix first:
+
+  ```sh
+  sudo nix-channel --add https://nixos.org/channels/nixos-25.11 nixos
+  sudo nix-channel --update
+  sudo nix-env -iA nixos.nix
+  sudo systemctl restart nix-daemon
+  ```
+
 - Nix with flakes enabled (add `experimental-features = nix-command flakes`
   to `/etc/nix/nix.conf` or use the flake's built-in config)
 
